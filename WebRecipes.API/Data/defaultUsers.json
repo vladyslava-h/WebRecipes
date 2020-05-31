@@ -1,0 +1,21 @@
+[
+    {
+        "Id": 1000,
+        "Name": "admin",
+        "Email": "admin",
+        "Password": "admin",
+        "Role": "Admin",
+        "Username": "masterchef",
+        "Token": null
+    },
+    {
+        "Id": 1001,
+        "Name": "Ella",
+        "Email": "ella@gmail.com",
+        "Password": "123",
+        "Role": "User",
+        "Username": "ella",
+        "Token": null
+    }
+
+]

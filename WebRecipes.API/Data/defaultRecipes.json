@@ -1,0 +1,72 @@
+[
+    {
+        "Id": 1000,
+        "MealId": 1000,
+        "LevelId": 1000,
+        "Name": "Pancakes",
+        "Ingredients": "1 1/2 cups all-purpose flour\n3 tablespoons sugar\n1 tablespoon baking powder\n1/4 teaspoon salt\n1/8 teaspoon freshly ground nutmeg\n2 large eggs, at room temperature\n1 1/4 cups milk, at room temperature\n1/2 teaspoon pure vanilla extract\n3 tablespoons unsalted butter, plus more as needed\n",
+        "Directions": "In a large bowl, whisk together the flour, sugar, baking powder, salt, and nutmeg.\nIn another bowl, beat the eggs and then whisk in the milk and vanilla.\nMelt the butter in a large cast iron skillet or griddle over medium heat.\nWhisk the butter into the milk mixture. Add the wet ingredients to the flour mixture, and whisk until a thick batter is just formed.\nKeeping the skillet at medium heat, ladle about 1/4 cup of the batter onto the skillet, to make a pancake.\n",
+        "TotalMarks": 2,
+        "Mark": 4,
+        "Time": "22",
+        "Photo": "https://www.kingarthurflour.com/sites/default/files/styles/featured_image/public/recipe_legacy/6847-3-large.jpg",
+        "CreatorId": 1000,
+        "RecipeCategories": []
+    },
+    {
+        "Id": 1001,
+        "MealId": 1000,
+        "LevelId": 1001,
+        "Name": "Instant Pot Mini Frittatas",
+        "Ingredients": "2 slices bacon, cut into 1/4-inch pieces\n1 cup 1/4-inch-thick sliced button mushrooms (halved if mushrooms are very large)\n1/2 teaspoon fresh thyme leaves\nKosher salt and freshly ground black pepper\n1/3 cup lightly packed chopped baby spinach\n1/4 cup grated sharp Cheddar \n5 large eggs\n1/3 cup heavy cream\nPinch freshly grated nutmeg\n",
+        "Directions": "Add the bacon to the Instant Pot® and turn the pot on the high saute setting (See Cook's Note). Cook the bacon, stirring occasionally, until golden brown and crisp, 10 to 12 minutes. Remove from the pot and set aside on a paper towel.\nAdd the mushrooms to the pot along with the thyme leaves and a pinch of salt. Cook, stirring occasionally, until the mushrooms have reduced to half their size and are golden brown, 6 to 8 minutes. Remove the mushrooms from the pot and divide the mushrooms among the cups of a silicone egg bites mold. Divide the spinach among the cups, along with the bacon and cheese.  \nGently whisk the eggs together with the cream, nutmeg and 1/2 teaspoon salt and a few grinds of pepper in a medium bowl until well combined (gently to avoid creating foam). Pour the custard over the fillings in each of the cups.  \nWipe out excess bacon grease in the bottom of the pot. Add 1 cup water to the bottom of the pot. Place the egg cups on the rack and cover tightly with the silicone lid or foil. Lower into the pot using the rack handles and follow the manufacturer's guide for locking the lid and preparing to cook. Set to pressure cook on low for 6 minutes.  \nAfter the pressure cycle is complete, let the pressure release naturally for 10 minutes, then follow the manufacturer's guide for quick release of the remaining pressure. Be careful of any remaining steam and unlock and remove the lid. Carefully remove the tray and let stand 5 minutes before popping the mini frittatas out of the pan. The frittatas can be eaten right away or stored in the trays in the refrigerator or freezer; reheat in the microwave for 30 seconds to 1 minute.",
+        "TotalMarks": 4,
+        "Mark": 3,
+        "Time": "70",
+        "Photo": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2008/11/9/0/EI0717_Mini-Frittatas.jpg.rend.hgtvcom.826.620.suffix/1485535533907.jpeg",
+        "CreatorId": 1000,
+        "RecipeCategories": []
+    },
+    {
+        "Id": 1003,
+        "MealId": 1001,
+        "LevelId": 1000,
+        "Name": "Lentil and Orzo Salad",
+        "Ingredients": "1 1/2 cups all-purpose flour\n3 tablespoons sugar\n1 tablespoon baking powder\n1/4 teaspoon salt\n1/8 teaspoon freshly ground nutmeg\n2 large eggs, at room temperature\n1 1/4 cups milk, at room temperature\n1/2 teaspoon pure vanilla extract\n3 tablespoons unsalted butter, plus more as needed\n",
+        "Directions": "In a large bowl, whisk together the flour, sugar, baking powder, salt, and nutmeg.\nIn another bowl, beat the eggs and then whisk in the milk and vanilla.\nMelt the butter in a large cast iron skillet or griddle over medium heat.\nWhisk the butter into the milk mixture. Add the wet ingredients to the flour mixture, and whisk until a thick batter is just formed.\nKeeping the skillet at medium heat, ladle about 1/4 cup of the batter onto the skillet, to make a pancake.\n",
+        "TotalMarks": 2,
+        "Mark": 1,
+        "Time": "15",
+        "Photo": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2016/12/2/1/EddieJacksonPlaybook_Lentil-and-Orzo-Salad-2_s4x3.jpg.rend.hgtvcom.826.620.suffix/1480942835167.jpeg",
+        "CreatorId": 1000,
+        "RecipeCategories": []
+    },
+    {
+        "Id": 1004,
+        "MealId": 1001,
+        "LevelId": 1001,
+        "Name": "Shrimp Kebabs with Lentil-Herb Salads",
+        "Ingredients": "2 slices bacon, cut into 1/4-inch pieces\n1 cup 1/4-inch-thick sliced button mushrooms (halved if mushrooms are very large)\n1/2 teaspoon fresh thyme leaves\nKosher salt and freshly ground black pepper\n1/3 cup lightly packed chopped baby spinach\n1/4 cup grated sharp Cheddar \n5 large eggs\n1/3 cup heavy cream\nPinch freshly grated nutmeg\n",
+        "Directions": "Add the bacon to the Instant Pot® and turn the pot on the high saute setting (See Cook's Note). Cook the bacon, stirring occasionally, until golden brown and crisp, 10 to 12 minutes. Remove from the pot and set aside on a paper towel.\nAdd the mushrooms to the pot along with the thyme leaves and a pinch of salt. Cook, stirring occasionally, until the mushrooms have reduced to half their size and are golden brown, 6 to 8 minutes. Remove the mushrooms from the pot and divide the mushrooms among the cups of a silicone egg bites mold. Divide the spinach among the cups, along with the bacon and cheese.  \nGently whisk the eggs together with the cream, nutmeg and 1/2 teaspoon salt and a few grinds of pepper in a medium bowl until well combined (gently to avoid creating foam). Pour the custard over the fillings in each of the cups.  \nWipe out excess bacon grease in the bottom of the pot. Add 1 cup water to the bottom of the pot. Place the egg cups on the rack and cover tightly with the silicone lid or foil. Lower into the pot using the rack handles and follow the manufacturer's guide for locking the lid and preparing to cook. Set to pressure cook on low for 6 minutes.  \nAfter the pressure cycle is complete, let the pressure release naturally for 10 minutes, then follow the manufacturer's guide for quick release of the remaining pressure. Be careful of any remaining steam and unlock and remove the lid. Carefully remove the tray and let stand 5 minutes before popping the mini frittatas out of the pan. The frittatas can be eaten right away or stored in the trays in the refrigerator or freezer; reheat in the microwave for 30 seconds to 1 minute.",
+        "TotalMarks": 4,
+        "Mark": 5,
+        "Time": "90",
+        "Photo": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2016/2/18/1/FNK_Shrimp-Kebab-with-Lentil-Herb-Salad_s4x3.jpg.rend.hgtvcom.826.620.suffix/1456172603483.jpeg",
+        "CreatorId": 1000,
+        "RecipeCategories": []
+    },
+    {
+        "Id": 1005,
+        "MealId": 1002,
+        "LevelId": 1002,
+        "Name": "Portuguese Chourico and Kale Soup",
+        "Ingredients": "2 slices bacon, cut into 1/4-inch pieces\n1 cup 1/4-inch-thick sliced button mushrooms (halved if mushrooms are very large)\n1/2 teaspoon fresh thyme leaves\nKosher salt and freshly ground black pepper\n1/3 cup lightly packed chopped baby spinach\n1/4 cup grated sharp Cheddar \n5 large eggs\n1/3 cup heavy cream\nPinch freshly grated nutmeg\n",
+        "Directions": "Add the bacon to the Instant Pot® and turn the pot on the high saute setting (See Cook's Note). Cook the bacon, stirring occasionally, until golden brown and crisp, 10 to 12 minutes. Remove from the pot and set aside on a paper towel.\nAdd the mushrooms to the pot along with the thyme leaves and a pinch of salt. Cook, stirring occasionally, until the mushrooms have reduced to half their size and are golden brown, 6 to 8 minutes. Remove the mushrooms from the pot and divide the mushrooms among the cups of a silicone egg bites mold. Divide the spinach among the cups, along with the bacon and cheese.  \nGently whisk the eggs together with the cream, nutmeg and 1/2 teaspoon salt and a few grinds of pepper in a medium bowl until well combined (gently to avoid creating foam). Pour the custard over the fillings in each of the cups.  \nWipe out excess bacon grease in the bottom of the pot. Add 1 cup water to the bottom of the pot. Place the egg cups on the rack and cover tightly with the silicone lid or foil. Lower into the pot using the rack handles and follow the manufacturer's guide for locking the lid and preparing to cook. Set to pressure cook on low for 6 minutes.  \nAfter the pressure cycle is complete, let the pressure release naturally for 10 minutes, then follow the manufacturer's guide for quick release of the remaining pressure. Be careful of any remaining steam and unlock and remove the lid. Carefully remove the tray and let stand 5 minutes before popping the mini frittatas out of the pan. The frittatas can be eaten right away or stored in the trays in the refrigerator or freezer; reheat in the microwave for 30 seconds to 1 minute.",
+        "TotalMarks": 4,
+        "Mark": 4,
+        "Time": "50",
+        "Photo": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2003/9/22/0/tm1a25_chourico_kale_soup.jpg.rend.hgtvcom.966.725.suffix/1485880313274.jpeg",
+        "CreatorId": 1000,
+        "RecipeCategories": []
+    }
+]
