@@ -1,0 +1,185 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.menu-section{
+    text-decoration: none;
+}
+
+.recipeTimeBlock p{
+    margin-top: 0;
+}
+
+.site-title img {
+    width: 210px;
+    height: 55px;
+    margin-left: 15px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.page-container {
+    display: grid;
+    height: 100%;
+}
+
+aside {
+    width: 225px;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed;
+}
+
+aside:hover {
+    cursor: default;
+}
+
+aside .menu-section-title {
+    margin-left: 35px;
+    margin-top: 35px;
+}
+
+aside .menu-section {
+    margin-left: 25px;
+}
+
+main {
+    margin-left: 225px;
+}
+
+.menu-section {
+    display: flex;
+    width: 155px;
+    height: 35px;
+    padding-left: 15px;
+    margin-top: 10px;
+}
+
+.menu-section:hover {
+    cursor: pointer;
+}
+
+/*HOVER-----------------------------------------------------------------------*/
+
+.glow-on-hover, .menu-section-active {
+    border: none;
+    outline: none;
+    background-color: white;
+    /* color: #ab8ac7; */
+    cursor: pointer;
+    color: black;
+    position: relative;
+    z-index: 0;
+    border-radius: 25px;
+}
+
+.menu-section-active {
+    color: white;
+    background-image: linear-gradient(to right bottom, #86a8e7, #9a9ae1, #b08bd3, #c37bbf, #d16ba5);
+}
+
+.glow-on-hover:before, .menu-section-active::before {
+    content: '';
+    background-image: linear-gradient(to right bottom, #86a8e7, #9a9ae1, #b08bd3, #c37bbf, #d16ba5);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 25px;
+}
+
+.glow-on-hover:active {
+    color: #ab8ac7;
+}
+
+.menu-section-active:active {
+    color: #dad4e9
+}
+
+.glow-on-hover:active:after {
+    background: white;
+}
+
+.menu-section-active:active::after {
+    background-image: linear-gradient(to right bottom, #86a8e7, #9a9ae1, #b08bd3, #c37bbf, #d16ba5, #c37bbf, #b08bd3, #9a9ae1);
+}
+
+.glow-on-hover:hover:before, .menu-section-active:hover:before {
+    opacity: 1;
+}
+
+.glow-on-hover:after, .menu-section-active:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    left: 0;
+    top: 0;
+    border-radius: 25px;
+}
+
+.menu-section-active:after {
+    border-radius: 25px;
+    background-color: rgb(14, 14, 14);
+    /* background-image: linear-gradient(to right bottom, #86a8e7, #9a9ae1, #b08bd3, #c37bbf, #d16ba5); */
+}
+
+.menu-section-active-create img{
+    content: url("../style/content/Images/Icons/create-white.png");
+}
+.menu-section-active-browse img{
+    content: url("../style/content/Images/Icons/browse-white.png");
+}
+.menu-section-active-home img{
+    content: url("../style/content/Images/Icons/home-white.png");
+}
+.menu-section-active-subscriptions img{
+    content: url("../style/content/Images/Icons/subscriptions-white.png");
+}
+.menu-section-active-recipes img{
+    content: url("../style/content/Images/Icons/recipes-white.png");
+}
+.menu-section-active-favourites img{
+    content: url("../style/content/Images/Icons/favourites-white.png");
+}
+.menu-section-active-statistic img{
+    content: url("../style/content/Images/Icons/statistic-white.png");
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 400% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.menu-section img {
+    width: 13px;
+    height: 13px;
+    margin-right: 25px;
+    margin-top: 11px;
+}
+
+.menu-section p {
+    margin-top: 5px;
+}
+
+.menu-section-title {
+    color: rgb(172, 172, 172);
+}

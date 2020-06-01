@@ -1,0 +1,219 @@
+.recipesSection {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 35px;
+}
+
+.recipeBlock {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.recipeImg {
+    width: 350px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.recipeImg:hover {
+    opacity: 0.7;
+}
+
+.recipeTimeBlock {
+    position: relative;
+    color: white;
+    background-color: #ab8ac7;
+    width: 140px;
+    text-align: center;
+    padding-top: 5px;
+    height: 30px;
+    margin-top: -39px;
+    border-radius: 15px 0 15px 0;
+    margin-left: 210px;
+    transition: 0.3s;
+}
+
+.recipeTimeBlock1000 {
+    background-color: #a8c678;
+}
+
+.recipeTimeBlock1001 {
+    background-color: #FFB483;
+}
+
+.recipeTimeBlock1002 {
+    background-color: #ff8b94;
+}
+
+.recipeName {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: large;
+}
+
+.recipeCreator {
+    margin-top: -15px;
+    color: gray;
+    font-size: medium;
+}
+
+.recipeBlock p:hover, .rating:hover {
+    cursor: default;
+}
+
+.rating {
+    margin-top: -20px;
+    font-size: 25px;
+    color: gold;
+}
+
+.rating .filled {
+    content: "\2605";
+}
+
+/*------------------------------------------------------------------*/
+
+.recipeCircleBtn {
+    display: flex;
+}
+
+.recipeRemoveBlock, .under, .recipeLikeBlock {
+    position: relative;
+    z-index: 100;
+    margin-top: -190px;
+    margin-left: -40px;
+    background-color: rgba(255, 255, 255, 0.4);
+    width: 40px;
+    height: 40px;
+    background: url("content/Images/Icons/cancel-outlined.png") center center no-repeat;
+    background-size: 20px;
+    transition: .4s;
+    opacity: 0.5;
+    border-radius: 100px;
+}
+
+.recipeLikeBlock {
+    background: url("content/Images/Icons/heart-outlined.png") center center no-repeat;
+}
+
+.under {
+    background: none;
+    background-color: rgba(255, 255, 255, 1);
+    opacity: .7;
+    margin-left: 300px;
+}
+
+.recipeLikeBlock {
+    background: url("content/Images/Icons/heart-outlined.png") center center no-repeat;
+    background-size: 20px;
+}
+
+.recipeRemoveBlock:hover {
+    background: url("content/Images/Icons/cancel.png") center center no-repeat;
+    background-size: 20px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.recipeLikeBlock:hover {
+    background: url("content/Images/Icons/heart.png") center center no-repeat;
+    background-size: 20px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.recipeLiked {
+    background: url("content/Images/Icons/heart.png") center center no-repeat;
+    background-size: 20px;
+    opacity: 1;
+}
+
+.recipeLiked:hover {
+    background: url("content/Images/Icons/heart-outlined.png") center center no-repeat;
+    background-size: 20px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+/*-----------CREATE-------------------------------------------------------------------*/
+
+#createSection {
+    margin-top: 5%;
+    width: 75vw;
+    text-transform: uppercase;
+    margin-left: 45px;
+}
+
+#createSection h2 {
+    color: #a96fdb;
+    margin-bottom: 25px;
+}
+
+#ingredientsArea {
+    width: 350px !important;
+}
+
+#directionsArea {
+    width: 650px !important;
+}
+
+.directionsSection {
+    margin-left: 25px;
+}
+
+.createRecipeTitle {
+    color: #ab8ac7;
+    text-transform: initial;
+    margin-top: 30px;
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+#createRecipeMainTitle {
+    margin-bottom: -30px;
+    font-size: 2em;
+    font-weight: 700;
+}
+
+/*----CREATE PROGRESS BAR----------------------------------------------------------*/
+
+#createBar {
+    width: 10%;
+    height: 15px;
+    background-image: linear-gradient(to right bottom, #86a8e7, #9a9ae1, #b08bd3, #c37bbf, #d16ba5);
+    text-align: center;
+    opacity: .7;
+    font-size: xx-small;
+    margin-bottom: 30px;
+    line-height: 15px;
+    color: white;
+    border-radius: 25px;
+}
+
+#createProgress {
+    width: 100%;
+    border-radius: 25px;
+    background-color: rgba(128, 128, 128, 0.2);
+}
+
+/*----CREATE NAVIGAVION BUTTONS----------------------------------------------------------*/
+
+#createRecipeNextBtn, #saveRecipeBtn {
+    background-color: #ab8ac7;
+}
+
+#createRecipePrevBtn {
+    background-color: rgba(128, 128, 128, 0.6);
+}
+
+.createRecipeNavBtn {
+    color: white;
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+}
