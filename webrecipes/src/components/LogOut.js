@@ -1,10 +1,6 @@
 import React from "react";
 
 class LogOut extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     logOut() {
         window.localStorage.removeItem('webrecipesapicredentials');
         window.location.reload(false);

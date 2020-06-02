@@ -12,13 +12,19 @@ class Access extends React.Component {
             passwordLogIn: "",
             errorMessage: "",
             isError: false,
-            isLoading: false
+            isErrorSignUp: false,
+            isLoading: false,
+            nameSignUp: "",
+            usernameSignUp: "",
+            emailSignUp: "",
+            passwordSignUp: ""
         }
 
         this.goToSignUp = this.goToSignUp.bind(this);
         this.goToLogIn = this.goToLogIn.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.logIn = this.logIn.bind(this);
+        this.signUp = this.signUp.bind(this);
     }
 
     goToSignUp() {
@@ -84,6 +90,53 @@ class Access extends React.Component {
 
     }
 
+    signUp() {
+        let urlReg = 'http://localhost:5000/api/account/registration';
+        this.setState({
+            isLoading: true
+        });
+
+        let regcredentials = {
+            'name': this.state.nameSignUp,
+            'username': this.state.usernameSignUp,
+            'password': this.state.passwordSignUp,
+            'email': this.state.emailSignUp
+        };
+
+        fetch(urlReg, {
+            method: 'POST',
+            body: JSON.stringify(regcredentials),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (!response.ok) {
+                response.json().then(txt => this.setState({
+                    errorMessage: txt.message,
+                    isErrorSignUp: true,
+                    isLoading: false
+                }));
+            } else {
+                response.json()
+                    .then(x => {
+                        try {
+                            window.localStorage.removeItem('webrecipesapicredentials');
+                        }
+                        catch{ }
+                        window.localStorage.setItem('webrecipesapicredentials', x.data.token);
+                        window.location.reload(false);
+                    });
+            }
+        })
+            .catch(e => {
+                this.setState({
+                    isErrorSignUp: true,
+                    errorMessage: "Unknown Error has Occurred",
+                    isLoading: false
+                })
+            });;
+    }
+
     render() {
         return (
             <div id="main">
@@ -139,25 +192,41 @@ class Access extends React.Component {
                                 <h1>Create Account</h1>
 
                                 <div className="form-group">
-                                    <input type="text" className="form-control" id="nameFormReg" aria-describedby="emailHelp"
+                                    <input type="text" className="form-control"
+                                        id="nameFormReg" aria-describedby="emailHelp"
+                                        name="nameSignUp"
+                                        onChange={this.handleChange}
                                         placeholder="Name" />
                                 </div>
 
                                 <div className="form-group">
-                                    <input type="text" className="form-control" id="usernameFormReg" aria-describedby="emailHelp"
+                                    <input type="text" className="form-control"
+                                        id="usernameFormReg" aria-describedby="emailHelp"
+                                        name="usernameSignUp"
+                                        onChange={this.handleChange}
                                         placeholder="Username" />
                                 </div>
 
                                 <div className="form-group">
-                                    <input type="email" className="form-control" id="loginFormReg" aria-describedby="emailHelp"
+                                    <input type="email" className="form-control"
+                                        id="loginFormReg" aria-describedby="emailHelp"
+                                        name="emailSignUp"
+                                        onChange={this.handleChange}
                                         placeholder="Email" />
                                 </div>
                                 <div className="form-group">
-                                    <input type="Password" className="form-control" id="passwordFormReg" placeholder="Password" />
+                                    <input type="Password" className="form-control"
+                                        id="passwordFormReg" placeholder="Password"
+                                        name="passwordSignUp"
+                                        onChange={this.handleChange} />
                                 </div>
 
-                                <button type="submit" id="regBtn" className="btn">SING UP</button>
-                                <div id="errorBlockReg" className="d-none alert alert-danger mt-3"></div>
+                                <button type="submit" id="regBtn"
+                                    onClick={this.signUp}
+                                    className="btn">SING UP</button>
+                                <div id="errorBlockReg"
+                                    style={this.state.isErrorSignUp ? { display: "block" } : { display: "none" }}
+                                    className="alert alert-danger mt-3">{this.state.errorMessage}</div>
                             </div>
                             <div className="right redirectSide">
                                 <h1>Welcome Back!</h1>
