@@ -5,7 +5,7 @@ import NoContentFound from './NoContentFound';
 import '../style/index-recipes.css';
 import '../style/index-home.css';
 
-class Home extends React.Component {
+class Favourites extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -29,6 +29,7 @@ class Home extends React.Component {
             })
         }
         catch{
+
         }
     }
 
@@ -45,7 +46,7 @@ class Home extends React.Component {
                                         src={item.photo} alt="" />
                                     <div className="recipeCircleBtn">
                                         <div className="under"></div>
-                                        <Like user={this.user} item={item} />
+                                        <Like user={this.user} item={item}/>
                                     </div>
                                     <div className={`recipeTimeBlock recipeTimeBlock${item.levelId}`}>
                                         <p><span className="recipeTime">{item.time}</span>&nbsp;Minutes</p>
@@ -60,11 +61,11 @@ class Home extends React.Component {
                                 </div>
                             )} </div> :
 
-                    <NoContentFound messageHeader="This is your Home Page"
-                        message="When you follow some users their latest posts will show up here!"
+                    <NoContentFound messageHeader="Save your Favourite Recipes"
+                        message="We'll collect all of your likes here for you to revisit anytime!"
                         isRecipesPage={false} />
         )
     }
 }
 
-export default Home;
+export default Favourites;

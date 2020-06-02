@@ -4,7 +4,7 @@ import loading from '../style/content/Images/Icons/loader.gif';
 
 function Loader() {
     return (
-        <div id="loading" className="d-none">
+        <div id="loading">
            <img src={loading} alt=""/>
         </div>
     )

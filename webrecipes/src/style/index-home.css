@@ -86,7 +86,8 @@ body, html {
     cursor: pointer;
     width: 200px;
     height: 35px;
-    border-radius: 25px;
+    margin-left: 20%;
+    border-radius: 15px;
     -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
     -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
     -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);

@@ -6,7 +6,7 @@ class NoContentFound extends React.Component {
         super(props)
         this.messageHeader = props.messageHeader;
         this.message = props.message;
-        this.isRecipesPage = props.recipesPage;
+        this.isRecipesPage = props.isRecipesPage;
     }
 
     render() {
@@ -16,7 +16,9 @@ class NoContentFound extends React.Component {
                 <div className="message">
                     <p id="noContentFoundMessageHeader">{this.messageHeader}</p>
                     <p id="noContentFoundMessage">{this.message}</p>
-                    {this.isRecipesPage ? <button id="goToCreateRecipeBtn" class="d-none pulse-button">Create your first recipe</button> : ""}
+                    <button id="goToCreateRecipeBtn" 
+                    style={this.isRecipesPage ? { display: "block" } : { display: "none" }}
+                    className="pulse-button">Create your first recipe</button>
                 </div>
             </div>
         )

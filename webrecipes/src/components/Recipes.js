@@ -1,11 +1,10 @@
 import React from 'react'
 import Loader from './Loader';
-import Like from './Like';
 import NoContentFound from './NoContentFound';
 import '../style/index-recipes.css';
 import '../style/index-home.css';
 
-class Home extends React.Component {
+class Recipes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -29,6 +28,7 @@ class Home extends React.Component {
             })
         }
         catch{
+
         }
     }
 
@@ -45,7 +45,7 @@ class Home extends React.Component {
                                         src={item.photo} alt="" />
                                     <div className="recipeCircleBtn">
                                         <div className="under"></div>
-                                        <Like user={this.user} item={item} />
+                                        <div className="recipeRemoveBlock" data-id={item.id}></div>
                                     </div>
                                     <div className={`recipeTimeBlock recipeTimeBlock${item.levelId}`}>
                                         <p><span className="recipeTime">{item.time}</span>&nbsp;Minutes</p>
@@ -60,11 +60,11 @@ class Home extends React.Component {
                                 </div>
                             )} </div> :
 
-                    <NoContentFound messageHeader="This is your Home Page"
-                        message="When you follow some users their latest posts will show up here!"
-                        isRecipesPage={false} />
+                    <NoContentFound messageHeader="You haven’t uploaded any recipes yet"
+                        message=""
+                        isRecipesPage={true} />
         )
     }
 }
 
-export default Home;
+export default Recipes;
