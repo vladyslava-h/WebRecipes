@@ -1,8 +1,14 @@
-main {
-    width: 85vw;
-    height: 100vh;
+body, html {
+    background-image: none !important;
+    background-color: white !important;
 }
 
+#recipesSection {
+    width: 85vw;
+    height: 100vh;
+    background-color: white !important;
+    overflow-x: auto;
+}
 
 #logoutBtn {
     text-align: center;
@@ -37,7 +43,7 @@ main {
 
 #noContentFound img{
     float: right;
-    margin-right: 10px;
+    margin-right: 0px;
 }
 
 #noContentFound .message{

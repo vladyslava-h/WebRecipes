@@ -1,15 +1,24 @@
 import React from "react";
+import Home from './Home';
 import { Route, Switch } from 'react-router-dom';
 
-function MainContent() {
+class MainContent extends React.Component {
 
-    return (
-        <Switch>
+    constructor(props){
+        super(props)
+        this.user = props.user;
+    }
+
+    render() {
+        return (
             <main>
-                {/* <Route path='/' exact component={() => <Home url="http://localhost:5000/api/user/ella/home" />} /> */}
+                <Switch>
+                    <Route path='/' exact component={() => <Home url={`http://localhost:5000/api/user/${this.user.info.unique_name}/home`} user={this.user} />} />
+                </Switch>
             </main>
-        </Switch>
-    );
+        );
+    }
 }
+
 
 export default MainContent;

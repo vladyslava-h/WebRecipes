@@ -1,15 +1,18 @@
 body, html {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    background-image: none !important;
+    background-color: white !important;
+}
+
+#mainContent{
+    width: 100vw;
+    height: 100vh;
+    background-color: white !important;
 }
 
 .menu-section{
     text-decoration: none;
-}
-
-.recipeTimeBlock p{
-    margin-top: 0;
 }
 
 .site-title img {
@@ -29,6 +32,7 @@ aside {
     width: 225px;
     flex-direction: column;
     height: 100vh;
+    overflow-x: hidden;
     position: fixed;
 }
 
@@ -59,6 +63,8 @@ main {
 
 .menu-section:hover {
     cursor: pointer;
+    color: black;
+    text-decoration: none;
 }
 
 /*HOVER-----------------------------------------------------------------------*/
@@ -102,6 +108,9 @@ main {
 }
 
 .menu-section-active:active {
+    color: #dad4e9
+}
+.menu-section-active:hover {
     color: #dad4e9
 }
 
