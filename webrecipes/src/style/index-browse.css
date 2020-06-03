@@ -80,3 +80,15 @@
     display: flex;
     margin-top: 5%;
 }
+
+.backBtn:hover{
+    cursor: pointer;
+    opacity: .8;
+}
+
+.backBtn{
+    width: 20px;
+    margin-top: 2.5%;
+    height: 20px;
+    margin-right: -15px;
+}

@@ -97,7 +97,7 @@ namespace WebRecipes.API.Controllers
             var resources = mapper.Map<IEnumerable<Recipe>, IEnumerable<RecipeResource>>(recipes);
             resources.ToList().ForEach(x => x.User = users.SingleOrDefault(u => u.Id == x.CreatorId));
             resources.ToList().ForEach(x => x.IsLiked = likes.Contains(x.Id));
-            return Ok(new ResponseResult() { Data = resources.Where(x => x.Name.Contains(item)), Success = true });
+            return Ok(new ResponseResult() { Data = resources.Where(x => x.Name.ToLower().Contains(item.ToLower())), Success = true });
         }
     }
 }
