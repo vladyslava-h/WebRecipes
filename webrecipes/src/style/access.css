@@ -131,7 +131,6 @@ a {
 #forgotPassword {
     font-weight: 450;
     color: gray;
-    margin-bottom: -10px;
 }
 
 #forgotPassword:hover {
@@ -143,6 +142,7 @@ hr {
     border: none;
     height: 2px;
     margin-top: -12px;
+    margin-bottom: 4px;
     background-color: rgba(193, 181, 218, 0.4);
 }
 
