@@ -3,7 +3,9 @@ import Home from './Home';
 import Favourites from './Favourites';
 import Recipes from './Recipes';
 import Chefs from './Chefs';
+import Browse from './Browse';
 import { Route, Switch } from 'react-router-dom';
+import '../style/index-home.css';
 
 class MainContent extends React.Component {
 
@@ -20,6 +22,7 @@ class MainContent extends React.Component {
                     <Route path='/favourites' exact component={() => <Favourites url={`http://localhost:5000/api/user/${this.user.info.unique_name}/favourites`} user={this.user} />} />
                     <Route path='/recipes' exact component={() => <Recipes url={`http://localhost:5000/api/user/${this.user.info.unique_name}/recipes`} user={this.user} />} />
                     <Route path='/subscriptions' exact component={() => <Chefs url={`http://localhost:5000/api/user/${this.user.info.unique_name}/subscriptions`} user={this.user} />} />
+                    <Route path='/browse/all' exact component={() => <Browse user={this.user} />} />
                 </Switch>
             </main>
         );

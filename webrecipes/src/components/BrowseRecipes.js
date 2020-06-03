@@ -1,11 +1,10 @@
 import React from 'react'
 import Loader from './Loader';
 import RecipePromo from './RecipePromo';
-import NoContentFound from './NoContentFound';
 import '../style/index-recipes.css';
 import '../style/index-home.css';
 
-class Favourites extends React.Component {
+class BrowseRecipes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -29,7 +28,6 @@ class Favourites extends React.Component {
             })
         }
         catch{
-
         }
     }
 
@@ -37,17 +35,14 @@ class Favourites extends React.Component {
         return (
             this.state.isLoading ? <Loader /> :
                 this.state.data.length !== 0 ?
-                    <div id="recipesSection" className="recipesSection">
+                    <div id="browsedRecipesList" className="recipesSection">
                         {
                             this.state.data.map(item =>
                                 <RecipePromo user={this.user} item={item} key={item.id} />
                             )} </div> :
-
-                    <NoContentFound messageHeader="Save your Favourite Recipes"
-                        message="We'll collect all of your likes here for you to revisit anytime!"
-                        isRecipesPage={false} />
+                    <img id="noRecipeFound" alt="" src={require('../style/content/Images/no-results.jpg')} />
         )
     }
 }
 
-export default Favourites;
+export default BrowseRecipes;

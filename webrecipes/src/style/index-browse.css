@@ -1,0 +1,82 @@
+.browseTitle {
+    margin-left: 2%;
+}
+
+#meals {
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+}
+
+#browsedRecipes {
+    width: 85vw;
+    height: 100vh !important;
+    background-color: white !important;
+    overflow-y: auto;
+}
+
+#browsedRecipesList{
+    margin-top: -1px;
+}
+
+#noRecipeFound {
+    margin: 3% 5%;
+    width: 900px;
+    height: 430px;
+}
+
+.meal {
+    color: black;
+    background-color: transparent;
+    border: none;
+    font-size: 1.2em;
+    width: 80px;
+    text-align: center;
+}
+
+.meal:hover {
+    color: rgb(75, 75, 75);
+    text-decoration: none;
+}
+
+.meal-active {
+    font-weight: 700;
+}
+
+.browseSearch{
+    margin-left: 5px;
+    border: none !important;
+    font-size:2.2em !important;
+    border-bottom: 1px solid black !important;
+    border-radius: 0 !important;
+    margin-left: 2%;
+    width: 80% !important;
+}
+
+.browseSearch:focus{
+    border: none !important;
+    -webkit-box-shadow: 0 4px 6px -6px #a98ac7;
+    -moz-box-shadow: 0 4px 6px -6px #a98ac7;
+    box-shadow: 0 9px 6px -6px #a98ac7 !important;
+}
+
+.searchBtn{
+    font-size:1em;
+    background-color: rgb(61, 61, 61);
+    color: white;
+    height: 3em;
+    width: 13%;
+    border: none;
+    margin-top: 19px;
+    z-index: 1;
+}
+
+.searchBtn:hover{
+    background-color: rgb(17, 17, 17);
+}
+
+.browseSearchHeader{
+    display: flex;
+    margin-top: 5%;
+}
