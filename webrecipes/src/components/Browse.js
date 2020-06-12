@@ -4,7 +4,6 @@ import '../style/index-recipes.css';
 import '../style/index-home.css';
 import '../style/index-browse.css';
 import MealMenu from './MealMenu';
-import RecipePromo from './RecipePromo';
 import BrowseRecipes from './BrowseRecipes';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 
@@ -100,14 +99,14 @@ class Browse extends React.Component {
                                             this.state.meals.map(item =>
                                                 <Route key={item.id} path={`/browse/${item.name}`}
                                                     exact component={() => <BrowseRecipes url={item.id === -1 ? this.state.searchUrl : this.state.searchUrl + `&meal=` + item.id}
-                                                        user={this.user} />} />
+                                                        user={this.user}/>} />
                                             )
                                             :
                                             <img id="noRecipeFound" alt="" src={require('../style/content/Images/no-results.jpg')} />
                                         :
                                         <Route key={item.id} path={`/browse/${item.name}`}
                                             exact component={() => <BrowseRecipes url={item.id === -1 ? this.urlRecipes : this.urlRecipes + `&meal=` + item.id}
-                                                user={this.user} />} />
+                                                user={this.user}/>} />
                                 )
                             }
                         </Switch>

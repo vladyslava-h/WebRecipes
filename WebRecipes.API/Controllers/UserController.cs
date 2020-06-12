@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -83,9 +84,20 @@ namespace WebRecipes.API.Controllers
         {
             var user = (await userService.ListAsync()).SingleOrDefault(x => x.Username == username);
             var subscribers = (await subscriptionRepository.ListAsync());
+            var recipes = (await recipeService.ListAsync()).Where(x => x.CreatorId == user.Id);
 
             var resources = mapper.Map<User, UserResource>(user);
             resources.Subscribers = subscribers.Where(x => x.CreatorUsername == user.Username).Count();
+            resources.RecipesCount = recipes.Count();
+            resources.Password = null;
+
+            var resourcesRecipes = mapper.Map<IEnumerable<Recipe>, IEnumerable<RecipeResource>>(recipes);
+            foreach (var recipe in resourcesRecipes)
+            {
+                recipe.User = user;
+            }
+
+            resources.Recipes = resourcesRecipes;
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 
@@ -157,6 +169,10 @@ namespace WebRecipes.API.Controllers
         [Route("{username}/subscribe")]
         public async Task<IActionResult> SubscribeAsync(string username, string creator)
         {
+            if ((await subscriptionRepository.ListAsync()).Where(x =>
+                x.SubscriberUsername == username && x.CreatorUsername == creator).Count() > 0)
+                return Ok(recipeService);
+
             await subscriptionRepository.AddAsync(new Subscription() { SubscriberUsername = username, CreatorUsername = creator });
             await unitOfWork.CompleteAsync();
 

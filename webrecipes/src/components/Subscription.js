@@ -63,9 +63,9 @@ class Subscription extends React.Component {
 
                 {this.state.isSubscribed ?
                     <button className="followingBtn"
-                        onClick={() => this.unsubscribe(this.item)}>Following</button> :
+                        onClick={() => this.unsubscribe(this.item)}>Unsubscribe</button> :
                     <button className="followingBtn followBtn"
-                        onClick={() => this.subscribe(this.item)}>Follow</button>
+                        onClick={() => this.subscribe(this.item)}>Subscribe</button>
                 }
             </div>
 

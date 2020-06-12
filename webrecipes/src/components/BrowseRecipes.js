@@ -38,7 +38,7 @@ class BrowseRecipes extends React.Component {
                     <div id="browsedRecipesList" className="recipesSection">
                         {
                             this.state.data.map(item =>
-                                <RecipePromo user={this.user} item={item} key={item.id} />
+                                <RecipePromo user={this.user} item={item} key={item.id} isBrowse={true}/>
                             )} </div> :
                     <img id="noRecipeFound" alt="" src={require('../style/content/Images/no-results.jpg')} />
         )

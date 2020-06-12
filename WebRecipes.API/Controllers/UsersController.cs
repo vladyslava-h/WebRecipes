@@ -42,7 +42,7 @@ namespace WebRecipes.API.Controllers
             foreach (var user in resources)
             {
                 user.Subscribers = subscriptions.Where(x => x.CreatorUsername == user.Username).Count();
-                user.Recipes = recipes.Where(x => x.CreatorId == user.Id).Count();
+                user.RecipesCount = recipes.Where(x => x.CreatorId == user.Id).Count();
             }
             resources = resources.OrderByDescending(x => x.Subscribers);
             return Ok(new ResponseResult() { Data = resources, Success = true });

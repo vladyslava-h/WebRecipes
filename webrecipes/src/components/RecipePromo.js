@@ -1,5 +1,6 @@
 import React from 'react';
 import Like from './Like';
+import { withRouter } from 'react-router-dom';
 
 class RecipePromo extends React.Component {
     constructor(props) {
@@ -23,16 +24,15 @@ class RecipePromo extends React.Component {
                     <p><span className="recipeTime">{this.item.time}</span>&nbsp;Minutes</p>
                 </div>
                 <p className="recipeName">{this.item.name}</p>
-                <p className="recipeCreator">By:&nbsp;<span>{this.item.user.username}</span></p>
+                <a className="recipeCreator" href={`/profile/${this.item.user.username}`} >By:&nbsp;<span>{this.item.user.username}</span></a>
                 <div className="rating">
                     {elements.map((value, index) => {
                         return value <= this.item.mark ? <span key={index}>★</span> : <span key={index}>☆</span>
                     })}
                 </div>
             </div>
-
         )
     }
 }
 
-export default RecipePromo;
+export default withRouter(RecipePromo);

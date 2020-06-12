@@ -49,14 +49,21 @@
 
 .recipeName {
     margin-top: 10px;
+    margin-bottom: -2px;
     font-weight: 600;
     font-size: large;
 }
 
 .recipeCreator {
-    margin-top: -15px;
+    margin-bottom: -25px;
     color: gray;
+    background-color: transparent;
     font-size: medium;
+}
+
+.recipeCreator:hover {
+    color: rgb(61, 61, 61);
+    cursor: pointer !important;
 }
 
 .recipeBlock p:hover, .rating:hover {
@@ -64,7 +71,7 @@
 }
 
 .rating {
-    margin-top: -20px;
+    margin-top: -5px;
     font-size: 25px;
     color: gold;
 }

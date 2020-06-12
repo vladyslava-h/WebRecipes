@@ -6,6 +6,7 @@ import Chefs from './Chefs';
 import Browse from './Browse';
 import { Route, Switch } from 'react-router-dom';
 import '../style/index-home.css';
+import Profile from "./Profile";
 
 class MainContent extends React.Component {
 
@@ -23,6 +24,7 @@ class MainContent extends React.Component {
                     <Route path='/recipes' exact component={() => <Recipes url={`http://localhost:5000/api/user/${this.user.info.unique_name}/recipes`} user={this.user} />} />
                     <Route path='/subscriptions' exact component={() => <Chefs url={`http://localhost:5000/api/user/${this.user.info.unique_name}/subscriptions`} user={this.user} />} />
                     <Route path='/browse/all' exact component={() => <Browse user={this.user} />} />
+                    <Route path='/profile/:username' exact component={() => <Profile user={this.user}/>} />
                 </Switch>
             </main>
         );

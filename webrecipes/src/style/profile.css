@@ -1,0 +1,114 @@
+#profileData {
+    width: 85vw;
+    height: 100vh !important;
+    background-color: white !important;
+    overflow-y: auto;
+    padding-bottom: 15px;
+}
+
+
+#profileHeader {
+    margin: 5% 5%;
+    width: 85%;
+    height: 55%;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("./content/Images/food.png") center center;
+    background-size: cover;
+    background-position-y: 55%;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.4), 0 8px 22px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 15px 15px 15px 15px;
+    padding-top: 5%;
+    text-align: center;
+}
+
+#profileImg {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 80px;
+    margin: 20px auto;
+    background-color: white;
+}
+
+#profileName {
+    color: white;
+    font-size: 2em;
+    font-weight: bolder;
+    margin-top: -15px;
+}
+
+#profileUsername {
+    color: rgb(216, 216, 216);
+    margin-top: -25px;
+}
+
+#profileHeader hr {
+    margin-top: 5px;
+    margin-left: 40%;
+    width: 20%;
+    height: 1px;
+    background-color: rgb(216, 216, 216);
+    border: none;
+}
+
+.imageOverlay {
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+#profileFollowersRecipesNum {
+    display: flex;
+    width: 20%;
+    justify-content: space-evenly;
+    margin-left: 40%;
+    font-size: medium;
+    color: rgb(216, 216, 216);
+}
+
+#profileFollowersRecipesNum .number {
+    color: white;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: -5px;
+}
+
+#profileHeader p:hover {
+    cursor: default;
+}
+
+#profileFollowersRecipesNum .totalRecipes {
+    margin-right: 15px;
+}
+
+#profileFollowersRecipesNum .totalSubs {
+    margin-left: 15px;
+}
+
+.followBtn {
+    border-radius: 15px;
+    width: 120px;
+    border: none;
+    margin-bottom: 10px;
+    margin-top: -25px;
+    outline: none;
+    float: right;
+    margin-right: 5%;
+}
+
+.followBtn:focus {
+    outline: none;
+}
+
+.followBtn:hover {
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.4), 0 4px 22px 0 rgba(0, 0, 0, 0.3);
+}
+
+.followBtnState {
+    background-color: white;
+    color: black;
+}
+
+.followingBtnState {
+    background-color: rgba(185, 185, 185, 0.5);
+    color: white;
+}
