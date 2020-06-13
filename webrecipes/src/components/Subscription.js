@@ -59,7 +59,7 @@ class Subscription extends React.Component {
         return (
             <div className="followingSection">
                 <div className="followingPhoto">{this.item.charAt(0).toUpperCase()}</div>
-                <div className="followingUsername">{this.item}</div>
+                <a className="followingUsername" href={`/profile/${this.item}`}>{this.item}</a>
 
                 {this.state.isSubscribed ?
                     <button className="followingBtn"

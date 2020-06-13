@@ -10,12 +10,17 @@ class Like extends React.Component {
         this.unlike = this.unlike.bind(this);
 
         this.state = {
-            isLiked: props.item.isLiked
+            isLiked: props.item.isLiked,
+            isRunning: false
         };
     }
 
     like(id) {
         let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/like?id=${id}`;
+
+        this.setState({
+            isRunning: true
+        });
 
         try {
             fetch(url, {
@@ -26,8 +31,9 @@ class Like extends React.Component {
                 }
             }).then(x => {
                 this.setState({
-                    isLiked: true
-                }) ;
+                    isLiked: true,
+                    isRunning: false
+                });
             })
         }
         catch {
@@ -38,6 +44,10 @@ class Like extends React.Component {
     unlike(id) {
         let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/unlike?id=${id}`;
 
+        this.setState({
+            isRunning: true
+        });
+
         try {
             fetch(url, {
                 method: 'DELETE',
@@ -46,8 +56,9 @@ class Like extends React.Component {
                 }
             }).then(x => {
                 this.setState({
-                    isLiked: false
-                }) ;
+                    isLiked: false,
+                    isRunning: false
+                });
             })
         }
         catch {
@@ -60,11 +71,13 @@ class Like extends React.Component {
             <div>
                 {this.state.isLiked ?
                     <div className="recipeLikeBlock recipeLiked" data-id={this.item.id}
+                        disabled={this.state.isRunning}
                         id={`like${this.item.id}`}
-                        onClick={() => this.unlike(this.item.id, true)}></div> :
+                        onClick={() => this.unlike(this.item.id)}></div> :
                     <div className="recipeLikeBlock" data-id={this.item.id}
                         id={`like${this.item.id}`}
-                        onClick={() => this.like(this.item.id, true)}></div>
+                        disabled={this.state.isRunning}
+                        onClick={() => this.like(this.item.id)}></div>
                 }
             </div>
 

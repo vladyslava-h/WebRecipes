@@ -15,12 +15,15 @@ class Profile extends React.Component {
             isSubscribed: false,
             disableBtn: false,
             subscribers: 0,
+            isProfileOwner: false,
             isSubscribeBtnRunning: false
         }
         this.user = props.user;
         this.username = window.location.href.split('/').pop();
         this.subscribe = this.subscribe.bind(this);
         this.unsubscribe = this.unsubscribe.bind(this);
+        this.getLikes = this.getLikes.bind(this);
+        this.subscriptionInfo = this.subscriptionInfo.bind(this);
         this.url = `http://localhost:5000/api/user/${this.username}/info`;
     }
 
@@ -31,14 +34,36 @@ class Profile extends React.Component {
         var response = await fetch(this.url);
         var fetcheddata = await response.json();
         try {
+            let recipes = fetcheddata.data.recipes;
             this.setState({
                 user: fetcheddata.data,
-                data: [...this.state.data, ...fetcheddata.data.recipes],
+                data: [...this.state.data, ...await this.getLikes(recipes)],
                 isLoading: false,
                 subscribers: fetcheddata.data.subscribers
             })
+            this.getLikes();
+            this.subscriptionInfo();
         }
         catch{
+        }
+    }
+
+    async getLikes(recipes) {
+        var response = await fetch(`http://localhost:5000/api/user/${this.user.info.unique_name}/favourites`);
+        var fetcheddata = await response.json();
+        let likedRecipes = [];
+        try {
+            likedRecipes = [...likedRecipes, ...fetcheddata.data];
+            let likedIds = likedRecipes.map(recipe => recipe.id);
+            recipes.forEach(recipe => {
+                if (likedIds.includes(recipe.id)) {
+                    recipe.isLiked = true;
+                }
+            });
+            return recipes;
+        }
+        catch{
+
         }
     }
 
@@ -95,6 +120,25 @@ class Profile extends React.Component {
         };
     }
 
+    async subscriptionInfo() {
+        if (this.user.info.unique_name === this.username) {
+            this.setState({
+                isProfileOwner: true
+            })
+        }
+        var response = await fetch(`http://localhost:5000/api/user/${this.user.info.unique_name}/subscriptions`);
+        var fetcheddata = await response.json();
+        try {
+            if (fetcheddata.data.includes(this.username)) {
+                this.setState({
+                    isSubscribed: true
+                })
+            }
+        }
+        catch{
+        }
+    }
+
     render() {
         return (
             this.state.isLoading ? <Loader /> :
@@ -116,13 +160,14 @@ class Profile extends React.Component {
                                 <p>Subscribers</p>
                             </div>
                         </div>
-                        {this.state.isSubscribed ?
-                            <button className="followBtn followingBtnState"
-                                disabled={this.state.isSubscribeBtnRunning}
-                                onClick={() => this.unsubscribe()}>Unsubscribe</button> :
-                            <button className="followBtn followBtnState"
-                                disabled={this.state.isSubscribeBtnRunning}
-                                onClick={() => this.subscribe()}>Subscribe</button>
+                        {this.state.isProfileOwner ? "" :
+                            this.state.isSubscribed ?
+                                <button className="followBtn followingBtnState"
+                                    disabled={this.state.isSubscribeBtnRunning}
+                                    onClick={() => this.unsubscribe()}>Unsubscribe</button> :
+                                <button className="followBtn followBtnState"
+                                    disabled={this.state.isSubscribeBtnRunning}
+                                    onClick={() => this.subscribe()}>Subscribe</button>
                         }
                     </div>
                     {
@@ -137,7 +182,7 @@ class Profile extends React.Component {
                                         )} </div>
 
                             </div> :
-                            <h1>nothing to show</h1>
+                            <div></div>
                     }
                 </div>
         )
