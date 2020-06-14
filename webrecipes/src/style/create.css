@@ -1,0 +1,245 @@
+#basic {
+    background-color: white;
+}
+
+.page1 {
+    margin-left: 0%;
+}
+
+.page2 {
+    margin-left: -50%;
+}
+
+.page3 {
+    margin-left: -100%;
+}
+
+#ingredients {
+    background-color: white;
+}
+
+#directions {
+    background-color: white;
+}
+
+#main {
+    width: 300%;
+    display: flex;
+    height: 100vh !important;
+    background-color: white;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+    padding-left: 3%;
+    overflow-x: hidden;
+    padding-bottom: 5%;
+}
+
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, .form-control:focus {
+    border-color: rgb(97, 205, 39) !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgb(97, 205, 39);
+    outline: 0 none;
+}
+
+.pageTitle {
+    margin-bottom: 3%;
+    color: rgb(126, 126, 126);
+}
+
+.title {
+    margin-left: 9%;
+    margin-bottom: 15px;
+}
+
+/*------NAVIGATION BUTTONS & JUST BUTTONS------------------------------------------------------*/
+
+.navigation {
+    position: absolute;
+    top: 85%;
+    right: 5%;
+}
+
+.navigation .btn {
+    width: 100px;
+    background-color: rgb(30, 191, 114) !important;
+    color: white !important;
+}
+
+.navigation .btn:hover, .selectFileBtn:hover {
+    color: white;
+    opacity: .7;
+}
+
+.navigation .btnPrev {
+    margin-right: 10px;
+    background-color: rgb(202, 202, 202) !important;
+}
+
+.selectFileBtn {
+    background-color: rgb(30, 191, 114) !important;
+    color: white !important;
+    width: 120px;
+    padding-right: 5px;
+    height: 100%;
+}
+
+#selectFile_icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    margin-top: -5px;
+}
+
+/*----CREATE PROGRESS BAR----------------------------------------------------------*/
+
+#createBar {
+    height: 15px;
+    background-color: rgb(97, 205, 39);
+    text-align: center;
+    opacity: .7;
+    font-size: xx-small;
+    margin-bottom: 30px;
+    line-height: 15px;
+    color: white;
+    border-radius: 25px;
+    transition: 1s;
+    width: 100%;
+}
+
+#createProgress {
+    width: 70%;
+    border-radius: 25px;
+    margin: 4% 9%;
+    background-color: rgb(240, 240, 240);
+}
+
+/*------BASIC INFORMATION----------------------------------------------------------*/
+
+#basic input {
+    width: 76%;
+}
+
+.photoUploadSection{
+    height: 30px;
+    width: 100%;
+}
+
+.photoUploadSection input{
+    width: 150% !important;
+    margin-left: 20px;
+}
+
+.level {
+    margin-top: 3%;
+}
+
+.meals {
+    margin-top: 1%;
+}
+
+.level p, .meals p, .photoUploadSection .fileName {
+    font-weight: 600;
+    margin-left: 15px;
+}
+
+.level .title, .meals .title, .photoUploadSection .title {
+    font-weight: 600;
+    margin-left: 0px;
+}
+
+.photoUploadSection .fileName{
+    margin-left: 14%;
+    line-height: 200%;
+    text-decoration: underline;
+    color: rgb(194, 194, 194);
+}
+
+.photoUploadSection .sub-title {
+    margin-top: -15px;
+    font-size: x-small;
+    color: rgb(189, 189, 189);
+}
+
+.levelRadio, .mealRadio {
+    display: flex;
+}
+
+.levelRadio p:first-child, .mealRadio p:first-child {
+    margin-left: 0;
+}
+
+[type="radio"]:checked, [type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+
+[type="radio"]:checked+label, [type="radio"]:not(:checked)+label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+}
+
+[type="radio"]:checked+label:before, [type="radio"]:not(:checked)+label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    background: #fff;
+}
+
+[type="radio"]:checked+label:after, [type="radio"]:not(:checked)+label:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #F87DA9;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+[type="radio"]:not(:checked)+label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+[type="radio"]:checked+label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+#level1000p [type="radio"]:checked+label:after, #level1000p [type="radio"]:not(:checked)+label:after {
+    background: #a8c678 !important;
+}
+
+#level1001p [type="radio"]:checked+label:after, #level1001p [type="radio"]:not(:checked)+label:after {
+    background: #FFB483 !important;
+}
+
+#level1002p [type="radio"]:checked+label:after, #level1002p [type="radio"]:not(:checked)+label:after {
+    background: #ff8b94 !important;
+}
+
+#meal [type="radio"]:checked+label:after, #meal [type="radio"]:not(:checked)+label:after {
+    background: rgb(126, 126, 126) !important;
+}
+
+.uploadImageSource {
+    display: flex;
+}
+
+/*-----INGREDIENTS------------------------------------------------------------------*/
+

@@ -11,7 +11,7 @@
     margin: 5% 5%;
     width: 85%;
     height: 55%;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("./content/Images/food.png") center center;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.65)), url("./content/Images/food.png") center center;
     background-size: cover;
     background-position-y: 55%;
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.4), 0 8px 22px 0 rgba(0, 0, 0, 0.3);
@@ -38,7 +38,7 @@
 }
 
 #profileUsername {
-    color: rgb(216, 216, 216);
+    color: rgb(235, 235, 235);
     margin-top: -25px;
 }
 
