@@ -121,12 +121,12 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     width: 76%;
 }
 
-.photoUploadSection{
+.photoUploadSection {
     height: 30px;
     width: 100%;
 }
 
-.photoUploadSection input{
+.photoUploadSection input {
     width: 150% !important;
     margin-left: 20px;
 }
@@ -149,7 +149,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     margin-left: 0px;
 }
 
-.photoUploadSection .fileName{
+.photoUploadSection .fileName {
     margin-left: 14%;
     line-height: 200%;
     text-decoration: underline;
@@ -243,3 +243,88 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 /*-----INGREDIENTS------------------------------------------------------------------*/
 
+#addIngredientSection {
+    height: 20%;
+    padding: 2.5% 1%;
+    margin-bottom: 2%;
+    width: 50% !important;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.newIngredientInput {
+    margin-left: 5px;
+    border: none !important;
+    font-size: 1em !important;
+    border-bottom: 1px solid rgba(30, 191, 113, 0.4)!important;
+    border-radius: 0 !important;
+    margin-left: 2%;
+    color: white !important;
+    width: 95% !important;
+}
+
+.newIngredientInput:focus {
+    border: none !important;
+    border-bottom: 1px solid rgba(30, 191, 113, 1)!important;
+    box-shadow: 0 5px 6px -6px rgba(30, 191, 113, 0) !important;
+    background: url("../style/content/Images/Icons/left-arrow.png") no-repeat 2px 2px;
+    background-size: 2%;
+    background-position-x: 98%;
+    background-position-y: 40%;
+    color: black !important;
+}
+
+#ingredients fieldset.form-group {
+    position: relative;
+}
+
+#ingredients label {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    transition: all .1s ease-in-out;
+    cursor: text;
+    color: grey;
+}
+
+:focus+label {
+    color: grey;
+    margin-top: -3%;
+    font-size: smaller;
+    background: white;
+}
+
+.ingredient {
+    display: flex;
+    background-color: #a8c67828;
+    width: 50%;
+    margin-top: 10px;
+    padding-right: 10px;
+}
+
+.ingredient p {
+    font-weight: 500;
+    color: rgb(46, 46, 46);
+    margin-left: 2%;
+    margin-top: 2%;
+    width: 85%;
+    overflow-x: auto;
+}
+
+.ingredient .btn {
+    width: 15%;
+    font-weight: 500;
+    color: rgb(175, 41, 41) !important;
+    background-color: none;
+    border: none;
+    text-align: center;
+}
+
+.ingredient .btn:hover {
+    color: rgb(102, 102, 102) !important;
+    box-shadow: none;
+}
+
+.ingredient .btn:focus {
+    outline: none;
+}

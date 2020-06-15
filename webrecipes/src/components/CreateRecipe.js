@@ -22,15 +22,18 @@ class CreateRecipe extends React.Component {
             selectedMeal: "",
             meals: [],
             imageUrl: "",
-            fileName: ""
+            fileName: "",
+            newIngredient: "",
+            ingredients: ["lemon", "onion"]
         }
 
+        this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);
         this.save = this.save.bind(this);
-        this.getLevels = this.getLevels.bind(this);
-        this.getMeals = this.getMeals.bind(this);
+        this.getLevelsAndMeals = this.getLevelsAndMeals.bind(this);
+        this.removeRecipe = this.removeRecipe.bind(this);
     }
 
     next() {
@@ -88,45 +91,60 @@ class CreateRecipe extends React.Component {
     }
 
     async componentDidMount() {
-        this.getLevels();
-        this.getMeals();
+        this.getLevelsAndMeals();
     }
 
-    async getLevels() {
+    async getLevelsAndMeals() {
         this.setState({
             isLoading: true
         })
         var response = await fetch("http://localhost:5000/api/levels");
         var fetcheddata = await response.json();
+
+        var responseMeals = await fetch("http://localhost:5000/api/meals");
+        var fetcheddataMeals = await responseMeals.json();
         try {
             this.setState({
                 levels: [...this.state.levels, ...fetcheddata.data],
+                meals: [...this.state.meals, ...fetcheddataMeals.data],
                 isLoading: false,
-                selectedLevel: "level" + fetcheddata.data[0].id
+                selectedLevel: "level" + fetcheddata.data[0].id,
+                selectedMeal: "meal" + fetcheddataMeals.data[0].id
             })
         }
         catch{
         }
     }
 
-    async getMeals() {
-        this.setState({
-            isLoading: true
-        })
-        var response = await fetch("http://localhost:5000/api/meals");
-        var fetcheddata = await response.json();
-        try {
+    handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            this.state.ingredients.push(this.state.newIngredient);
             this.setState({
-                meals: [...this.state.meals, ...fetcheddata.data],
-                isLoading: false,
-                selectedMeal: "meal" + fetcheddata.data[0].id
+                newIngredient: "",
             })
         }
-        catch{
-        }
+    }
+
+    removeRecipe(value) {
+        let removed = false;
+        this.setState({
+            ingredients: this.state.ingredients.filter(function (item) {
+                if (item !== value) {
+                    return true;
+                }
+                else {
+                    if (removed === true) {
+                        return true;
+                    }
+                    removed = true;
+                    return false;
+                }
+            })
+        })
     }
 
     render() {
+        let index = 0;
         return (
             this.state.isLoading ? <Loader /> :
                 <div className="createPage">
@@ -207,6 +225,29 @@ class CreateRecipe extends React.Component {
                         {/* TODO: ing */}
                         <div className="content" id="ingredients">
                             <h3 className="pageTitle">Ingredients</h3>
+                            <div id="addIngredientSection">
+                                <fieldset className="form-group">
+                                    <input type="text" className="form-control newIngredientInput"
+                                        value={this.state.newIngredient}
+                                        name="newIngredient"
+                                        onChange={this.handleChange}
+                                        onKeyPress={this.handleKeyPress}
+                                        id="newIngredient" />
+                                    <label htmlFor="newIngredient">Ingredient and its amount</label>
+                                </fieldset>
+                            </div>
+                            <div id="ingredientsSection">
+                                {
+                                    this.state.ingredients.map((item =>
+                                        <div key={`${index++}`} className="ingredient">
+                                            <p>{item}</p>
+                                            <button className="btn"
+                                                onClick={() => this.removeRecipe(item)}
+                                            >Delete</button>
+                                        </div>
+                                    ))
+                                }
+                            </div>
                         </div>
 
                         {/* TODO: dir */}
@@ -214,6 +255,7 @@ class CreateRecipe extends React.Component {
                             <h3 className="pageTitle">Directions</h3>
                         </div>
                     </div>
+
                     <div className="navigation">
                         <button onClick={() => this.prev()}
                             className="btn btnPrev"
