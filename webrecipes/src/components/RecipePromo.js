@@ -15,7 +15,9 @@ class RecipePromo extends React.Component {
         return (
             <div className="recipeBlock" key={this.item.id}>
                 <img className="recipeImg"
-                    src={this.item.photo} alt="" />
+                    src={this.item.photo === "" ?
+                        require('../style/content/Images/default-recipe.png')
+                        : this.item.photo} alt="" />
                 <div className="recipeCircleBtn">
                     <div className="under"></div>
                     <Like user={this.user} item={this.item} />

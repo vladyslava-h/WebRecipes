@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Net.Mail;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -47,15 +49,15 @@ namespace WebRecipes.API.Services
         {
             var new_recipe = new Recipe(){
                 Name = recipe.Name,
-                MealId = 1000,
-                LevelId = 1000,
+                MealId = recipe.MealId,
+                LevelId = recipe.LevelId,
                 CreatorId = recipe.CreatorId,
                 Ingredients = recipe.Ingredients,
                 Directions = recipe.Directions,
                 Photo = recipe.Photo,
                 Time = recipe.Time,
                 //Mark = recipe.Mark,
-                TotalMarks = 1
+                TotalMarks = 0
             };
 
             try

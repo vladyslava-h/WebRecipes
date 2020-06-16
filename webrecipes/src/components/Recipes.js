@@ -30,6 +30,7 @@ class Recipes extends React.Component {
         catch{
 
         }
+        console.log(this.state.data);
     }
 
     render() {
@@ -42,7 +43,9 @@ class Recipes extends React.Component {
                             this.state.data.map(item =>
                                 <div className="recipeBlock" data-id={item.id} key={item.id}>
                                     <img className="recipeImg"
-                                        src={item.photo} alt="" />
+                                        src={item.photo === "" ?
+                                            require('../style/content/Images/default-recipe.png')
+                                            : item.photo} alt="recipe" />
                                     <div className="recipeCircleBtn">
                                         <div className="under"></div>
                                         <div className="recipeRemoveBlock" data-id={item.id}></div>
@@ -51,7 +54,7 @@ class Recipes extends React.Component {
                                         <p><span className="recipeTime">{item.time}</span>&nbsp;Minutes</p>
                                     </div>
                                     <p className="recipeName">{item.name}</p>
-                                    <a className="recipeCreator" href={`/profile/${this.item.user.username}`}>By:&nbsp;<span>{this.item.user.username}</span></a>
+                                    <a className="recipeCreator" href={`/profile/${item.user.username}`}>By:&nbsp;<span>{item.user.username}</span></a>
                                     <div className="rating">
                                         {elements.map((value, index) => {
                                             return value <= item.mark ? <span key={index}>★</span> : <span key={index}>☆</span>

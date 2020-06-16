@@ -22,14 +22,14 @@
     background-color: white;
 }
 
-#main {
+.createPage #main {
     width: 300%;
     display: flex;
     height: 100vh !important;
     background-color: white;
 }
 
-.content {
+.createPage .content {
     height: 100%;
     width: 100%;
     padding-left: 3%;
@@ -37,10 +37,15 @@
     padding-bottom: 5%;
 }
 
-textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, .form-control:focus {
+.createPage input[type="text"]:focus, .createPage .form-control:focus {
     border-color: rgb(97, 205, 39) !important;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgb(97, 205, 39);
+    color: black;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(97, 205, 39, 0.575);
     outline: 0 none;
+}
+
+#ingredients input[type="text"], #directions input[type="text"] {
+    color: white;
 }
 
 .pageTitle {
@@ -51,6 +56,10 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 .title {
     margin-left: 9%;
     margin-bottom: 15px;
+}
+
+.createPage input[type="file"] {
+    display: none;
 }
 
 /*------NAVIGATION BUTTONS & JUST BUTTONS------------------------------------------------------*/
@@ -82,7 +91,9 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     color: white !important;
     width: 120px;
     padding-right: 5px;
-    height: 100%;
+    height: 10%;
+    position: relative;
+    left: 0;
 }
 
 #selectFile_icon {
@@ -119,6 +130,10 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 #basic input {
     width: 76%;
+}
+
+.minutes {
+    margin-top: 30px;
 }
 
 .photoUploadSection {
@@ -287,7 +302,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     color: grey;
 }
 
-:focus+label {
+#ingredients :focus+label, #directions :focus+label, .smallLabel {
     color: grey;
     margin-top: -3%;
     font-size: smaller;
@@ -296,7 +311,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 .ingredient {
     display: flex;
-    background-color: #a8c67828;
+    background-color: rgba(202, 202, 202, 0.1);
     width: 50%;
     margin-top: 10px;
     padding-right: 10px;
@@ -327,4 +342,54 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 .ingredient .btn:focus {
     outline: none;
+}
+
+#addDirectionSection {
+    height: 20%;
+    padding: 2.5% 1%;
+    margin-bottom: 2%;
+    width: 50% !important;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+fieldset.form-group {
+    position: relative;
+}
+
+label {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    transition: all .1s ease-in-out;
+    cursor: text;
+    color: grey;
+}
+
+#basic fieldset label {
+    top: 6px;
+    left: 10px;
+}
+
+.btnNext:disabled, .btnNext[disabled="disabled"] {
+    background-color: #666 !important;
+}
+
+.btnNext:disabled:hover {
+    cursor: not-allowed;
+}
+
+.important {
+    color: red;
+}
+
+.message {
+    position: absolute;
+    margin-top: 35%;
+    width: 100%;
+    padding-right: 23%;
+    text-align: center;
+    color: grey;
+    font-size: 1.3em;
+    font-weight: 600;
 }

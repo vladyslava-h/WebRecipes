@@ -1,6 +1,7 @@
 import React from 'react';
 import '../style/create.css';
 import Loader from './Loader';
+import { withRouter } from 'react-router-dom';
 
 class CreateRecipe extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class CreateRecipe extends React.Component {
             buttonActionClass: "",
             pageIndex: 1,
             isPrevVisible: false,
+            isNextBtnDisabled: false,
             nextBtnText: "Next",
             progress: 10,
             minutes: "",
@@ -21,24 +23,36 @@ class CreateRecipe extends React.Component {
             levels: [],
             selectedMeal: "",
             meals: [],
-            imageUrl: "",
             fileName: "",
             newIngredient: "",
-            ingredients: ["lemon", "onion"]
+            ingredients: [],
+            newDirection: "",
+            directions: [],
+            fileUrl: "",
+            fileInternetUrl: "",
+            files: null,
+            message: "Please wait"
         }
 
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleKeyPressDir = this.handleKeyPressDir.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.checkInputs = this.checkInputs.bind(this);
         this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);
         this.save = this.save.bind(this);
         this.getLevelsAndMeals = this.getLevelsAndMeals.bind(this);
-        this.removeRecipe = this.removeRecipe.bind(this);
+        this.removeIngredient = this.removeIngredient.bind(this);
+        this.removeDirection = this.removeDirection.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
     }
 
     next() {
         if (this.state.pageIndex === 3) {
-            this.save();
+            this.checkInputs();
+            if (!this.state.isNextBtnDisabled) {
+                this.save();
+            }
         }
         else {
             this.setState(state => ({
@@ -48,6 +62,9 @@ class CreateRecipe extends React.Component {
                 nextBtnText: state.pageIndex === 4 ? "Save" : "Next",
                 progress: state.progress + 45
             }))
+            if (this.state.pageIndex === 2) {
+                this.checkInputs();
+            }
         }
     }
 
@@ -61,16 +78,56 @@ class CreateRecipe extends React.Component {
             buttonActionClass: "goToDirections",
             pageIndex: state.pageIndex--,
             nextBtnText: "Next",
-            progress: state.progress - 45
+            progress: state.progress - 45,
+            isNextBtnDisabled: false
         }))
     }
 
-    save() {
+    async save() {
+        await this.uploadImage();
 
+        let urlCreate = 'http://localhost:5000/api/recipes/create';
+        this.setState({
+            isLoading: true,
+            message: "Please wait"
+        });
+
+        let credentials = {
+            'mealId': this.state.selectedMeal.replace('meal', ''),
+            'levelId': this.state.selectedLevel.replace('level', ''),
+            'name': this.state.name,
+            'username': this.user.info.unique_name,
+            'ingredients': this.state.ingredients.join('\n'),
+            'directions': this.state.directions.join('\n'),
+            'time': this.state.minutes,
+            'photo': this.state.fileUrl
+        };
+
+        fetch(urlCreate, {
+            method: 'POST',
+            body: JSON.stringify(credentials),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `bearer ${this.user.token}`
+            }
+        }).then(response => {
+            if (!response.ok) {
+                response.json().then(txt => this.setState({
+                    message: "Can't save this recipe :("
+                }));
+            } else {
+                this.props.history.push("/recipes");
+            }
+        })
+            .catch(e => {
+                this.setState({
+                    message: "Can't save this recipe :("
+                })
+            });;
     }
 
     handleChange(event) {
-        const { name, value, type } = event.target;
+        const { name, value, type, files } = event.target;
         if (type === "radio" && name === "radio-group-level") {
             this.setState({
                 selectedLevel: value
@@ -82,12 +139,72 @@ class CreateRecipe extends React.Component {
                 selectedMeal: value
             });
         }
+        else if (type === "file") {
+            try {
+                this.setState({
+                    files: files,
+                    fileName: files[0].name,
+                    fileInternetUrl: ""
+                })
+            }
+            catch { }
+
+        }
         else {
             this.setState({
                 [name]: value
             });
+            if (name === "fileInternetUrl") {
+                this.setState({
+                    fileName: "",
+                    files: []
+                });
+            }
         }
+    }
 
+    async uploadImage() {
+        if (this.state.fileInternetUrl === "" && this.state.files.length !== 0) {
+            let files = this.state.files;
+            try {
+                let data = new FormData();
+                data.append('file', files[0]);
+                data.append('upload_preset', 'pxswbvyr');
+                const res = await fetch(
+                    'https://api.cloudinary.com/v1_1/dd6b2ufgk/image/upload',
+                    {
+                        method: 'POST',
+                        body: data
+                    }
+                )
+                const file = await res.json();
+                this.setState({
+                    fileUrl: file.secure_url
+                })
+            }
+            catch{ }
+        }
+        else {
+            this.setState({
+                fileUrl: this.state.fileInternetUrl
+            })
+        }
+    }
+
+    checkInputs() {
+        if (this.state.name !== "" && this.state.minutes !== ""
+            && !isNaN(this.state.minutes) && !this.state.minutes.includes(" ")
+            && this.state.ingredients.length > 0
+            && this.state.directions.length > 0) {
+            this.setState({
+                isNextBtnDisabled: false
+            });
+        }
+        else {
+            this.setState({
+                isNextBtnDisabled: true
+            });
+        }
     }
 
     async componentDidMount() {
@@ -125,7 +242,37 @@ class CreateRecipe extends React.Component {
         }
     }
 
-    removeRecipe(value) {
+    handleKeyPressDir = (event) => {
+        if (event.key === 'Enter') {
+            this.state.directions.push(this.state.newDirection);
+            this.setState({
+                newDirection: "",
+                isNextBtnDisabled: false
+            })
+            this.checkInputs();
+        }
+    }
+
+    removeDirection(value) {
+        let removed = false;
+        this.setState({
+            directions: this.state.directions.filter(function (item) {
+                if (item !== value) {
+                    return true;
+                }
+                else {
+                    if (removed === true) {
+                        return true;
+                    }
+                    removed = true;
+                    return false;
+                }
+            }),
+            isNextBtnDisabled: this.state.directions.length === 1 ? true : false
+        })
+    }
+
+    removeIngredient(value) {
         let removed = false;
         this.setState({
             ingredients: this.state.ingredients.filter(function (item) {
@@ -145,8 +292,13 @@ class CreateRecipe extends React.Component {
 
     render() {
         let index = 0;
+        let indexDir = 0;
         return (
-            this.state.isLoading ? <Loader /> :
+            this.state.isLoading ?
+                <div>
+                    <Loader />
+                    <p className="message">{this.state.message}</p>
+                </div> :
                 <div className="createPage">
                     <div id="createProgress">
                         <div id="createBar"
@@ -155,23 +307,28 @@ class CreateRecipe extends React.Component {
                     </div>
                     <h1 className="title">Create Your Recipe</h1>
                     <div id="main">
-                        {/* TODO: basic */}
                         <div className={`content page${this.state.pageIndex}`} id="basic">
                             <h3 className="pageTitle">Basic Information</h3>
-                            <div className="form-group">
+                            <fieldset className="form-group">
                                 <input type="text" className="form-control"
                                     value={this.state.name}
                                     name="name"
                                     onChange={this.handleChange}
-                                    placeholder="Name" />
-                            </div>
-                            <div className="form-group">
+                                    id="name" />
+                                <label htmlFor="name"
+                                    className={this.state.name === "" ? "" : "smallLabel"}>Name
+                                    <span className="important">*</span></label>
+                            </fieldset>
+                            <fieldset className="form-group minutes">
                                 <input type="text" className="form-control"
                                     value={this.state.minutes}
                                     name="minutes"
                                     onChange={this.handleChange}
-                                    placeholder="Minutes" />
-                            </div>
+                                    id="minutes" />
+                                <label htmlFor="minutes"
+                                    className={this.state.minutes === "" ? "" : "smallLabel"}>Minutes
+                                    <span className="important">*</span></label>
+                            </fieldset>
                             <div className="level">
                                 <p className="title">Recipe Level</p>
                                 <div className="levelRadio">
@@ -206,23 +363,32 @@ class CreateRecipe extends React.Component {
                                 <p className="title">Upload Image</p>
                                 <p className="sub-title">(upload file from your computer or insert link to online image)</p>
                                 <div className="uploadImageSource">
-                                    <button className="selectFileBtn btn">
+                                    <label className="selectFileBtn btn" htmlFor="file">
                                         <img src={require('../style/content/Images/Icons/upload.png')} alt="" id="selectFile_icon" />
-                                        Select file</button>
+                                        <input type="file" className="form-control"
+                                            onChange={this.handleChange}
+                                            name="files"
+                                            id="file" />
+                                        Select file
+                                        </label>
+
                                     <div className="form-group">
                                         <input type="text" className="form-control"
-                                            value={this.state.imageUrl}
-                                            name="imageUrl"
+                                            value={this.state.fileInternetUrl}
+                                            name="fileInternetUrl"
                                             onChange={this.handleChange}
                                             placeholder="http://..." />
                                     </div>
-                                    <p className="fileName">{this.state.fileName}</p>
+
+                                    <p className="fileName"
+                                        name="fileName"
+                                        onChange={this.handleChange}
+                                    >{this.state.fileName}</p>
                                 </div>
 
                             </div>
                         </div>
 
-                        {/* TODO: ing */}
                         <div className="content" id="ingredients">
                             <h3 className="pageTitle">Ingredients</h3>
                             <div id="addIngredientSection">
@@ -233,7 +399,8 @@ class CreateRecipe extends React.Component {
                                         onChange={this.handleChange}
                                         onKeyPress={this.handleKeyPress}
                                         id="newIngredient" />
-                                    <label htmlFor="newIngredient">Ingredient and its amount</label>
+                                    <label htmlFor="newIngredient">Ingredient and its amount
+                                    <span className="important">*</span></label>
                                 </fieldset>
                             </div>
                             <div id="ingredientsSection">
@@ -242,7 +409,7 @@ class CreateRecipe extends React.Component {
                                         <div key={`${index++}`} className="ingredient">
                                             <p>{item}</p>
                                             <button className="btn"
-                                                onClick={() => this.removeRecipe(item)}
+                                                onClick={() => this.removeIngredient(item)}
                                             >Delete</button>
                                         </div>
                                     ))
@@ -250,9 +417,32 @@ class CreateRecipe extends React.Component {
                             </div>
                         </div>
 
-                        {/* TODO: dir */}
                         <div className="content" id="directions">
                             <h3 className="pageTitle">Directions</h3>
+                            <div id="addDirectionSection">
+                                <fieldset className="form-group">
+                                    <input type="text" className="form-control newIngredientInput"
+                                        value={this.state.newDirection}
+                                        name="newDirection"
+                                        onChange={this.handleChange}
+                                        onKeyPress={this.handleKeyPressDir}
+                                        id="newDirection" />
+                                    <label htmlFor="newDirection">Step-by-step instruction
+                                    <span className="important">*</span></label>
+                                </fieldset>
+                            </div>
+                            <div id="directionsSection">
+                                {
+                                    this.state.directions.map((item =>
+                                        <div key={`${indexDir++}`} className="ingredient">
+                                            <p>{item}</p>
+                                            <button className="btn"
+                                                onClick={() => this.removeDirection(item)}
+                                            >Delete</button>
+                                        </div>
+                                    ))
+                                }
+                            </div>
                         </div>
                     </div>
 
@@ -261,7 +451,8 @@ class CreateRecipe extends React.Component {
                             className="btn btnPrev"
                             style={this.state.isPrevVisible ? {} : { display: 'none' }}>Prev</button>
                         <button onClick={() => this.next()}
-                            className="btn btnNext"
+                            className={`btn btnNext`}
+                            disabled={this.state.isNextBtnDisabled}
                         >{this.state.nextBtnText}</button>
                     </div>
                 </div>
@@ -269,4 +460,4 @@ class CreateRecipe extends React.Component {
     }
 }
 
-export default CreateRecipe;
+export default withRouter(CreateRecipe);
