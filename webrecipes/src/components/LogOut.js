@@ -9,7 +9,7 @@ class LogOut extends React.Component {
     render() {
         return (
             <div id="logout">
-                <p id="logoutBtn" onClick={this.logOut}>Log Out</p>
+                <p id="logoutBtn" onClick={this.logOut} className="dropdown-item">Log Out</p>
             </div>
         )
     }

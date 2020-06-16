@@ -5,8 +5,7 @@
 #meals {
     margin-top: 2%;
     display: flex;
-    justify-content: space-between;
-    width: 40%;
+    width: 100%;
 }
 
 #browsedRecipes {
@@ -31,8 +30,13 @@
     background-color: transparent;
     border: none;
     font-size: 1.2em;
-    width: 80px;
+    width: 90px;
     text-align: center;
+    margin-left: 5px;
+}
+
+.meal:first-child {
+    margin-left: 0;
 }
 
 .meal:hover {

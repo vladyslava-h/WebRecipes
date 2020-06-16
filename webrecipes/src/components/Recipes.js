@@ -30,7 +30,6 @@ class Recipes extends React.Component {
         catch{
 
         }
-        console.log(this.state.data);
     }
 
     render() {

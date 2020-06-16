@@ -1,5 +1,6 @@
 import React from 'react'
 import '../style/index-home.css'
+import { withRouter } from 'react-router-dom'
 
 class NoContentFound extends React.Component {
     constructor(props) {
@@ -7,6 +8,11 @@ class NoContentFound extends React.Component {
         this.messageHeader = props.messageHeader;
         this.message = props.message;
         this.isRecipesPage = props.isRecipesPage;
+        this.redirect = this.redirect.bind(this);
+    }
+
+    redirect() {
+        this.props.history.push("/create")
     }
 
     render() {
@@ -16,13 +22,14 @@ class NoContentFound extends React.Component {
                 <div className="message">
                     <p id="noContentFoundMessageHeader">{this.messageHeader}</p>
                     <p id="noContentFoundMessage">{this.message}</p>
-                    <button id="goToCreateRecipeBtn" 
-                    style={this.isRecipesPage ? { display: "block" } : { display: "none" }}
-                    className="pulse-button">Create your first recipe</button>
+                    <button id="goToCreateRecipeBtn"
+                        onClick={this.redirect}
+                        style={this.isRecipesPage ? { display: "block" } : { display: "none" }}
+                        className="pulse-button">Create your first recipe</button>
                 </div>
             </div>
         )
     }
 }
 
-export default NoContentFound;
+export default withRouter(NoContentFound);

@@ -24,6 +24,7 @@ class Browse extends React.Component {
         this.urlMeals = "http://localhost:5000/api/meals";
         this.search = this.search.bind(this);
         this.goBack = this.goBack.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     async componentDidMount() {
@@ -74,6 +75,12 @@ class Browse extends React.Component {
         });
     }
 
+    handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            this.search();
+        }
+    }
+
     render() {
         return (
             this.state.isLoading ? <Loader /> :
@@ -86,6 +93,7 @@ class Browse extends React.Component {
                         <input type="text" className="form-control browseSearch"
                             placeholder={`Discover${this.state.search}`} id="browseSearch"
                             name="search"
+                            onKeyPress={this.handleKeyPress}
                         />
                         <button className="searchBtn" onClick={this.search}>Search</button>
                     </div>
@@ -99,14 +107,14 @@ class Browse extends React.Component {
                                             this.state.meals.map(item =>
                                                 <Route key={item.id} path={`/browse/${item.name}`}
                                                     exact component={() => <BrowseRecipes url={item.id === -1 ? this.state.searchUrl : this.state.searchUrl + `&meal=` + item.id}
-                                                        user={this.user}/>} />
+                                                        user={this.user} />} />
                                             )
                                             :
                                             <img id="noRecipeFound" alt="" src={require('../style/content/Images/no-results.jpg')} />
                                         :
                                         <Route key={item.id} path={`/browse/${item.name}`}
                                             exact component={() => <BrowseRecipes url={item.id === -1 ? this.urlRecipes : this.urlRecipes + `&meal=` + item.id}
-                                                user={this.user}/>} />
+                                                user={this.user} />} />
                                 )
                             }
                         </Switch>

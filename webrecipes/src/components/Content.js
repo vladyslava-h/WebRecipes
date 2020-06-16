@@ -2,7 +2,7 @@ import React from "react";
 import Menu from './Menu';
 import MainContent from './MainContent';
 import UserInfo from './UserInfo';
-import LogOut from './LogOut';
+import DropDownMenu from './DropDownMenu';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Access from "./Access";
 import '../style/index-sidebar.css';
@@ -19,12 +19,12 @@ class Content extends React.Component {
             this.user.getUserInfo() === undefined ?
                 <Access /> :
                 <>
-                    <LogOut/>
+                    <DropDownMenu user={this.user}/>
                     <Router>
                         <div className="page-container">
-                            <Menu user={this.user}/>
+                            <Menu user={this.user} />
                             <div id="mainContent">
-                                <MainContent user={this.user}/>
+                                <MainContent user={this.user} />
                             </div>
                         </div>
                     </Router>
