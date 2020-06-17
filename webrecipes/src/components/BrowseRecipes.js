@@ -13,6 +13,7 @@ class BrowseRecipes extends React.Component {
         }
         this.url = props.url;
         this.user = props.user;
+        console.log(this.url);
     }
 
     async componentDidMount() {

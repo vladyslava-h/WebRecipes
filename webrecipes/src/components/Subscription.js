@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import {withRouter} from 'react-router-dom';
 
 class Subscription extends React.Component {
     constructor(props) {
@@ -11,11 +12,46 @@ class Subscription extends React.Component {
 
         this.state = {
             isSubscribed: true,
+            isProfileOwner: false,
+            disableBtn: false
+        }
+        this.redirect = this.redirect.bind(this);
+    }
+
+    async componentDidMount() {
+        this.subscriptionInfo();
+    }
+
+    async subscriptionInfo() {
+        if (this.user.info.unique_name === this.item) {
+            this.setState({
+                isProfileOwner: true
+            })
+        }
+        var response = await fetch(`http://localhost:5000/api/user/${this.user.info.unique_name}/subscriptions`);
+        var fetcheddata = await response.json();
+        try {
+            if (fetcheddata.data.includes(this.item)) {
+                this.setState({
+                    isSubscribed: true
+                })
+            }
+            else {
+                this.setState({
+                    isSubscribed: false
+                })
+            }
+        }
+        catch{
         }
     }
 
     subscribe(username) {
         let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/subscribe?creator=${username}`;
+
+        this.setState({
+            disableBtn: true
+        });
 
         try {
             fetch(url, {
@@ -27,6 +63,7 @@ class Subscription extends React.Component {
             }).then(x => {
                 this.setState({
                     isSubscribed: true,
+                    disableBtn: false
                 });
             })
         }
@@ -38,6 +75,10 @@ class Subscription extends React.Component {
     unsubscribe(username) {
         let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/unsubscribe?creator=${username}`;
 
+        this.setState({
+            disableBtn: true
+        });
+
         try {
             fetch(url, {
                 method: 'DELETE',
@@ -47,6 +88,7 @@ class Subscription extends React.Component {
             }).then(x => {
                 this.setState({
                     isSubscribed: false,
+                    disableBtn: false
                 });
             })
         }
@@ -55,17 +97,24 @@ class Subscription extends React.Component {
         };
     }
 
+    redirect() {
+        this.props.history.push(`/profile/${this.item}`)
+    }
+
     render() {
         return (
             <div className="followingSection">
                 <div className="followingPhoto">{this.item.charAt(0).toUpperCase()}</div>
-                <a className="followingUsername" href={`/profile/${this.item}`}>{this.item}</a>
+                <p className="followingUsername" onClick={this.redirect}>{this.item}</p>
 
-                {this.state.isSubscribed ?
-                    <button className="followingBtn"
-                        onClick={() => this.unsubscribe(this.item)}>Unsubscribe</button> :
-                    <button className="followingBtn followBtn"
-                        onClick={() => this.subscribe(this.item)}>Subscribe</button>
+                {this.state.isProfileOwner ? " " :
+                    this.state.isSubscribed ?
+                        <button className="followingBtn"
+                            disabled={this.state.disableBtn}
+                            onClick={() => this.unsubscribe(this.item)}>Unsubscribe</button> :
+                        <button className="followingBtn followBtn"
+                            disabled={this.state.disableBtn}
+                            onClick={() => this.subscribe(this.item)}>Subscribe</button>
                 }
             </div>
 
@@ -73,4 +122,4 @@ class Subscription extends React.Component {
     }
 }
 
-export default Subscription;
+export default withRouter(Subscription);

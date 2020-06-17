@@ -8,6 +8,11 @@ class RecipePromo extends React.Component {
 
         this.user = props.user;
         this.item = props.item;
+        this.redirect = this.redirect.bind(this);
+    }
+
+    redirect() {
+        this.props.history.push(`/profile/${this.item.user.username}`)
     }
 
     render() {
@@ -26,7 +31,7 @@ class RecipePromo extends React.Component {
                     <p><span className="recipeTime">{this.item.time}</span>&nbsp;Minutes</p>
                 </div>
                 <p className="recipeName">{this.item.name}</p>
-                <a className="recipeCreator" href={`/profile/${this.item.user.username}`} >By:&nbsp;<span>{this.item.user.username}</span></a>
+                <p className="recipeCreator" onClick={this.redirect} >By:&nbsp;<span>{this.item.user.username}</span></p>
                 <div className="rating">
                     {elements.map((value, index) => {
                         return value <= this.item.mark ? <span key={index}>★</span> : <span key={index}>☆</span>

@@ -71,7 +71,7 @@ namespace WebRecipes.API.Controllers
         [Route("search/{item}")]
         public async Task<IActionResult> SearchAsync(string item)
         {
-            var users = (await userService.ListAsync()).Where(x => x.Username.Contains(item));
+            var users = (await userService.ListAsync()).Where(x => x.Username.ToLower().Contains(item.ToLower()));
             var resources = mapper.Map<IEnumerable<User>, IEnumerable<UserResource>>(users);
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }

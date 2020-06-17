@@ -19,7 +19,7 @@ class Menu extends React.Component {
                     <p>Create</p>
                 </NavLink>
                 <p className="menu-section-title">DISCOVER</p>
-                <NavLink className="menu-section glow-on-hover" name="browse" category="recipes" activeClassName="menu-section-active menu-section-active-browse" exact to='/browse/all'>
+                <NavLink className="menu-section glow-on-hover" name="browse" category="recipes" activeClassName="menu-section-active menu-section-active-browse" exact to='/browse'>
                     <img src={require('../style/content/Images/Icons/browse.png')} alt="" id="browse_icon" />
                     <p>Browse</p>
                 </NavLink>

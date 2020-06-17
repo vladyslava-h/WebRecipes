@@ -3,6 +3,7 @@ import Loader from './Loader';
 import NoContentFound from './NoContentFound';
 import '../style/index-recipes.css';
 import '../style/index-home.css';
+import { withRouter } from 'react-router-dom';
 
 class Recipes extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class Recipes extends React.Component {
         }
         this.url = props.url;
         this.user = props.user;
+        this.redirect = this.redirect.bind(this);
     }
 
     async componentDidMount() {
@@ -30,6 +32,10 @@ class Recipes extends React.Component {
         catch{
 
         }
+    }
+
+    redirect(item) {
+        this.props.history.push(`/profile/${item.user.username}`)
     }
 
     render() {
@@ -53,7 +59,7 @@ class Recipes extends React.Component {
                                         <p><span className="recipeTime">{item.time}</span>&nbsp;Minutes</p>
                                     </div>
                                     <p className="recipeName">{item.name}</p>
-                                    <a className="recipeCreator" href={`/profile/${item.user.username}`}>By:&nbsp;<span>{item.user.username}</span></a>
+                                    <p className="recipeCreator" onClick={() => this.redirect(item)}>By:&nbsp;<span>{item.user.username}</span></p>
                                     <div className="rating">
                                         {elements.map((value, index) => {
                                             return value <= item.mark ? <span key={index}>★</span> : <span key={index}>☆</span>
@@ -69,4 +75,4 @@ class Recipes extends React.Component {
     }
 }
 
-export default Recipes;
+export default withRouter(Recipes);

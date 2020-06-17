@@ -16,21 +16,41 @@ class Profile extends React.Component {
             disableBtn: false,
             subscribers: 0,
             isProfileOwner: false,
-            isSubscribeBtnRunning: false
+            isSubscribeBtnRunning: false,
+            username: window.location.href.split('/').pop()
         }
         this.user = props.user;
-        this.username = window.location.href.split('/').pop();
         this.subscribe = this.subscribe.bind(this);
         this.unsubscribe = this.unsubscribe.bind(this);
         this.getLikes = this.getLikes.bind(this);
         this.subscriptionInfo = this.subscriptionInfo.bind(this);
-        this.url = `http://localhost:5000/api/user/${this.username}/info`;
+        this.refresh = this.refresh.bind(this);
+    }
+
+    async componentWillReceiveProps(nextProps) {
+        await this.setState({
+            data: [],
+            isLoading: false,
+            user: "",
+            isSubscribed: false,
+            disableBtn: false,
+            subscribers: 0,
+            isProfileOwner: false,
+            isSubscribeBtnRunning: false,
+            username: window.location.href.split('/').pop()
+        })
+        this.refresh();
     }
 
     async componentDidMount() {
+        this.refresh();
+    }
+
+    async refresh() {
         this.setState({
             isLoading: true
         })
+        this.url = `http://localhost:5000/api/user/${this.state.username}/info`;
         var response = await fetch(this.url);
         var fetcheddata = await response.json();
         try {
@@ -68,7 +88,7 @@ class Profile extends React.Component {
     }
 
     subscribe() {
-        let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/subscribe?creator=${this.username}`;
+        let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/subscribe?creator=${this.state.username}`;
 
         this.setState({
             isSubscribeBtnRunning: true
@@ -95,7 +115,7 @@ class Profile extends React.Component {
     }
 
     unsubscribe() {
-        let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/unsubscribe?creator=${this.username}`;
+        let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/unsubscribe?creator=${this.state.username}`;
 
         this.setState({
             isSubscribeBtnRunning: true
@@ -121,7 +141,7 @@ class Profile extends React.Component {
     }
 
     async subscriptionInfo() {
-        if (this.user.info.unique_name === this.username) {
+        if (this.user.info.unique_name === this.state.username) {
             this.setState({
                 isProfileOwner: true
             })
@@ -129,7 +149,7 @@ class Profile extends React.Component {
         var response = await fetch(`http://localhost:5000/api/user/${this.user.info.unique_name}/subscriptions`);
         var fetcheddata = await response.json();
         try {
-            if (fetcheddata.data.includes(this.username)) {
+            if (fetcheddata.data.includes(this.state.username)) {
                 this.setState({
                     isSubscribed: true
                 })
@@ -146,7 +166,7 @@ class Profile extends React.Component {
                     <div id="profileHeader">
                         <div className="imageOverlay"></div>
                         {/* <img alt="profile image" src="" id="profileImg"/> */}
-                        <p id="profileImg">{this.username.charAt(0).toUpperCase()}</p>
+                        <p id="profileImg">{this.state.username.charAt(0).toUpperCase()}</p>
                         <p id="profileName">{this.state.user.name?.toUpperCase()}</p>
                         <p id="profileUsername">{this.state.user.username?.toLowerCase()}</p>
                         <hr />

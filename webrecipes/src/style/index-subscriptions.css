@@ -16,6 +16,11 @@
     background-color: #ab8ac7;
 }
 
+.followingSection .followingUsername:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .followingSection .followingUsername {
     margin-top: 3px;
     text-align: center;

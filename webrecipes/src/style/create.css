@@ -286,6 +286,7 @@
     background-size: 2%;
     background-position-x: 98%;
     background-position-y: 40%;
+    padding-right: 5% !important;
     color: black !important;
 }
 

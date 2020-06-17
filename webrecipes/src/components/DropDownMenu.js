@@ -1,5 +1,6 @@
 import React from 'react';
 import LogOut from './LogOut';
+import { withRouter } from 'react-router-dom';
 
 class DropDownMenu extends React.Component {
     constructor(props) {
@@ -9,9 +10,15 @@ class DropDownMenu extends React.Component {
         this.state = {
             isOpen: false
         };
+
+        this.redirect = this.redirect.bind(this);
     }
 
     toggleOpen = () => this.setState({ isOpen: !this.state.isOpen });
+
+    redirect() {
+        this.props.history.push(`/profile/${this.user.info.unique_name}`)
+    }
 
     render() {
         const menuClass = `dropdown-menu${this.state.isOpen ? " show" : ""}`;
@@ -26,8 +33,8 @@ class DropDownMenu extends React.Component {
                     {this.user.info.unique_name}
                 </button>
                 <div className={`${menuClass} drop-menu`} aria-labelledby="dropdownMenuButton">
-                    <a className="dropdown-item"  href={`/profile/${this.user.info.unique_name}`}>
-                        View Profile</a>
+                    <button className="dropdown-item" onClick={this.redirect}>
+                        View Profile</button>
                     <LogOut />
                 </div>
             </div>
@@ -36,4 +43,4 @@ class DropDownMenu extends React.Component {
 }
 
 
-export default DropDownMenu;
+export default withRouter(DropDownMenu);

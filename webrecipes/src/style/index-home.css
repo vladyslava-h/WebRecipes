@@ -15,15 +15,16 @@ body, html {
     right: 0;
     margin-right: 15px;
     margin-top: 15px;
-    width: 85px;
 }
 
 .drop-menu {
-    margin-left: -110px !important;
     text-align: center !important;
+    width: 100px;
+    right: 0px !important;
+    left: auto !important;
 }
 
-.drop-menu a {
+.drop-menu button {
     color: rgb(165, 165, 165) !important;
 }
 
@@ -38,6 +39,7 @@ body, html {
     font-style: italic;
     color: lightgray !important;
     cursor: pointer;
+    width: 100%;
 }
 
 #logoutBtn {

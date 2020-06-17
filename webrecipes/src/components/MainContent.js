@@ -11,7 +11,7 @@ import CreateRecipe from "./CreateRecipe";
 
 class MainContent extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.user = props.user;
     }
@@ -24,9 +24,9 @@ class MainContent extends React.Component {
                     <Route path='/favourites' exact component={() => <Favourites url={`http://localhost:5000/api/user/${this.user.info.unique_name}/favourites`} user={this.user} />} />
                     <Route path='/recipes' exact component={() => <Recipes url={`http://localhost:5000/api/user/${this.user.info.unique_name}/recipes`} user={this.user} />} />
                     <Route path='/subscriptions' exact component={() => <Chefs url={`http://localhost:5000/api/user/${this.user.info.unique_name}/subscriptions`} user={this.user} />} />
-                    <Route path='/browse/all' exact component={() => <Browse user={this.user} />} />
-                    <Route path='/profile/:username' exact component={() => <Profile user={this.user}/>} />
-                    <Route path='/create' exact component={() => <CreateRecipe user={this.user}/>} />
+                    <Route path='/browse' exact component={() => <Browse user={this.user} />} />
+                    <Route path='/profile/:username' exact component={() => <Profile user={this.user} />} />
+                    <Route path='/create' exact component={() => <CreateRecipe user={this.user} />} />
                 </Switch>
             </main>
         );

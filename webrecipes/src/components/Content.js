@@ -19,8 +19,8 @@ class Content extends React.Component {
             this.user.getUserInfo() === undefined ?
                 <Access /> :
                 <>
-                    <DropDownMenu user={this.user}/>
                     <Router>
+                        <DropDownMenu user={this.user} />
                         <div className="page-container">
                             <Menu user={this.user} />
                             <div id="mainContent">
