@@ -1,5 +1,5 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class Subscription extends React.Component {
     constructor(props) {
@@ -13,13 +13,16 @@ class Subscription extends React.Component {
         this.state = {
             isSubscribed: true,
             isProfileOwner: false,
-            disableBtn: false
+            disableBtn: false,
+            photo: null
         }
         this.redirect = this.redirect.bind(this);
+        this.getInfo = this.getInfo.bind(this);
     }
 
     async componentDidMount() {
         this.subscriptionInfo();
+        this.getInfo();
     }
 
     async subscriptionInfo() {
@@ -101,10 +104,29 @@ class Subscription extends React.Component {
         this.props.history.push(`/profile/${this.item}`)
     }
 
+    async getInfo() {
+        this.url = `http://localhost:5000/api/user/${this.item}/info`;
+        try {
+            var response = await fetch(this.url);
+            var fetcheddata = await response.json();
+            this.setState({
+                photo: fetcheddata.data.photo
+            })
+        }
+        catch{
+        }
+    }
+
     render() {
         return (
             <div className="followingSection">
-                <div className="followingPhoto">{this.item.charAt(0).toUpperCase()}</div>
+                <div className="followingPhoto">
+                    {
+                        this.state.photo !== null ?
+                            <img alt="user" src={this.state.photo} id="profileImg" /> :
+                            <p>{this.item.charAt(0).toUpperCase()}</p>
+                    }
+                </div>
                 <p className="followingUsername" onClick={this.redirect}>{this.item}</p>
 
                 {this.state.isProfileOwner ? " " :

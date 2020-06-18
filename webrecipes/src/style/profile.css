@@ -6,7 +6,6 @@
     padding-bottom: 15px;
 }
 
-
 #profileHeader {
     margin: 5% 5%;
     width: 85%;
@@ -18,6 +17,11 @@
     border-radius: 15px 15px 15px 15px;
     padding-top: 5%;
     text-align: center;
+}
+
+.backimageMinimal {
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2)), url("./content/Images/image2.jpg") center center no-repeat !important;
+    background-size: cover !important;
 }
 
 #profileImg {
@@ -113,8 +117,32 @@
     color: white;
 }
 
-.updating #loading{
+.updating #loading {
     position: relative;
     margin-top: 2%;
     margin-left: 0px;
+}
+
+.profileUpdateImg .photoUploadSection {
+    margin-bottom: 25% !important;
+}
+
+.profileUpdateImg .photoUploadSection .fileName {
+    font-weight: 600;
+    margin-left: 5px;
+    margin-bottom: 15% !important;
+    overflow-x: auto;
+}
+
+.profileUpdateImg .photoUploadSection input {
+    width: 150% !important;
+    margin-left: 20px;
+}
+
+.profileUpdateImg input[type="file"] {
+    display: none;
+}
+
+.profileUpdateImg .fileNameSection {
+    display: block;
 }

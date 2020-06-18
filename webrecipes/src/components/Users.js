@@ -133,7 +133,13 @@ class Users extends React.Component {
                                             <tr key={`user${user.id}`}>
                                                 <td>{index++}</td>
                                                 <td id="maininfo">
-                                                    <div className="followingPhoto" onClick={() => this.redirect(user.username)}>{user.username.charAt(0).toUpperCase()}</div>
+                                                    <div className="followingPhoto" onClick={() => this.redirect(user.username)}>
+                                                        {
+                                                            user.photo !== null ?
+                                                                <img alt="user" src={user.photo} id="profileImg" /> :
+                                                                <p>{user.username.charAt(0).toUpperCase()}</p>
+                                                        }
+                                                    </div>
                                                     <div>
                                                         <p className="name" onClick={() => this.redirect(user.username)}> {user.name} <span>{"(" + user.username + ")"}</span></p>
                                                         <p className="email">{user.email}</p>

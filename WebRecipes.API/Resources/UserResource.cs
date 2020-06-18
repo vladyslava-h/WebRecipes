@@ -13,6 +13,7 @@ namespace WebRecipes.API.Resources
         public string Username { set; get; }
         public int Subscribers { set; get; }
         public int  RecipesCount { set; get; }
+        public string Photo { set; get; }
         public IEnumerable<RecipeResource> Recipes {set;get;}
         //        public ICollection<Recipe> LikedRecipes { get; set; } = new List<Recipe>();
         //      public ICollection<Mark> Marks { set; get; } = new List<Mark>();

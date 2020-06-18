@@ -69,6 +69,7 @@ namespace WebRecipes.API.Services
             existingItem.Email = user.Email??existingItem.Email;
             existingItem.Role = user.Role??existingItem.Role;
             existingItem.Password = user.Password??existingItem.Password;
+            existingItem.Photo = user.Photo??existingItem.Photo;
 
             try
             {

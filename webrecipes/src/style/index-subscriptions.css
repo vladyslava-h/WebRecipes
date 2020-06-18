@@ -16,6 +16,13 @@
     background-color: #ab8ac7;
 }
 
+.followingSection .followingPhoto #profileImg{
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+    margin-top: -3px;
+}
+
 .followingSection .followingUsername:hover {
     text-decoration: underline;
     cursor: pointer;

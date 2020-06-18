@@ -4,6 +4,7 @@ import RecipePromo from './RecipePromo';
 import '../style/index-recipes.css';
 import '../style/index-home.css';
 import '../style/profile.css';
+import '../style/create.css';
 import NoContentFound from './NoContentFound';
 import Modal from 'react-bootstrap/Modal';
 
@@ -22,9 +23,12 @@ class Profile extends React.Component {
             showModal: false,
             nameUpdate: "",
             emailUpdate: "",
-            photoUpdate: "",
             saveBtnDisabled: false,
             isUpdating: false,
+            files: [],
+            fileInternetUrl: "",
+            photoUpdateUrl: "",
+            fileName: "",
             username: window.location.href.split('/').pop()
         }
         this.user = props.user;
@@ -36,6 +40,7 @@ class Profile extends React.Component {
         this.update = this.update.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.checkInputs = this.checkInputs.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -70,6 +75,7 @@ class Profile extends React.Component {
                 user: fetcheddata.data,
                 nameUpdate: fetcheddata.data.name,
                 emailUpdate: fetcheddata.data.email,
+                photoUpdateUrl: fetcheddata.data.photo,
                 passwordUpdate: fetcheddata.data.password,
                 data: [...this.state.data, ...await this.getLikes(recipes)],
                 isLoading: false,
@@ -178,11 +184,30 @@ class Profile extends React.Component {
     }
 
     async handleChange(event) {
-        const { name, value } = event.target;
-        await this.setState({
-            [name]: value
-        });
-        await this.checkInputs();
+        const { name, value, files, type } = event.target;
+        if (type === "file") {
+            try {
+                this.setState({
+                    files: files,
+                    fileName: files[0].name,
+                    fileInternetUrl: ""
+                })
+            }
+            catch { }
+
+        }
+        else {
+            this.setState({
+                [name]: value
+            });
+            await this.checkInputs();
+            if (name === "fileInternetUrl") {
+                this.setState({
+                    fileName: "",
+                    files: []
+                });
+            }
+        }
     }
 
     async checkInputs() {
@@ -200,45 +225,77 @@ class Profile extends React.Component {
     }
 
     async update() {
-            await this.checkInputs();
+        await this.checkInputs();
+        this.setState({
+            saveBtnDisabled: true,
+            isUpdating: true
+        })
+
+        let urlUpdate = "http://localhost:5000/api/user/update/" + this.state.user.id;
+
+        await this.uploadImage();
+
+        let credentials = {
+            'name': this.state.nameUpdate,
+            'email': this.state.emailUpdate,
+            'photo': this.state.photoUpdateUrl
+        };
+
+        fetch(urlUpdate, {
+            method: 'PUT',
+            body: JSON.stringify(credentials),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `bearer ${this.user.token}`
+            }
+        }).then(response => {
+            if (response.ok) {
+                this.setState({
+                    showModal: false,
+                    user: {
+                        id: this.state.user.id,
+                        name: this.state.nameUpdate,
+                        email: this.state.emailUpdate,
+                        username: this.state.user.username,
+                        recipesCount: this.state.user.recipesCount,
+                        subscribers: this.state.user.subscribers,
+                        photo: this.state.photoUpdateUrl ?? null
+                    },
+                    saveBtnDisabled: false,
+                    isUpdating: false
+                })
+
+            }
+        }).catch(e => {
+        });
+    }
+
+    async uploadImage() {
+        if (this.state.fileInternetUrl === "" && this.state.files?.length !== 0) {
+            let files = this.state.files;
+            try {
+                let data = new FormData();
+                data.append('file', files[0]);
+                data.append('upload_preset', 'pxswbvyr');
+                const res = await fetch(
+                    'https://api.cloudinary.com/v1_1/dd6b2ufgk/image/upload',
+                    {
+                        method: 'POST',
+                        body: data
+                    }
+                )
+                const file = await res.json();
+                this.setState({
+                    photoUpdateUrl: file.secure_url
+                })
+            }
+            catch{ }
+        }
+        else if (this.state.fileInternetUrl !== "") {
             this.setState({
-                saveBtnDisabled: true,
-                isUpdating: true
+                photoUpdateUrl: this.state.fileInternetUrl
             })
-
-            let urlUpdate = "http://localhost:5000/api/user/update/" + this.state.user.id;
-
-            let credentials = {
-                'name': this.state.nameUpdate,
-                'email': this.state.emailUpdate
-            };
-
-            fetch(urlUpdate, {
-                method: 'PUT',
-                body: JSON.stringify(credentials),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `bearer ${this.user.token}`
-                }
-            }).then(response => {
-                if (response.ok) {
-                    this.setState({
-                        showModal: false,
-                        user: {
-                            id: this.state.user.id,
-                            name: this.state.nameUpdate,
-                            email: this.state.emailUpdate,
-                            username: this.state.user.username,
-                            recipesCount: this.state.user.recipesCount,
-                            subscribers: this.state.user.subscribers
-                        },
-                        saveBtnDisabled: false,
-                        isUpdating: false
-                    })
-
-                }
-            }).catch(e => {
-            });
+        }
     }
 
     render() {
@@ -246,10 +303,13 @@ class Profile extends React.Component {
             this.state.isLoading ? <Loader /> :
                 this.state.user === undefined ? <NoContentFound message="404" /> :
                     <div id="profileData">
-                        <div id="profileHeader">
+                        <div id="profileHeader" className={this.state.user.photo === null ? "" : "backimageMinimal"}>
                             <div className="imageOverlay"></div>
-                            {/* <img alt="profile image" src="" id="profileImg"/> */}
-                            <p id="profileImg">{this.state.username.charAt(0).toUpperCase()}</p>
+                            {
+                                this.state.user.photo !== null ?
+                                    <img alt="user" src={this.state.user.photo} id="profileImg" /> :
+                                    <p id="profileImg">{this.state.user.username.charAt(0).toUpperCase()}</p>
+                            }
                             <p id="profileName">{this.state.user.name?.toUpperCase()}</p>
                             <p id="profileUsername">{this.state.user.username?.toLowerCase()}</p>
                             <hr />
@@ -324,6 +384,37 @@ class Profile extends React.Component {
                                                     onChange={this.handleChange}
                                                     placeholder="Email" />
                                             </div>
+
+                                            <div className="profileUpdateImg">
+                                                <div className="photoUploadSection">
+                                                    <p className="title">Upload Image</p>
+                                                    <p className="sub-title">(upload file from your computer or insert link to online image)</p>
+                                                    <div className="uploadImageSource">
+                                                        <label className="selectFileBtn btn" htmlFor="file">
+                                                            <img src={require('../style/content/Images/Icons/upload.png')} alt="" id="selectFile_icon" />
+                                                            <input type="file" className="form-control"
+                                                                onChange={this.handleChange}
+                                                                name="files"
+                                                                id="file" />
+                                                            Select file
+                                                        </label>
+
+                                                        <div className="form-group">
+                                                            <input type="text" className="form-control"
+                                                                value={this.state.fileInternetUrl}
+                                                                name="fileInternetUrl"
+                                                                onChange={this.handleChange}
+                                                                placeholder="http://..." />
+                                                        </div>
+                                                    </div>
+
+                                                    <p className="fileName"
+                                                        name="fileName"
+                                                        onChange={this.handleChange}
+                                                    >{this.state.fileName}</p>
+                                                </div>
+
+                                            </div>
                                         </div>
                                 }
 
@@ -335,7 +426,7 @@ class Profile extends React.Component {
                                     onClick={this.update}>Save</button>
                             </Modal.Footer>
                         </Modal>
-                    </div>
+                    </div >
         )
     }
 }
