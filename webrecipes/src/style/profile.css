@@ -112,3 +112,9 @@
     background-color: rgba(185, 185, 185, 0.5);
     color: white;
 }
+
+.updating #loading{
+    position: relative;
+    margin-top: 2%;
+    margin-left: 0px;
+}

@@ -5,6 +5,7 @@ import '../style/index-recipes.css';
 import '../style/index-home.css';
 import '../style/profile.css';
 import NoContentFound from './NoContentFound';
+import Modal from 'react-bootstrap/Modal';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -18,6 +19,12 @@ class Profile extends React.Component {
             subscribers: 0,
             isProfileOwner: false,
             isSubscribeBtnRunning: false,
+            showModal: false,
+            nameUpdate: "",
+            emailUpdate: "",
+            photoUpdate: "",
+            saveBtnDisabled: false,
+            isUpdating: false,
             username: window.location.href.split('/').pop()
         }
         this.user = props.user;
@@ -26,6 +33,9 @@ class Profile extends React.Component {
         this.getLikes = this.getLikes.bind(this);
         this.subscriptionInfo = this.subscriptionInfo.bind(this);
         this.refresh = this.refresh.bind(this);
+        this.update = this.update.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.checkInputs = this.checkInputs.bind(this);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -58,6 +68,9 @@ class Profile extends React.Component {
             let recipes = fetcheddata.data.recipes;
             this.setState({
                 user: fetcheddata.data,
+                nameUpdate: fetcheddata.data.name,
+                emailUpdate: fetcheddata.data.email,
+                passwordUpdate: fetcheddata.data.password,
                 data: [...this.state.data, ...await this.getLikes(recipes)],
                 isLoading: false,
                 subscribers: fetcheddata.data.subscribers
@@ -164,6 +177,70 @@ class Profile extends React.Component {
         }
     }
 
+    async handleChange(event) {
+        const { name, value } = event.target;
+        await this.setState({
+            [name]: value
+        });
+        await this.checkInputs();
+    }
+
+    async checkInputs() {
+        if (this.state.nameUpdate === ""
+            || this.state.emailUpdate === "") {
+            await this.setState({
+                saveBtnDisabled: true
+            })
+        }
+        else {
+            await this.setState({
+                saveBtnDisabled: false
+            })
+        }
+    }
+
+    async update() {
+            await this.checkInputs();
+            this.setState({
+                saveBtnDisabled: true,
+                isUpdating: true
+            })
+
+            let urlUpdate = "http://localhost:5000/api/user/update/" + this.state.user.id;
+
+            let credentials = {
+                'name': this.state.nameUpdate,
+                'email': this.state.emailUpdate
+            };
+
+            fetch(urlUpdate, {
+                method: 'PUT',
+                body: JSON.stringify(credentials),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `bearer ${this.user.token}`
+                }
+            }).then(response => {
+                if (response.ok) {
+                    this.setState({
+                        showModal: false,
+                        user: {
+                            id: this.state.user.id,
+                            name: this.state.nameUpdate,
+                            email: this.state.emailUpdate,
+                            username: this.state.user.username,
+                            recipesCount: this.state.user.recipesCount,
+                            subscribers: this.state.user.subscribers
+                        },
+                        saveBtnDisabled: false,
+                        isUpdating: false
+                    })
+
+                }
+            }).catch(e => {
+            });
+    }
+
     render() {
         return (
             this.state.isLoading ? <Loader /> :
@@ -186,7 +263,10 @@ class Profile extends React.Component {
                                     <p>Subscribers</p>
                                 </div>
                             </div>
-                            {this.state.isProfileOwner ? "" :
+                            {this.state.isProfileOwner ?
+                                <button className="followBtn followingBtnState"
+                                    onClick={() => this.setState({ showModal: true })}>Edit Profile</button>
+                                :
                                 this.state.isSubscribed ?
                                     <button className="followBtn followingBtnState"
                                         disabled={this.state.isSubscribeBtnRunning}
@@ -210,6 +290,51 @@ class Profile extends React.Component {
                                 </div> :
                                 <div></div>
                         }
+                        <Modal show={this.state.showModal}
+                            backdrop="static"
+                            onHide={() => this.setState({ showModal: false })}
+                            keyboard={false}>
+                            {
+                                this.state.isUpdating ?
+                                    <Modal.Header>
+                                        <Modal.Title>Edit Profile</Modal.Title>
+                                    </Modal.Header> :
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Edit Profile</Modal.Title>
+                                    </Modal.Header>
+                            }
+
+                            <Modal.Body>
+                                {
+                                    this.state.isUpdating ? <div className="updating"><Loader /></div> :
+                                        <div>
+                                            <div className="form-group">
+                                                <input type="text" className="form-control"
+                                                    id="nameFormReg" aria-describedby="emailHelp"
+                                                    name="nameUpdate"
+                                                    value={this.state.nameUpdate}
+                                                    onChange={this.handleChange}
+                                                    placeholder="Name" />
+                                            </div>
+                                            <div className="form-group">
+                                                <input type="email" className="form-control"
+                                                    id="loginFormReg" aria-describedby="emailHelp"
+                                                    name="emailUpdate"
+                                                    value={this.state.emailUpdate}
+                                                    onChange={this.handleChange}
+                                                    placeholder="Email" />
+                                            </div>
+                                        </div>
+                                }
+
+                            </Modal.Body>
+
+                            <Modal.Footer>
+                                <button className="btn btn-secondary"
+                                    disabled={this.state.saveBtnDisabled}
+                                    onClick={this.update}>Save</button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
         )
     }

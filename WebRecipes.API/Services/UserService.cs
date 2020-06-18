@@ -65,10 +65,10 @@ namespace WebRecipes.API.Services
             if (existingItem == null)
                 return new UserResponse("User not found");
 
-            existingItem.Name = user.Name;
-            existingItem.Email = user.Email;
-            existingItem.Role = user.Role;
-            existingItem.Password = user.Password;
+            existingItem.Name = user.Name??existingItem.Name;
+            existingItem.Email = user.Email??existingItem.Email;
+            existingItem.Role = user.Role??existingItem.Role;
+            existingItem.Password = user.Password??existingItem.Password;
 
             try
             {
