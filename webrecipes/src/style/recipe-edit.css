@@ -1,4 +1,4 @@
-.modal-90w{
+.modal-90w {
     width: 90vw !important;
     max-width: none !important;
     background-color: white !important;
@@ -17,7 +17,7 @@
     right: 5%;
 }
 
-.editPage .content{
+.editPage .content {
     width: 100% !important;
     padding-left: 9%;
     overflow-x: hidden;
@@ -27,7 +27,7 @@
     margin-left: 0%;
 }
 
-.editPage #createProgress{
+.editPage #createProgress {
     margin-top: -4.5% !important;
 }
 
@@ -39,9 +39,8 @@
     margin-left: -100%;
 }
 
-.editPage #addIngredientSection, .editPage #addDirectionSection, .editPage .ingredient{
+.editPage #addIngredientSection, .editPage #addDirectionSection, .editPage .ingredient {
     width: 75% !important;
-
 }
 
 .loaderContent .message {
@@ -55,7 +54,33 @@
     font-weight: 600;
 }
 
-.loaderContent{
+.loaderContent {
     width: 100% !important;
     height: 72vh !important;
+}
+
+.modal-90w button.close {
+    z-index: 1;
+}
+
+.editPage .btn-danger{
+    position: absolute;
+    width: 40px;
+    background-color: #ff6961 !important;
+    border-color: transparent;
+}
+
+.editPage .btn-danger img{
+   width: 20px;
+   height: 20px;
+   margin-top: -1px;
+   margin-left: -2px;
+}
+
+.editPage .btn-danger:hover{
+    background-color: #f1433a !important;
+    border-color: transparent;
+}
+.editPage .navigation .btnNext {
+    margin-right: 10px;
 }

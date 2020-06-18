@@ -16,12 +16,13 @@ class Recipes extends React.Component {
             isLoading: false,
             showModal: false,
             selectedRecipe: null,
-            showCloseBtn: true
+            showCloseBtn: true,
+            showModalDelete: false
         }
         this.url = props.url;
         this.user = props.user;
         this.redirect = this.redirect.bind(this);
-        this.save = this.save.bind(this);
+        this.delete = this.delete.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.callbackFunction = this.callbackFunction.bind(this);
@@ -52,10 +53,18 @@ class Recipes extends React.Component {
         }
     }
 
-    handleClose() {
-        this.setState({
-            showModal: false
-        })
+    handleClose(modal) {
+        if (modal === "main") {
+            this.setState({
+                showModal: false
+            })
+        }
+        else if (modal === "delete") {
+            this.setState({
+                showModalDelete: false,
+                showModal: true
+            })
+        }
     }
 
     handleShow() {
@@ -64,8 +73,25 @@ class Recipes extends React.Component {
         })
     }
 
-    save() {
-
+    async delete() {
+        this.setState({
+            isLoading: true,
+            showModalDelete: false
+        })
+        try {
+            let url = "http://localhost:5000/api/user/" + this.user.info.unique_name + "/recipe?id=" + this.state.selectedRecipe.id;
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `bearer ${this.token}`
+                }
+            }).then(x => {
+                this.setState({ showCloseBtn: true, showModal: false, isLoading: true });
+                this.loadInfo();
+            });
+        }
+        catch {
+        };
     }
 
     async callbackFunction(childData) {
@@ -73,7 +99,9 @@ class Recipes extends React.Component {
             await this.setState({ showCloseBtn: false }) :
             childData === "error" ?
                 await this.setState({ showCloseBtn: true }) :
-                await this.loadInfo();
+                childData === "delete" ?
+                    await this.setState({ showModal: false, showModalDelete: true }) :
+                    await this.loadInfo();
     }
 
     redirect(item) {
@@ -87,10 +115,29 @@ class Recipes extends React.Component {
                 this.state.data.length !== 0 ?
                     <div id="recipesSection" className="recipesSection">
                         <div id="edit-recipe">
+                            <Modal show={this.state.showModalDelete}
+                                backdrop="static"
+                                onHide={() => this.handleClose("delete")}
+                                keyboard={false}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Are you sure?</Modal.Title>
+                                </Modal.Header>
+
+                                <Modal.Body>
+                                    <p>You will not be able to recover '{this.state.selectedRecipe?.name}'</p>
+                                </Modal.Body>
+
+                                <Modal.Footer>
+                                    <button className="btn btn-secondary"
+                                        onClick={() => this.handleClose("delete")}>Cancel</button>
+                                    <button className="btn btn-danger"
+                                        onClick={this.delete}>Yes, delete it!</button>
+                                </Modal.Footer>
+                            </Modal>
                             <Modal show={this.state.showModal}
                                 backdrop="static"
                                 keyboard={false}
-                                onHide={this.handleClose}
+                                onHide={() => this.handleClose("main")}
                                 size="lg"
                                 dialogClassName="modal-90w"
                                 aria-labelledby="contained-modal-title-vcenter"

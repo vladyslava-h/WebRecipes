@@ -304,7 +304,7 @@ class CreateRecipe extends React.Component {
                             style={{ width: `${this.state.progress}%` }}
                         >{this.state.progress}%</div>
                     </div>
-                    <h1 className="title">Create Your Recipe</h1>
+                    <h1 className="title">Edit Your Recipe</h1>
                     <div id="main">
                         <div className={`content page${this.state.pageIndex}`} id="basic">
                             <h3 className="pageTitle">Basic Information</h3>
@@ -455,6 +455,11 @@ class CreateRecipe extends React.Component {
                             className={`btn btnNext`}
                             disabled={this.state.isNextBtnDisabled}
                         >{this.state.nextBtnText}</button>
+                        <button className="btn btn-danger"
+                            onClick={() => this.props.parentCallback("delete")}>
+                            <img src={require('../style/content/Images/Icons/trash.png')} alt="" id="delete_icon" />
+                        </button>
+
                     </div>
                 </div>
         )
