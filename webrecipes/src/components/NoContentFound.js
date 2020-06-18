@@ -17,17 +17,22 @@ class NoContentFound extends React.Component {
 
     render() {
         return (
-            <div id="noContentFound">
-                <img src={require('../style/content/Images/Icons/chef_transparent.png')} alt="" />
-                <div className="message">
-                    <p id="noContentFoundMessageHeader">{this.messageHeader}</p>
-                    <p id="noContentFoundMessage">{this.message}</p>
-                    <button id="goToCreateRecipeBtn"
-                        onClick={this.redirect}
-                        style={this.isRecipesPage ? { display: "block" } : { display: "none" }}
-                        className="pulse-button">Create your first recipe</button>
+            this.message === "404" ?
+                <div id="noContentFound">
+                    <img src={require('../style/content/Images/noPageFound.jpg')} alt="noPageFound" className="noPageFound" />
                 </div>
-            </div>
+                :
+                <div id="noContentFound">
+                    <img src={require('../style/content/Images/Icons/chef_transparent.png')} alt="" />
+                    <div className="message">
+                        <p id="noContentFoundMessageHeader">{this.messageHeader}</p>
+                        <p id="noContentFoundMessage">{this.message}</p>
+                        <button id="goToCreateRecipeBtn"
+                            onClick={this.redirect}
+                            style={this.isRecipesPage ? { display: "block" } : { display: "none" }}
+                            className="pulse-button">Create your first recipe</button>
+                    </div>
+                </div>
         )
     }
 }

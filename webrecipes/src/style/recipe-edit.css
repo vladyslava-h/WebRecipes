@@ -1,6 +1,7 @@
 .modal-90w {
     width: 90vw !important;
     max-width: none !important;
+    margin-top: 15px !important;
     background-color: white !important;
 }
 

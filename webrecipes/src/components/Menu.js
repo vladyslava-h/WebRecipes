@@ -43,7 +43,7 @@ class Menu extends React.Component {
                 <div id="adminSection"
                     style={this.user.info.role === "Admin" ? { display: "block" } : { display: "none" }}>
                     <p className="menu-section-title">STATISTIC</p>
-                    <NavLink className="menu-section glow-on-hover" name="statistic" category="admin" activeClassName="menu-section-active menu-section-active-statistic" exact to='/statistic'>
+                    <NavLink className="menu-section glow-on-hover" name="statistic" category="admin" activeClassName="menu-section-active menu-section-active-statistic" exact to='/users'>
                         <img src={require('../style/content/Images/Icons/statistic.png')} alt="" id="statistic_icon" />
                         <p>Users</p>
                     </NavLink>

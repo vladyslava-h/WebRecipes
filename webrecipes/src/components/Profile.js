@@ -4,6 +4,7 @@ import RecipePromo from './RecipePromo';
 import '../style/index-recipes.css';
 import '../style/index-home.css';
 import '../style/profile.css';
+import NoContentFound from './NoContentFound';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -51,9 +52,9 @@ class Profile extends React.Component {
             isLoading: true
         })
         this.url = `http://localhost:5000/api/user/${this.state.username}/info`;
-        var response = await fetch(this.url);
-        var fetcheddata = await response.json();
         try {
+            var response = await fetch(this.url);
+            var fetcheddata = await response.json();
             let recipes = fetcheddata.data.recipes;
             this.setState({
                 user: fetcheddata.data,
@@ -65,6 +66,9 @@ class Profile extends React.Component {
             this.subscriptionInfo();
         }
         catch{
+            this.setState({
+                user: undefined
+            })
         }
     }
 
@@ -161,50 +165,51 @@ class Profile extends React.Component {
 
     render() {
         return (
+            this.state.user === undefined ? <NoContentFound message="404" /> :
             this.state.isLoading ? <Loader /> :
-                <div id="profileData">
-                    <div id="profileHeader">
-                        <div className="imageOverlay"></div>
-                        {/* <img alt="profile image" src="" id="profileImg"/> */}
-                        <p id="profileImg">{this.state.username.charAt(0).toUpperCase()}</p>
-                        <p id="profileName">{this.state.user.name?.toUpperCase()}</p>
-                        <p id="profileUsername">{this.state.user.username?.toLowerCase()}</p>
-                        <hr />
-                        <div id="profileFollowersRecipesNum">
-                            <div className="totalRecipes">
-                                <p className="number">{this.state.user.recipesCount}</p>
-                                <p>Recipes</p>
-                            </div>
-                            <div className="totalSubs">
-                                <p className="number">{this.state.subscribers}</p>
-                                <p>Subscribers</p>
-                            </div>
+            <div id="profileData">
+                <div id="profileHeader">
+                    <div className="imageOverlay"></div>
+                    {/* <img alt="profile image" src="" id="profileImg"/> */}
+                    <p id="profileImg">{this.state.username.charAt(0).toUpperCase()}</p>
+                    <p id="profileName">{this.state.user.name?.toUpperCase()}</p>
+                    <p id="profileUsername">{this.state.user.username?.toLowerCase()}</p>
+                    <hr />
+                    <div id="profileFollowersRecipesNum">
+                        <div className="totalRecipes">
+                            <p className="number">{this.state.user.recipesCount}</p>
+                            <p>Recipes</p>
                         </div>
-                        {this.state.isProfileOwner ? "" :
-                            this.state.isSubscribed ?
-                                <button className="followBtn followingBtnState"
-                                    disabled={this.state.isSubscribeBtnRunning}
-                                    onClick={() => this.unsubscribe()}>Unsubscribe</button> :
-                                <button className="followBtn followBtnState"
-                                    disabled={this.state.isSubscribeBtnRunning}
-                                    onClick={() => this.subscribe()}>Subscribe</button>
-                        }
+                        <div className="totalSubs">
+                            <p className="number">{this.state.subscribers}</p>
+                            <p>Subscribers</p>
+                        </div>
                     </div>
-                    {
-                        //loading user's recipes
-                        this.state.data.length !== 0 ?
-                            <div>
-                                <h1>Recipes</h1>
-                                <div id="usersRecipesList" className="recipesSection">
-                                    {
-                                        this.state.data.map(item =>
-                                            <RecipePromo user={this.user} item={item} key={item.id} />
-                                        )} </div>
-
-                            </div> :
-                            <div></div>
+                    {this.state.isProfileOwner ? "" :
+                        this.state.isSubscribed ?
+                            <button className="followBtn followingBtnState"
+                                disabled={this.state.isSubscribeBtnRunning}
+                                onClick={() => this.unsubscribe()}>Unsubscribe</button> :
+                            <button className="followBtn followBtnState"
+                                disabled={this.state.isSubscribeBtnRunning}
+                                onClick={() => this.subscribe()}>Subscribe</button>
                     }
                 </div>
+                {
+                    //loading user's recipes
+                    this.state.data.length !== 0 ?
+                        <div>
+                            <h1>Recipes</h1>
+                            <div id="usersRecipesList" className="recipesSection">
+                                {
+                                    this.state.data.map(item =>
+                                        <RecipePromo user={this.user} item={item} key={item.id} />
+                                    )} </div>
+
+                        </div> :
+                        <div></div>
+                }
+            </div>
         )
     }
 }

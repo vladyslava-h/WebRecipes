@@ -8,6 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 import '../style/index-home.css';
 import Profile from "./Profile";
 import CreateRecipe from "./CreateRecipe";
+import NoContentFound from "./NoContentFound";
 
 class MainContent extends React.Component {
 
@@ -27,6 +28,7 @@ class MainContent extends React.Component {
                     <Route path='/browse' exact component={() => <Browse user={this.user} />} />
                     <Route path='/profile/:username' exact component={() => <Profile user={this.user} />} />
                     <Route path='/create' exact component={() => <CreateRecipe user={this.user} />} />
+                    <Route component={() => <NoContentFound message="404" />} />
                 </Switch>
             </main>
         );
