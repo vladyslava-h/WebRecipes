@@ -7,10 +7,8 @@ class CreateRecipe extends React.Component {
     constructor(props) {
         super(props)
 
-        this.user = props.user;
-
         this.state = {
-            name: "",
+            name: props.recipe.name,
             isLoading: true,
             buttonActionClass: "",
             pageIndex: 1,
@@ -18,29 +16,30 @@ class CreateRecipe extends React.Component {
             isNextBtnDisabled: false,
             nextBtnText: "Next",
             progress: 10,
-            minutes: "",
-            selectedLevel: "",
+            minutes: props.recipe.time,
+            selectedLevel: "level" + props.recipe.levelId,
             levels: [],
-            selectedMeal: "",
+            selectedMeal: "meal" + props.recipe.mealId,
             meals: [],
             fileName: "",
             newIngredient: "",
-            ingredients: [],
+            ingredients: props.recipe.ingredients.split("\n"),
             newDirection: "",
-            directions: [],
-            fileUrl: "",
+            directions: props.recipe.directions.split("\n"),
+            fileUrl: props.recipe.photo,
             fileInternetUrl: "",
             files: null,
             message: "Please wait"
         }
 
+        this.user = props.user;
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleKeyPressDir = this.handleKeyPressDir.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.checkInputs = this.checkInputs.bind(this);
         this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);
-        this.save = this.save.bind(this);
+        this.update = this.update.bind(this);
         this.getLevelsAndMeals = this.getLevelsAndMeals.bind(this);
         this.removeIngredient = this.removeIngredient.bind(this);
         this.removeDirection = this.removeDirection.bind(this);
@@ -51,7 +50,8 @@ class CreateRecipe extends React.Component {
         if (this.state.pageIndex === 3) {
             this.checkInputs();
             if (!this.state.isNextBtnDisabled) {
-                this.save();
+                this.props.parentCallback("updating");
+                this.update();
             }
         }
         else {
@@ -83,10 +83,10 @@ class CreateRecipe extends React.Component {
         }))
     }
 
-    async save() {
+    async update() {
         await this.uploadImage();
 
-        let urlCreate = 'http://localhost:5000/api/recipes/create';
+        let urlUpdate = 'http://localhost:5000/api/recipes/update/' + this.props.recipe.id;
         this.setState({
             isLoading: true,
             message: "Please wait"
@@ -96,15 +96,14 @@ class CreateRecipe extends React.Component {
             'mealId': this.state.selectedMeal.replace('meal', ''),
             'levelId': this.state.selectedLevel.replace('level', ''),
             'name': this.state.name,
-            'username': this.user.info.unique_name,
             'ingredients': this.state.ingredients.join('\n'),
             'directions': this.state.directions.join('\n'),
             'time': this.state.minutes,
             'photo': this.state.fileUrl
         };
 
-        fetch(urlCreate, {
-            method: 'POST',
+        fetch(urlUpdate, {
+            method: 'PUT',
             body: JSON.stringify(credentials),
             headers: {
                 'Content-Type': 'application/json',
@@ -113,23 +112,25 @@ class CreateRecipe extends React.Component {
         }).then(response => {
             if (!response.ok) {
                 response.json().then(txt => this.setState({
-                    message: "Can't save this recipe :("
+                    message: "Can't update this recipe :("
                 }));
+                this.props.parentCallback("error");
             } else {
-                this.props.history.push("/recipes");
+                this.props.parentCallback("done");
             }
         })
             .catch(e => {
                 this.setState({
-                    message: "Can't save this recipe :("
+                    message: "Can't update this recipe :("
                 })
+                this.props.parentCallback("error");
             });;
     }
 
-    handleChange(event) {
+    async handleChange(event) {
         const { name, value, type, files } = event.target;
         if (type === "radio" && name === "radio-group-level") {
-            this.setState({
+            await this.setState({
                 selectedLevel: value
             });
 
@@ -184,7 +185,7 @@ class CreateRecipe extends React.Component {
             }
             catch{ }
         }
-        else {
+        else if (this.state.fileInternetUrl !== "") {
             this.setState({
                 fileUrl: this.state.fileInternetUrl
             })
@@ -224,9 +225,7 @@ class CreateRecipe extends React.Component {
             this.setState({
                 levels: [...this.state.levels, ...fetcheddata.data],
                 meals: [...this.state.meals, ...fetcheddataMeals.data],
-                isLoading: false,
-                selectedLevel: "level" + fetcheddata.data[0].id,
-                selectedMeal: "meal" + fetcheddataMeals.data[0].id
+                isLoading: false
             })
         }
         catch{
@@ -295,11 +294,11 @@ class CreateRecipe extends React.Component {
         let indexDir = 0;
         return (
             this.state.isLoading ?
-                <div>
+                <div className="content loaderContent">
                     <Loader />
                     <p className="message">{this.state.message}</p>
                 </div> :
-                <div className="createPage">
+                <div className="createPage editPage">
                     <div id="createProgress">
                         <div id="createBar"
                             style={{ width: `${this.state.progress}%` }}
@@ -389,7 +388,8 @@ class CreateRecipe extends React.Component {
                             </div>
                         </div>
 
-                        <div className="content" id="ingredients">
+                        <div className={`content ${this.state.pageIndex === 2 ? "" : "d-none"}`}
+                            id="ingredients">
                             <h3 className="pageTitle">Ingredients</h3>
                             <div id="addIngredientSection">
                                 <fieldset className="form-group">
@@ -417,7 +417,8 @@ class CreateRecipe extends React.Component {
                             </div>
                         </div>
 
-                        <div className="content" id="directions">
+                        <div className={`content ${this.state.pageIndex === 3 ? "" : "d-none"}`}
+                            id="directions">
                             <h3 className="pageTitle">Directions</h3>
                             <div id="addDirectionSection">
                                 <fieldset className="form-group">

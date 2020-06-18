@@ -94,7 +94,7 @@
     background-color: rgba(255, 255, 255, 0.4);
     width: 40px;
     height: 40px;
-    background: url("content/Images/Icons/cancel-outlined.png") center center no-repeat;
+    background: url("content/Images/Icons/edit-outlined.png") center center no-repeat;
     background-size: 20px;
     transition: .4s;
     opacity: 0.5;
@@ -118,7 +118,7 @@
 }
 
 .recipeRemoveBlock:hover {
-    background: url("content/Images/Icons/cancel.png") center center no-repeat;
+    background: url("content/Images/Icons/edit.png") center center no-repeat;
     background-size: 20px;
     opacity: 1;
     cursor: pointer;

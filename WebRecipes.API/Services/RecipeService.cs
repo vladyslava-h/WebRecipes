@@ -47,7 +47,8 @@ namespace WebRecipes.API.Services
 
         public async Task<RecipeResponse> SaveAsync(Recipe recipe)
         {
-            var new_recipe = new Recipe(){
+            var new_recipe = new Recipe()
+            {
                 Name = recipe.Name,
                 MealId = recipe.MealId,
                 LevelId = recipe.LevelId,
@@ -81,6 +82,12 @@ namespace WebRecipes.API.Services
                 return new RecipeResponse("Recipe not found");
 
             existingItem.Name = recipe.Name;
+            existingItem.MealId = recipe.MealId;
+            existingItem.LevelId = recipe.LevelId;
+            existingItem.Ingredients = recipe.Ingredients;
+            existingItem.Directions = recipe.Directions;
+            existingItem.Photo = recipe.Photo;
+            existingItem.Time = recipe.Time;
 
             try
             {

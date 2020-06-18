@@ -1,23 +1,39 @@
 import React from 'react'
 import Loader from './Loader';
 import NoContentFound from './NoContentFound';
+import EditRecipe from './EditRecipe';
 import '../style/index-recipes.css';
 import '../style/index-home.css';
+import '../style/recipe-edit.css';
 import { withRouter } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
 
 class Recipes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             data: [],
-            isLoading: false
+            isLoading: false,
+            showModal: false,
+            selectedRecipe: null,
+            showCloseBtn: true
         }
         this.url = props.url;
         this.user = props.user;
         this.redirect = this.redirect.bind(this);
+        this.save = this.save.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.callbackFunction = this.callbackFunction.bind(this);
+        this.loadInfo = this.loadInfo.bind(this);
     }
 
+
     async componentDidMount() {
+        await this.loadInfo();
+    }
+
+    async loadInfo() {
         this.setState({
             isLoading: true
         })
@@ -25,13 +41,39 @@ class Recipes extends React.Component {
         var fetcheddata = await response.json();
         try {
             this.setState({
-                data: [...this.state.data, ...fetcheddata.data],
-                isLoading: false
+                data: fetcheddata.data,
+                isLoading: false,
+                showModal: false,
+                showCloseBtn: true
             })
         }
         catch{
 
         }
+    }
+
+    handleClose() {
+        this.setState({
+            showModal: false
+        })
+    }
+
+    handleShow() {
+        this.setState({
+            showModal: true
+        })
+    }
+
+    save() {
+
+    }
+
+    async callbackFunction(childData) {
+        childData === "updating" ?
+            await this.setState({ showCloseBtn: false }) :
+            childData === "error" ?
+                await this.setState({ showCloseBtn: true }) :
+                await this.loadInfo();
     }
 
     redirect(item) {
@@ -44,6 +86,29 @@ class Recipes extends React.Component {
             this.state.isLoading ? <Loader /> :
                 this.state.data.length !== 0 ?
                     <div id="recipesSection" className="recipesSection">
+                        <div id="edit-recipe">
+                            <Modal show={this.state.showModal}
+                                backdrop="static"
+                                keyboard={false}
+                                onHide={this.handleClose}
+                                size="lg"
+                                dialogClassName="modal-90w"
+                                aria-labelledby="contained-modal-title-vcenter"
+                                centered>
+                                {
+                                    this.state.showCloseBtn ?
+                                        <Modal.Header closeButton>
+                                        </Modal.Header> :
+                                        <Modal.Header>
+                                        </Modal.Header>
+                                }
+                                <Modal.Body dialogClassName="edit-modal">
+                                    <EditRecipe parentCallback={this.callbackFunction}
+                                        recipe={this.state.selectedRecipe}
+                                        user={this.user} />
+                                </Modal.Body>
+                            </Modal>
+                        </div>
                         {
                             this.state.data.map(item =>
                                 <div className="recipeBlock" data-id={item.id} key={item.id}>
@@ -53,7 +118,9 @@ class Recipes extends React.Component {
                                             : item.photo} alt="recipe" />
                                     <div className="recipeCircleBtn">
                                         <div className="under"></div>
-                                        <div className="recipeRemoveBlock" data-id={item.id}></div>
+                                        <div className="recipeRemoveBlock"
+                                            onClick={() => this.setState({ showModal: true, selectedRecipe: item, showCloseBtn: true })}
+                                            data-id={item.id}></div>
                                     </div>
                                     <div className={`recipeTimeBlock recipeTimeBlock${item.levelId}`}>
                                         <p><span className="recipeTime">{item.time}</span>&nbsp;Minutes</p>
