@@ -67,7 +67,8 @@ class Profile extends React.Component {
         }
         catch{
             this.setState({
-                user: undefined
+                user: undefined,
+                isLoading: false
             })
         }
     }
@@ -165,51 +166,51 @@ class Profile extends React.Component {
 
     render() {
         return (
-            this.state.user === undefined ? <NoContentFound message="404" /> :
             this.state.isLoading ? <Loader /> :
-            <div id="profileData">
-                <div id="profileHeader">
-                    <div className="imageOverlay"></div>
-                    {/* <img alt="profile image" src="" id="profileImg"/> */}
-                    <p id="profileImg">{this.state.username.charAt(0).toUpperCase()}</p>
-                    <p id="profileName">{this.state.user.name?.toUpperCase()}</p>
-                    <p id="profileUsername">{this.state.user.username?.toLowerCase()}</p>
-                    <hr />
-                    <div id="profileFollowersRecipesNum">
-                        <div className="totalRecipes">
-                            <p className="number">{this.state.user.recipesCount}</p>
-                            <p>Recipes</p>
+                this.state.user === undefined ? <NoContentFound message="404" /> :
+                    <div id="profileData">
+                        <div id="profileHeader">
+                            <div className="imageOverlay"></div>
+                            {/* <img alt="profile image" src="" id="profileImg"/> */}
+                            <p id="profileImg">{this.state.username.charAt(0).toUpperCase()}</p>
+                            <p id="profileName">{this.state.user.name?.toUpperCase()}</p>
+                            <p id="profileUsername">{this.state.user.username?.toLowerCase()}</p>
+                            <hr />
+                            <div id="profileFollowersRecipesNum">
+                                <div className="totalRecipes">
+                                    <p className="number">{this.state.user.recipesCount}</p>
+                                    <p>Recipes</p>
+                                </div>
+                                <div className="totalSubs">
+                                    <p className="number">{this.state.subscribers}</p>
+                                    <p>Subscribers</p>
+                                </div>
+                            </div>
+                            {this.state.isProfileOwner ? "" :
+                                this.state.isSubscribed ?
+                                    <button className="followBtn followingBtnState"
+                                        disabled={this.state.isSubscribeBtnRunning}
+                                        onClick={() => this.unsubscribe()}>Unsubscribe</button> :
+                                    <button className="followBtn followBtnState"
+                                        disabled={this.state.isSubscribeBtnRunning}
+                                        onClick={() => this.subscribe()}>Subscribe</button>
+                            }
                         </div>
-                        <div className="totalSubs">
-                            <p className="number">{this.state.subscribers}</p>
-                            <p>Subscribers</p>
-                        </div>
-                    </div>
-                    {this.state.isProfileOwner ? "" :
-                        this.state.isSubscribed ?
-                            <button className="followBtn followingBtnState"
-                                disabled={this.state.isSubscribeBtnRunning}
-                                onClick={() => this.unsubscribe()}>Unsubscribe</button> :
-                            <button className="followBtn followBtnState"
-                                disabled={this.state.isSubscribeBtnRunning}
-                                onClick={() => this.subscribe()}>Subscribe</button>
-                    }
-                </div>
-                {
-                    //loading user's recipes
-                    this.state.data.length !== 0 ?
-                        <div>
-                            <h1>Recipes</h1>
-                            <div id="usersRecipesList" className="recipesSection">
-                                {
-                                    this.state.data.map(item =>
-                                        <RecipePromo user={this.user} item={item} key={item.id} />
-                                    )} </div>
+                        {
+                            //loading user's recipes
+                            this.state.data.length !== 0 ?
+                                <div>
+                                    <h1>Recipes</h1>
+                                    <div id="usersRecipesList" className="recipesSection">
+                                        {
+                                            this.state.data.map(item =>
+                                                <RecipePromo user={this.user} item={item} key={item.id} />
+                                            )} </div>
 
-                        </div> :
-                        <div></div>
-                }
-            </div>
+                                </div> :
+                                <div></div>
+                        }
+                    </div>
         )
     }
 }
