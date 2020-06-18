@@ -11,6 +11,7 @@ using WebRecipes.API.Resources;
 using System.Linq;
 using WebRecipes.API.Helpers;
 using WebRecipes.API.Domain.Repositories;
+using WebRecipes.API.Extensions;
 
 namespace WebRecipes.API.Controllers
 {
@@ -191,6 +192,20 @@ namespace WebRecipes.API.Controllers
             subscriptionRepository.Remove(subscription);
             await unitOfWork.CompleteAsync();
             return Ok(userService);
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> PutAsync(int id, [FromBody] UserResource resource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var user = mapper.Map<UserResource, User>(resource);
+            var userResponse = await userService.UpdateAsync(id, user);
+            var userResource = mapper.Map<User, UserResource>(userResponse.User);
+            var result = userResponse.GetResponseResult(userResource);
+            return Ok(result);
         }
 
     }

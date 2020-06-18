@@ -1,0 +1,96 @@
+#users .dropdown {
+    position: relative !important;
+    margin-top: 0px;
+}
+
+#users {
+    margin-top: 5%;
+}
+
+#users td:hover {
+    cursor: pointer;
+}
+
+#users #dropdown-basic-button:focus {
+    outline: none !important;
+}
+
+#users #dropdown-basic-button {
+    width: 100px;
+    background-color: rgb(182, 182, 182);
+    border-color: transparent;
+}
+
+#users .btn-danger {
+    width: 40px;
+    position: relative;
+    background-color: #ff6961 !important;
+    border-color: transparent;
+}
+
+#users .btn-danger img {
+    width: 20px;
+    height: 20px;
+    margin-top: -1px;
+    margin-left: -2px;
+}
+
+#users .btn-danger:hover {
+    background-color: #f1433a !important;
+    border-color: transparent;
+}
+
+#users #maininfo .name {
+    font-weight: 500;
+}
+
+#users #maininfo .name span {
+    font-style: italic;
+}
+
+#users #maininfo .email {
+    margin-top: -15px;
+    color: gray;
+}
+
+#users #maininfo {
+    display: flex;
+    margin-top: -1px;
+}
+
+#users #maininfo .followingPhoto {
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    background-color: #ab8ac7;
+    margin-right: 5%;
+    margin-top: 1%;
+    text-decoration: none !important;
+}
+
+.name:hover {
+    text-decoration: underline;
+}
+
+#users .btn-lock {
+    position: relative;
+    background-color: rgb(182, 182, 182) !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    padding-left: 10%;
+    padding-top: 5%;
+}
+
+#users .btn-lock img{
+    width: 20px;
+    height: 20px;
+}
+
+#users .btn-lock:hover {
+    cursor: not-allowed !important;
+}

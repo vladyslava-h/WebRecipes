@@ -19,12 +19,15 @@ namespace WebRecipes.API.Controllers
         private readonly IRecipeService recipeService;
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly IMapper mapper;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UsersController(IUserService userService, IMapper mapper, IRecipeService recipeService, ISubscriptionRepository subscription)
+        public UsersController(IUserService userService, IMapper mapper, IRecipeService recipeService,
+        ISubscriptionRepository subscription, IUnitOfWork unitOfWork)
         {
             this.subscriptionRepository = subscription;
             this.recipeService = recipeService;
             this.userService = userService;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 
@@ -81,10 +84,24 @@ namespace WebRecipes.API.Controllers
         [Route("remove")]
         public async Task<IActionResult> DeleteRecipeAsync(int id)
         {
+            var user = (await userService.ListAsync()).FirstOrDefault(x => x.Id == id);
             var result = await userService.DeleteAsync(id);
-
             if (!result.Success)
                 return BadRequest(result.Message);
+
+            var recipes = (await recipeService.ListAsync()).Where(x => x.CreatorId == id);
+            var subscriptions = (await subscriptionRepository.ListAsync()).Where(x => x.CreatorUsername == user.Username || x.SubscriberUsername == user.Username);
+            foreach (var sub in subscriptions)
+            {
+                subscriptionRepository.Remove(sub);
+            }
+
+            foreach (var recipe in recipes)
+            {
+                await recipeService.DeleteAsync(recipe.Id);
+            }
+
+            await unitOfWork.CompleteAsync();
 
             var resource = mapper.Map<User, UserResource>(result.User);
             return Ok(userService);
