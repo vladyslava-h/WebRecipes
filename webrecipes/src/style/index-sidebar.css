@@ -5,13 +5,13 @@ body, html {
     background-color: white !important;
 }
 
-#mainContent{
+#mainContent {
     width: 100vw;
     height: 100vh;
     background-color: white !important;
 }
 
-.menu-section{
+.menu-section {
     text-decoration: none;
 }
 
@@ -34,6 +34,7 @@ aside {
     height: 100vh;
     overflow-x: hidden;
     position: fixed;
+    background-color: white;
 }
 
 aside:hover {
@@ -110,6 +111,7 @@ main {
 .menu-section-active:active {
     color: #dad4e9
 }
+
 .menu-section-active:hover {
     color: #dad4e9
 }
@@ -144,25 +146,31 @@ main {
     /* background-image: linear-gradient(to right bottom, #86a8e7, #9a9ae1, #b08bd3, #c37bbf, #d16ba5); */
 }
 
-.menu-section-active-create img{
+.menu-section-active-create img {
     content: url("../style/content/Images/Icons/create-white.png");
 }
-.menu-section-active-browse img{
+
+.menu-section-active-browse img {
     content: url("../style/content/Images/Icons/browse-white.png");
 }
-.menu-section-active-home img{
+
+.menu-section-active-home img {
     content: url("../style/content/Images/Icons/home-white.png");
 }
-.menu-section-active-subscriptions img{
+
+.menu-section-active-subscriptions img {
     content: url("../style/content/Images/Icons/subscriptions-white.png");
 }
-.menu-section-active-recipes img{
+
+.menu-section-active-recipes img {
     content: url("../style/content/Images/Icons/recipes-white.png");
 }
-.menu-section-active-favourites img{
+
+.menu-section-active-favourites img {
     content: url("../style/content/Images/Icons/favourites-white.png");
 }
-.menu-section-active-statistic img{
+
+.menu-section-active-statistic img {
     content: url("../style/content/Images/Icons/statistic-white.png");
 }
 
@@ -192,3 +200,111 @@ main {
 .menu-section-title {
     color: rgb(172, 172, 172);
 }
+
+.page-container{
+    background-color: white;
+}
+
+@media screen and (max-width: 700px) {
+    /* PUSH MENU */
+    #menu-switch {
+        display: none;
+    }
+    #menu {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 300px;
+        height: 100%;
+        padding: 10px 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all .3s ease-in;
+        -moz-transition: all .3s ease-in;
+        -o-transition: all .3s ease-in;
+        transition: all .3s ease-in;
+        text-align: center;
+        background-color: #fff;
+        z-index: 2;
+    }
+
+    #menu-switch:checked~#menu {
+        left: 0;
+    }
+    /* MAIN PAGE */
+    .page-wrap {
+        padding: 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all .3s ease-in;
+        -moz-transition: all .3s ease-in;
+        -o-transition: all .3s ease-in;
+        transition: all .3s ease-in;
+    }
+    #menu-switch:checked~.page-wrap {
+        margin-left: 300px;
+    }
+    /* MENU TOGGLE ICON */
+    #menu-toggle:focus {
+        outline: none;
+    }
+    #menu-toggle {
+        display: inline-block;
+        position: relative;
+        width: 51px;
+        height: 51px;
+        cursor: pointer;
+        border: none;
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+        border-radius: 50px;
+        background: rgb(230, 230, 230);
+        z-index: 1;
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -o-transition: all .5s ease;
+        transition: all .5s ease;
+    }
+    #menu-toggle:before, #menu-toggle:after {
+        position: absolute;
+        content: "";
+        background-color: #232629;
+    }
+    #menu-toggle:before {
+        top: 12px;
+        left: 25px;
+        width: 1px;
+        height: 27px;
+    }
+    #menu-toggle:after {
+        top: 25px;
+        left: 12px;
+        width: 27px;
+        height: 1px;
+    }
+    #menu-switch:checked~.page-wrap #menu-toggle {
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .aside{
+        position: relative !important;
+    }
+
+    .page-wrap{
+        position: absolute;
+    }
+
+    aside {
+        width: 225px;
+        height: 100vh;
+        /* background-color: rgb(153, 95, 95) !important; */
+    }
+    aside .menu-section-title{
+        text-align: start;
+    }
+}
+

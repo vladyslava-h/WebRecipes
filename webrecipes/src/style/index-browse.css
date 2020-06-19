@@ -13,6 +13,7 @@
     height: 100vh !important;
     background-color: white !important;
     overflow-y: auto;
+    margin-top: 25px;
 }
 
 #browsedRecipesList {
@@ -61,6 +62,33 @@
     background-size: 2.5%;
     background-position-x: 98%;
     background-position-y: 55%;
+}
+
+@media screen and (max-width: 1125px) {
+    .browseSearch {
+        width: 60% !important;
+    }
+}
+
+@media screen and (max-width: 966px) {
+    .browseSearch {
+        width: 50% !important;
+    }
+    #noRecipeFound {
+        margin-top: 3%;
+        margin-left: 1%;
+        width: 800px;
+        height: 360px;
+    }
+}
+
+@media screen and (max-width: 855px) {
+    #noRecipeFound {
+        margin-top: 3%;
+        margin-left: -95px;
+        width: 750px;
+        height: 340px;
+    }
 }
 
 .browseSearch:focus {
@@ -124,7 +152,7 @@
     height: 40px;
     line-height: 20px;
     color: rgb(54, 54, 54);
-    width: 30%;
+    width: 90px;
     margin-left: 15px;
 }
 
@@ -164,7 +192,7 @@
     margin-right: 8%;
 }
 
-#usersSection .followingSection{
+#usersSection .followingSection {
     padding-bottom: 10px;
     padding-top: 20px;
     padding-left: 20px;
@@ -172,9 +200,35 @@
     width: 100%;
     margin-top: 10px;
     border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-#browsedRecipes #loading{
+#browsedRecipes #loading {
     margin-top: 5%;
-} 
+}
+
+@media screen and (max-width: 1070px) {
+    #usersSection .usersList .followingSection {
+        width: 95% !important;
+    }
+}
+
+@media screen and (max-width: 910px) {
+    #usersSection .usersList .followingSection {
+        width: 90% !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #usersSection .usersList .followingSection {
+        width: 85% !important;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    #browsedRecipes{
+        margin-left: -200px!important;
+        margin-top: 50px!important;
+        width: 100vw !important;
+    }
+}

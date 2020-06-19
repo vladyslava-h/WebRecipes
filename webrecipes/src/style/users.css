@@ -4,14 +4,14 @@
 }
 
 #users {
-    margin-top: 5%;
+    margin-top: 55px;
 }
 
 #users td:hover {
     cursor: pointer;
 }
 
-#maininfo .followingPhoto #profileImg{
+#maininfo .followingPhoto #profileImg {
     width: 40px;
     height: 40px;
     margin-top: -1%;
@@ -88,15 +88,37 @@
     width: 40px;
     height: 40px;
     border-radius: 5px;
-    padding-left: 10%;
-    padding-top: 5%;
+    padding-left: 10px;
+    padding-top: 7px;
 }
 
-#users .btn-lock img{
+#users .btn-lock img {
     width: 20px;
     height: 20px;
 }
 
 #users .btn-lock:hover {
     cursor: not-allowed !important;
+}
+
+#users #maininfo .followingPhoto p {
+    width: 40px;
+    height: 40px;
+}
+
+@media screen and (max-width: 750px) {
+    #users th.subs, #users td.subs{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    #users{
+        margin-left: -140px!important;
+        margin-top: 50px!important;
+        width: 100vw !important;
+    }
+    thead, tbody{
+        margin-right: 300px;
+    }
 }

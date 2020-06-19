@@ -68,6 +68,7 @@ body, html {
 #noContentFound img {
     float: right;
     margin-right: 0px;
+    margin-top: -20px;
 }
 
 #noContentFound .message {
@@ -92,6 +93,26 @@ body, html {
     font-size: 25px;
     font-weight: 500;
     width: 350px;
+}
+
+@media screen and (max-width: 1250px) {
+    #noContentFound .message {
+        margin-top: 75vh;
+        align-self: center;
+        margin-left: 25vw !important;
+    }
+}
+
+@media screen and (max-width: 899px) {
+    #noContentFound img {
+        float: right;
+        margin-right: -150px !important;
+    }
+    #noContentFound .message {
+        margin-top: 75vh;
+        align-self: center;
+        margin-left: 15vw !important;
+    }
 }
 
 #goToCreateRecipeBtn {

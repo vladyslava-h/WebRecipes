@@ -122,7 +122,7 @@ class Users extends React.Component {
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Subscribers</th>
+                                        <th className="subs">Subscribers</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -145,7 +145,7 @@ class Users extends React.Component {
                                                         <p className="email">{user.email}</p>
                                                     </div>
                                                 </td>
-                                                <td>{user.subscribers}</td>
+                                                <td className="subs">{user.subscribers}</td>
                                                 <td>
                                                     <div>
                                                         <DropdownButton id="dropdown-basic-button" title={user.role}
@@ -158,7 +158,7 @@ class Users extends React.Component {
                                                 <td>
                                                     {
                                                         user.username === "masterchef" || user.username === this.user.info.unique_name ?
-                                                            <div clasName="locked">
+                                                            <div className="locked">
                                                                 <div className="btn-lock">
                                                                     <img src={require('../style/content/Images/Icons/lock.png')} alt="delete" id="delete_icon" />
                                                                 </div>
