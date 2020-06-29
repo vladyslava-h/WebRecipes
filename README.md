@@ -165,6 +165,7 @@ src="screenshots/users-delete.png"/>
 
 - View Recipe
 - Rate Recipe
+- Sort Recipes
 - Design Improvement
 - Mobile Version
 - Change Interface Language
