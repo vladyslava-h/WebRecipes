@@ -294,9 +294,9 @@ class CreateRecipe extends React.Component {
         let indexDir = 0;
         return (
             this.state.isLoading ?
-                <div className="content loaderContent">
+                <div className="content loaderContent loaderContent-edit">
                     <Loader />
-                    <p className="message">{this.state.message}</p>
+                    {/* <p className="message">{this.state.message}</p> */}
                 </div> :
                 <div className="createPage editPage">
                     <div id="createProgress">

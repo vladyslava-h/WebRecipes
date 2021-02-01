@@ -30,7 +30,7 @@ namespace WebRecipes.API.Controllers
             this.mapper = mapper;
         }
 
-        [Authorize(Roles = "User, Admin")]
+        //[Authorize(Roles = "User, Admin")]
         [Route("create")]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] SaveRecipeResource resource)
@@ -48,7 +48,7 @@ namespace WebRecipes.API.Controllers
 
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpPut("update/{id}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] SaveRecipeResource resource)
         {
@@ -62,7 +62,7 @@ namespace WebRecipes.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync(int? level, int? meal, string username)
         {
@@ -81,7 +81,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpGet("search/{item}")]
         public async Task<IActionResult> SearchAsync(string item, int? level, int? meal, string username)
         {

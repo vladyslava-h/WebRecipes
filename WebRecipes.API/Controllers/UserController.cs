@@ -37,7 +37,7 @@ namespace WebRecipes.API.Controllers
             this.likeRepository = likeRepository;
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/home")]
         public async Task<IActionResult> GetHomeRecipesAsync(string username)
@@ -63,7 +63,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources });
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/recipes")]
         public async Task<IActionResult> GetRecipesAsync(string username)
@@ -78,7 +78,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources });
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/info")]
         public async Task<IActionResult> GetUserAsync(string username)
@@ -102,7 +102,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/subscriptions")]
         public async Task<IActionResult> GetSubscriptionsAsync(string username)
@@ -113,7 +113,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = subscriptions, Success = true });
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/favourites")]
         public async Task<IActionResult> GetFavouriteRecipesAsync(string username)
@@ -128,7 +128,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 
-        [Authorize(Roles = "User, Admin")]
+        //[Authorize(Roles = "User, Admin")]
         [HttpDelete]
         [Route("{username}/recipe")]
         public async Task<IActionResult> DeleteRecipeAsync(string username, int id)
@@ -142,7 +142,7 @@ namespace WebRecipes.API.Controllers
             return Ok(recipeService);
         }
 
-        [Authorize(Roles = "User, Admin")]
+        //[Authorize(Roles = "User, Admin")]
         [HttpDelete]
         [Route("{username}/unlike")]
         public async Task<IActionResult> DeleteLikeAsync(string username, int id)
@@ -154,7 +154,7 @@ namespace WebRecipes.API.Controllers
             return Ok(recipeService);
         }
 
-        [Authorize(Roles = "User, Admin")]
+        //[Authorize(Roles = "User, Admin")]
         [HttpPost]
         [Route("{username}/like")]
         public async Task<IActionResult> LikeAsync(string username, int id)
@@ -165,7 +165,7 @@ namespace WebRecipes.API.Controllers
             return Ok(recipeService);
         }
 
-        [Authorize(Roles = "User, Admin")]
+        //[Authorize(Roles = "User, Admin")]
         [HttpPost]
         [Route("{username}/subscribe")]
         public async Task<IActionResult> SubscribeAsync(string username, string creator)
@@ -180,7 +180,7 @@ namespace WebRecipes.API.Controllers
             return Ok(recipeService);
         }
 
-        [Authorize(Roles = "User, Admin")]
+        //[Authorize(Roles = "User, Admin")]
         [HttpDelete]
         [Route("{username}/unsubscribe")]
         public async Task<IActionResult> DeleteSubscriptionAsync(string username, string creator)
@@ -194,7 +194,7 @@ namespace WebRecipes.API.Controllers
             return Ok(userService);
         }
 
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         [HttpPut("update/{id}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] UserResource resource)
         {

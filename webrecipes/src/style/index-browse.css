@@ -14,15 +14,49 @@
     background-color: white !important;
     overflow-y: auto;
     margin-top: 25px;
+    padding-bottom: 10%;
 }
 
 #browsedRecipesList {
     margin-top: -1px;
 }
 
+
+ /* Scrollbar Styling */
+
+ #browsedRecipes::-webkit-scrollbar,
+ #browsedRecipes::-webkit-scrollbar, .search-facet--edit-mode textarea::-webkit-scrollbar {
+     width: 14px !important;
+     height: 18px !important;
+    }
+    
+    #browsedRecipes::-webkit-scrollbar-thumb,
+    #browsedRecipes::-webkit-scrollbar-thumb, .search-facet--edit-mode textarea::-webkit-scrollbar-thumb {
+        height: 6px !important;
+        border: 4px solid rgba(0, 0, 0, 0) !important;
+     background-clip: padding-box !important;
+     -webkit-border-radius: 17px !important;
+     background-color: rgb(179, 179, 179) !important;
+     -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05) !important;
+ }
+
+ #browsedRecipes::-webkit-scrollbar-button,
+ #browsedRecipes::-webkit-scrollbar-button, .search-facet--edit-mode textarea::-webkit-scrollbar-button{
+     width: 0 !important;
+     height: 0 !important;
+     display: none !important;
+ }
+
+ #browsedRecipes::-webkit-scrollbar-corner,
+ #browsedRecipes::-webkit-scrollbar-corner, .search-facet--edit-mode textarea::-webkit-scrollbar-corner {
+     background-color: transparent !important;
+ }
+
+
 #noRecipeFound {
-    margin: 3% 5%;
+    margin: 3% 10%;
     width: 900px;
+    margin-bottom: -40px;
     height: 430px;
 }
 

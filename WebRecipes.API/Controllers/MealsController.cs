@@ -23,7 +23,7 @@ namespace WebRecipes.API.Controllers
             mealService = service;
         }
 
-        [Authorize(Roles = "Admin, User")]
+        //[Authorize(Roles = "Admin, User")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {

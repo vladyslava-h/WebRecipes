@@ -31,7 +31,7 @@ namespace WebRecipes.API.Controllers
             this.mapper = mapper;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("statistic")]
         public async Task<IActionResult> GetStatisticAsync()
@@ -51,7 +51,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 
-        [Authorize(Roles = "Admin, User")]
+        //[Authorize(Roles = "Admin, User")]
         [HttpGet]
         [Route("top")]
         public async Task<IActionResult> GetTopUsersAsync()
@@ -69,7 +69,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 
-        [Authorize(Roles = "Admin, User")]
+        //[Authorize(Roles = "Admin, User")]
         [HttpGet]
         [Route("search/{item}")]
         public async Task<IActionResult> SearchAsync(string item)
@@ -79,7 +79,7 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 
-        [Authorize(Roles = "User, Admin")]
+        //[Authorize(Roles = "User, Admin")]
         [HttpDelete]
         [Route("remove")]
         public async Task<IActionResult> DeleteRecipeAsync(int id)

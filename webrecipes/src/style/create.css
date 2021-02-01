@@ -29,6 +29,10 @@
     background-color: white;
 }
 
+.loaderContent-edit #loading{
+    margin: 15% 67%;
+}
+
 .createPage .content {
     height: 100%;
     width: 100%;

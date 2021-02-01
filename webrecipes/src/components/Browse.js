@@ -36,6 +36,8 @@ class Browse extends React.Component {
         this.browseRecipes = this.browseRecipes.bind(this);
         this.browseUsers = this.browseUsers.bind(this);
         this.changeMeal = this.changeMeal.bind(this);
+
+        window.location.hash = "all";
     }
 
     async componentDidMount() {
@@ -162,6 +164,7 @@ class Browse extends React.Component {
     }
 
     async changeMeal(item) {
+        window.location.hash = item.name.toLowerCase();
         await this.setState({
             selectedMeal: item
         })
@@ -171,6 +174,7 @@ class Browse extends React.Component {
     render() {
         return (
             this.state.isLoading ? <Loader /> :
+            
                 <div id="browsedRecipes">
                     <div className="form-group browseSearchHeader">
                         {
