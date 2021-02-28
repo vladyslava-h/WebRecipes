@@ -10,6 +10,7 @@ import Profile from "./Profile";
 import CreateRecipe from "./CreateRecipe";
 import NoContentFound from "./NoContentFound";
 import Users from "./Users";
+import Recipe from "./Recipe";
 
 class MainContent extends React.Component {
 
@@ -28,6 +29,7 @@ class MainContent extends React.Component {
                     <Route path='/subscriptions' exact component={() => <Chefs url={`http://localhost:5000/api/user/${this.user.info.unique_name}/subscriptions`} user={this.user} />} />
                     <Route path='/browse' exact component={() => <Browse user={this.user} />} />
                     <Route path='/profile/:username' exact component={() => <Profile user={this.user} />} />
+                    <Route path='/recipe/:id' exact component={() => <Recipe user={this.user} />} />
                     <Route path='/create' exact component={() => <CreateRecipe user={this.user} />} />
                     <Route path='/users' exact component={() => <Users user={this.user} />} />
                     <Route component={() => <NoContentFound message="404" />} />

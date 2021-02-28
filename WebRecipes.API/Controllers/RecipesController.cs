@@ -81,6 +81,19 @@ namespace WebRecipes.API.Controllers
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 
+        [HttpGet("getrecipe/{id}")]
+        public async Task<IActionResult> GetRecipe(int id)
+        {
+            Recipe recipe = (await recipeService.ListAsync()).Where(x => x.Id == id).FirstOrDefault();
+            User user = (await userRepository.ListAsync()).Where(x => x.Id == recipe.CreatorId).FirstOrDefault();
+
+            var resources = mapper.Map<Recipe, RecipeResource>(recipe);
+            resources.User = new User(){
+                Username = user.Username
+            };
+            return Ok(new ResponseResult() { Data = resources, Success = true });
+        }
+
         //[Authorize(Roles = "User,Admin")]
         [HttpGet("search/{item}")]
         public async Task<IActionResult> SearchAsync(string item, int? level, int? meal, string username)

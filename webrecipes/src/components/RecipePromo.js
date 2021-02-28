@@ -9,10 +9,15 @@ class RecipePromo extends React.Component {
         this.user = props.user;
         this.item = props.item;
         this.redirect = this.redirect.bind(this);
+        this.redirectToRecipe = this.redirectToRecipe.bind(this);
     }
 
     redirect() {
         this.props.history.push(`/profile/${this.item.user.username}`)
+    }
+    
+    redirectToRecipe(){
+        this.props.history.push(`/recipe/${this.item.id}`)
     }
 
     render() {
@@ -20,6 +25,7 @@ class RecipePromo extends React.Component {
         return (
             <div className="recipeBlock" key={this.item.id}>
                 <img className="recipeImg"
+                onClick={this.redirectToRecipe}
                     src={this.item.photo === "" ?
                         require('../style/content/Images/default-recipe.png')
                         : this.item.photo} alt="" />
@@ -30,7 +36,7 @@ class RecipePromo extends React.Component {
                 <div className={`recipeTimeBlock recipeTimeBlock${this.item.levelId}`}>
                     <p><span className="recipeTime">{this.item.time}</span>&nbsp;Minutes</p>
                 </div>
-                <p className="recipeName">{this.item.name}</p>
+                <p className="recipeName" onClick={this.redirectToRecipe}>{this.item.name}</p>
                 <p className="recipeCreator" onClick={this.redirect} >By:&nbsp;<span>{this.item.user.username}</span></p>
                 <div className="rating">
                     {elements.map((value, index) => {
