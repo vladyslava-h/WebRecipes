@@ -19,14 +19,18 @@ namespace WebRecipes.API.Controllers
         private readonly IRecipeService recipeService;
         private readonly IUserRepository userRepository;
         private readonly ILikeRepository likeRepository;
+        private readonly IMealService mealService;
+         private readonly ILevelService levelService;
         private readonly IMapper mapper;
 
         public RecipesController(IRecipeService recipeService, ILikeRepository likeRepository,
-         IMapper mapper, IUserRepository userRepository)
+         IMapper mapper, IUserRepository userRepository, IMealService mealService, ILevelService levelService)
         {
             this.recipeService = recipeService;
             this.userRepository = userRepository;
             this.likeRepository = likeRepository;
+            this.levelService = levelService;
+            this.mealService = mealService;
             this.mapper = mapper;
         }
 
@@ -82,15 +86,22 @@ namespace WebRecipes.API.Controllers
         }
 
         [HttpGet("getrecipe/{id}")]
-        public async Task<IActionResult> GetRecipe(int id)
+        public async Task<IActionResult> GetRecipe(int id, string username)
         {
             Recipe recipe = (await recipeService.ListAsync()).Where(x => x.Id == id).FirstOrDefault();
+            User creator = (await userRepository.ListAsync()).Where(x => x.Id == recipe.CreatorId).FirstOrDefault();
             User user = (await userRepository.ListAsync()).Where(x => x.Id == recipe.CreatorId).FirstOrDefault();
+            var meals = await mealService.ListAsync();
+            var isLiked = (await likeRepository.ListAsync()).Where(x => x.Username == username && x.RecipeId == id).Count() > 0 ? true : false;
 
             var resources = mapper.Map<Recipe, RecipeResource>(recipe);
             resources.User = new User(){
-                Username = user.Username
+                Username = creator.Username
             };
+            resources.IsLiked = isLiked;
+            resources.Meal = (await mealService.ListAsync()).Where(x => x.Id == recipe.MealId).FirstOrDefault().Name;
+            resources.Level = (await levelService.ListAsync()).Where(x => x.Id == recipe.LevelId).FirstOrDefault().Name;
+
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
 

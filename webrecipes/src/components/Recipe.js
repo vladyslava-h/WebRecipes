@@ -23,7 +23,8 @@ async componentDidMount() {
 }
 
 async refresh() {
-    this.url = `http://localhost:5000/api/recipes/getrecipe/${this.state.recipeId}`;
+    console.log(this.user);
+    this.url = `http://localhost:5000/api/recipes/getrecipe/${this.state.recipeId}?username=${this.user.info.unique_name}`;
     try {
         var response = await fetch(this.url);
         var fetcheddata = await response.json();

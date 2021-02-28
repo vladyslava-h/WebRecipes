@@ -9,6 +9,8 @@ namespace WebRecipes.API.Resources
         public int MealId { set; get; }
         public int LevelId { set; get; }
         public string Name { set; get; }
+        public string Meal { set; get; }
+        public string Level { set; get; }
         public string Ingredients { set; get; }
         public string Directions { set; get; }
         public int TotalMarks { set; get; }
