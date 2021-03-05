@@ -1,0 +1,159 @@
+#recipe{
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    margin-top: -2vh;
+}
+
+.recipe-main{
+   width: 73%;
+}
+
+
+.sub-main-title{
+    font-size: 30px !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    user-select: none;
+}
+
+.recipe-bar{
+    width: 27%;
+    border-radius: 20px;
+    margin-right: 10px;
+    height: 98vh;
+    margin-top: 1vh;
+    min-width: 300px;
+    color: white;
+    padding-top: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    background: rgb(64,71,88);
+    background: linear-gradient(100deg, rgba(64,71,88,1) 0%, rgba(33,40,57,1) 42%, rgba(17,22,34,1) 79%);
+}
+
+.bar-top{
+    padding-left: 15px;
+}
+
+.bar-item{
+    display: flex;
+    margin-top: 5px;
+    user-select: none;
+}
+
+.bar-item img{
+    height: 25px;
+    margin-right: 10px;
+}
+
+.bar-item:nth-child(2) img{
+    height: 30px;
+    margin-right: 5px;
+}
+
+.bar-item:nth-child(3):hover{
+    cursor: pointer !important;
+    text-decoration: underline !important;
+}
+
+.ingredients-section{
+    height: 60%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 20px;
+}
+
+.bar-menu img{
+    height: 25px;
+    transition: .2s ease-in-out;
+}
+
+.bar-menu img:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.bar-menu{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding-right: 20px;
+    padding-left: 15px;
+    padding-top: 15px;
+}
+
+/* ------------------------------------------------- .recipe-title-section */
+
+.recipe-main{
+    padding-top: 10%;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.recipe-title-section .recipe-meal-type{
+    color: 	#ffbf00;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+.recipe-title-section .rating {
+    margin-top: -5px;
+    font-size: 25px;
+    color: 	#ffbf00;
+}
+
+.recipe-title-section .rating .filled {
+    content: "\2605";
+}
+
+.recipe-title-section .recipe-name{
+    font-size: 52px;
+    color: black;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    width: 95%;
+    line-height: 52px;
+}
+
+
+.recipe-main .sub-main-title{
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.recipe-method{
+    margin-top: 40px;
+    width: 100%;
+    height: 50%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.recipe-method .method{
+    display: flex;
+}
+
+.recipe-method .stepCounter{
+    transform-origin: 0 0;
+    transform: rotate(270deg);
+    margin-right: -30px;
+    margin-left: 0px;
+    color: #ffbf00;
+    font-size: 14px;
+    font-weight: bolder;
+    margin-top: 50px;
+}
+
+.stepCounterSimple{
+    color: #ffbf00;
+    font-weight: 700;
+}
+
+.recipe-method .method-desc{
+    margin-left: 10px;
+    width: 95%;
+    word-wrap: normal;
+}
