@@ -16,6 +16,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
     user-select: none;
+    font-family: var(--accent-font);
 }
 
 .recipe-bar{
@@ -40,7 +41,7 @@
 
 .bar-item{
     display: flex;
-    margin-top: 5px;
+    margin-top: 0px;
     user-select: none;
 }
 
@@ -49,10 +50,15 @@
     margin-right: 10px;
 }
 
-.bar-item:nth-child(2) img{
-    height: 30px;
-    margin-right: 5px;
+.bar-item p{
+    margin-top: 2px;
 }
+
+/* .bar-item:nth-child(2) img{
+    height: 30px;
+    margin-right: 7px;
+    margin-left: -2px;
+} */
 
 .bar-item:nth-child(3):hover{
     cursor: pointer !important;
@@ -60,7 +66,7 @@
 }
 
 .ingredients-section{
-    height: 60%;
+    height: 62%;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 20px;
@@ -69,11 +75,13 @@
 .bar-menu img{
     height: 25px;
     transition: .2s ease-in-out;
+    opacity: 1;
 }
 
 .bar-menu img:hover{
     cursor: pointer;
     transform: scale(1.1);
+    opacity: 1;
 }
 
 .bar-menu{
@@ -85,6 +93,10 @@
     padding-top: 15px;
 }
 
+.bar-menu .inactive{
+    opacity: .6;
+}
+
 /* ------------------------------------------------- .recipe-title-section */
 
 .recipe-main{
@@ -94,7 +106,7 @@
 }
 
 .recipe-title-section .recipe-meal-type{
-    color: 	#ffbf00;
+    color: 	#2c2c44;
     text-transform: uppercase;
     font-weight: bolder;
 }
@@ -102,7 +114,7 @@
 .recipe-title-section .rating {
     margin-top: -5px;
     font-size: 25px;
-    color: 	#ffbf00;
+    color: 	#2c2c44    ;
 }
 
 .recipe-title-section .rating .filled {
@@ -116,6 +128,7 @@
     margin-bottom: 15px;
     width: 95%;
     line-height: 52px;
+    font-family: var(--accent-font);
 }
 
 
@@ -148,7 +161,7 @@
 }
 
 .stepCounterSimple{
-    color: #ffbf00;
+    color: #2c2c44    ;
     font-weight: 700;
 }
 

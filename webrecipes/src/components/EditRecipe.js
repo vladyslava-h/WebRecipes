@@ -29,7 +29,7 @@ class CreateRecipe extends React.Component {
             fileUrl: props.recipe.photo,
             fileInternetUrl: "",
             files: null,
-            message: "Please wait"
+            message: ""
         }
 
         this.user = props.user;
@@ -89,7 +89,7 @@ class CreateRecipe extends React.Component {
         let urlUpdate = 'http://localhost:5000/api/recipes/update/' + this.props.recipe.id;
         this.setState({
             isLoading: true,
-            message: "Please wait"
+            message: ""
         });
 
         let credentials = {

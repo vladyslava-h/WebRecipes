@@ -340,7 +340,7 @@ class Profile extends React.Component {
                             //loading user's recipes
                             this.state.data.length !== 0 ?
                                 <div>
-                                    <h1>Recipes</h1>
+                                    <h1 className="accent-text">Recipes</h1>
                                     <div id="usersRecipesList" className="recipesSection">
                                         {
                                             this.state.data.map(item =>

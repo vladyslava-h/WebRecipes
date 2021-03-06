@@ -31,7 +31,7 @@ class CreateRecipe extends React.Component {
             fileUrl: "",
             fileInternetUrl: "",
             files: null,
-            message: "Please wait"
+            message: ""
         }
 
         this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -89,7 +89,7 @@ class CreateRecipe extends React.Component {
         let urlCreate = 'http://localhost:5000/api/recipes/create';
         this.setState({
             isLoading: true,
-            message: "Please wait"
+            message: ""
         });
 
         let credentials = {
@@ -305,7 +305,7 @@ class CreateRecipe extends React.Component {
                             style={{ width: `${this.state.progress}%` }}
                         >{this.state.progress}%</div>
                     </div>
-                    <h1 className="title">Create Your Recipe</h1>
+                    <h1 className="title accent-text">Create Your Recipe</h1>
                     <div id="main">
                         <div className={`content page${this.state.pageIndex}`} id="basic">
                             <h3 className="pageTitle">Basic Information</h3>

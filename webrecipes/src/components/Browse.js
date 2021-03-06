@@ -181,7 +181,7 @@ class Browse extends React.Component {
                             this.state.isSearch ? <img src={require('../style/content/Images/Icons/back.png')}
                                 alt="go back" className="backBtn" onClick={this.goBack} /> : ""
                         }
-                        <input type="text" className="form-control browseSearch"
+                        <input type="text" className="form-control browseSearch accent-text"
                             placeholder={`Discover${this.state.search}`} id="browseSearch"
                             name="search"
                             onKeyPress={this.handleKeyPress}

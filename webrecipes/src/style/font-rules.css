@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=DM+Serif+Display');
+@import url('https://fonts.googleapis.com/css?family=DM+Sans');
+
+* {
+    font-family: 'DM Sans';
+}
+
+:root {
+    --accent-font: 'DM Serif Display';
+}
+
+.accent-text{
+    font-family: var(--accent-font);
+}

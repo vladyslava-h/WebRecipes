@@ -93,7 +93,7 @@
 .selectFileBtn {
     background-color: rgb(30, 191, 114) !important;
     color: white !important;
-    width: 120px;
+    width: auto;
     padding-right: 5px;
     height: 10%;
     position: relative;
