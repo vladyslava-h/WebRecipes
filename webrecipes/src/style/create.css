@@ -16,6 +16,7 @@
 
 #ingredients {
     background-color: white;
+    overflow: hidden !important ;
 }
 
 #directions {
@@ -307,19 +308,65 @@
     color: grey;
 }
 
+.smallLabel{
+}
+
 #ingredients :focus+label, #directions :focus+label, .smallLabel {
     color: grey;
-    margin-top: -3%;
+    margin-top: -30px;
+    margin-left: -10px;
     font-size: smaller;
     background: white;
 }
 
 .ingredient {
     display: flex;
-    background-color: rgba(202, 202, 202, 0.1);
-    width: 50%;
+    background-color: rgba(202, 202, 202, 0.3);
     margin-top: 10px;
     padding-right: 10px;
+    outline: none;
+}
+
+#ingredientsSection, #directionsSection{
+    overflow-x:auto ;
+    overflow-y:auto ;
+    height: 50%;
+    width: 50%;
+    padding-right: 10px;
+}
+
+.edit-page-section{
+    width: 75% !important;
+}
+
+.edit-page-section .ingredient{
+    width: 100% !important;
+}
+
+  /* Scrollbar Styling */
+
+  #ingredientsSection::-webkit-scrollbar, #directionsSection::-webkit-scrollbar{
+    width: 14px !important;
+    height: 18px !important;
+   }
+   
+   #ingredientsSection::-webkit-scrollbar-thumb, #directionsSection::-webkit-scrollbar-thumb{
+       height: 6px !important;
+       border: 4px solid rgba(0, 0, 0, 0) !important;
+    background-clip: padding-box !important;
+    -webkit-border-radius: 17px !important;
+    background-color: rgba(202, 202, 202, 0.3) !important;
+    -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05) !important;
+}
+
+#ingredientsSection::-webkit-scrollbar-button, #directionsSection::-webkit-scrollbar-button{
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+}
+
+#ingredientsSection::-webkit-scrollbar-corner, #directionsSection::-webkit-scrollbar-corner{
+    background-color: transparent !important;
 }
 
 .ingredient p {

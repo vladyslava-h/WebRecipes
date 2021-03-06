@@ -27,6 +27,7 @@ class Recipes extends React.Component {
         this.handleClose = this.handleClose.bind(this);
         this.callbackFunction = this.callbackFunction.bind(this);
         this.loadInfo = this.loadInfo.bind(this);
+        this.redirectToRecipe = this.redirectToRecipe.bind(this);
     }
 
 
@@ -108,6 +109,10 @@ class Recipes extends React.Component {
         this.props.history.push(`/profile/${item.user.username}`)
     }
 
+    redirectToRecipe(id){
+        this.props.history.push(`/recipe/${id}`)
+    }
+
     render() {
         const elements = [1, 2, 3, 4, 5];
         return (
@@ -159,7 +164,7 @@ class Recipes extends React.Component {
                         {
                             this.state.data.map(item =>
                                 <div className="recipeBlock" data-id={item.id} key={item.id}>
-                                    <img className="recipeImg"
+                                    <img className="recipeImg" onClick={() => this.redirectToRecipe(item.id)}
                                         src={item.photo === "" ?
                                             require('../style/content/Images/default-recipe.png')
                                             : item.photo} alt="recipe" />
@@ -172,7 +177,7 @@ class Recipes extends React.Component {
                                     <div className={`recipeTimeBlock recipeTimeBlock${item.levelId}`}>
                                         <p><span className="recipeTime">{item.time}</span>&nbsp;Minutes</p>
                                     </div>
-                                    <p className="recipeName">{item.name}</p>
+                                    <p className="recipeName" onClick={() => this.redirectToRecipe(item.id)}>{item.name}</p>
                                     <p className="recipeCreator" onClick={() => this.redirect(item)}>By:&nbsp;<span>{item.user.username}</span></p>
                                     <div className="rating">
                                         {elements.map((value, index) => {

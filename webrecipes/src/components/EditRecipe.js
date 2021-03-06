@@ -309,7 +309,7 @@ class CreateRecipe extends React.Component {
                         <div className={`content page${this.state.pageIndex}`} id="basic">
                             <h3 className="pageTitle">Basic Information</h3>
                             <fieldset className="form-group">
-                                <input type="text" className="form-control"
+                                <input autocomplete="off" type="text" className="form-control"
                                     value={this.state.name}
                                     name="name"
                                     onChange={this.handleChange}
@@ -319,7 +319,7 @@ class CreateRecipe extends React.Component {
                                     <span className="important">*</span></label>
                             </fieldset>
                             <fieldset className="form-group minutes">
-                                <input type="text" className="form-control"
+                                <input autocomplete="off" type="text" className="form-control"
                                     value={this.state.minutes}
                                     name="minutes"
                                     onChange={this.handleChange}
@@ -372,7 +372,7 @@ class CreateRecipe extends React.Component {
                                         </label>
 
                                     <div className="form-group">
-                                        <input type="text" className="form-control"
+                                        <input autocomplete="off" type="text" className="form-control"
                                             value={this.state.fileInternetUrl}
                                             name="fileInternetUrl"
                                             onChange={this.handleChange}
@@ -393,7 +393,7 @@ class CreateRecipe extends React.Component {
                             <h3 className="pageTitle">Ingredients</h3>
                             <div id="addIngredientSection">
                                 <fieldset className="form-group">
-                                    <input type="text" className="form-control newIngredientInput"
+                                    <input autocomplete="off" type="text" className="form-control newIngredientInput"
                                         value={this.state.newIngredient}
                                         name="newIngredient"
                                         onChange={this.handleChange}
@@ -403,10 +403,10 @@ class CreateRecipe extends React.Component {
                                     <span className="important">*</span></label>
                                 </fieldset>
                             </div>
-                            <div id="ingredientsSection">
+                            <div id="ingredientsSection" className="edit-page-section">
                                 {
                                     this.state.ingredients.map((item =>
-                                        <div key={`${index++}`} className="ingredient">
+                                        <div key={`${index++}`} className="ingredient edit-page-ing">
                                             <p>{item}</p>
                                             <button className="btn"
                                                 onClick={() => this.removeIngredient(item)}
@@ -422,7 +422,7 @@ class CreateRecipe extends React.Component {
                             <h3 className="pageTitle">Directions</h3>
                             <div id="addDirectionSection">
                                 <fieldset className="form-group">
-                                    <input type="text" className="form-control newIngredientInput"
+                                    <input autocomplete="off" type="text" className="form-control newIngredientInput"
                                         value={this.state.newDirection}
                                         name="newDirection"
                                         onChange={this.handleChange}
@@ -432,10 +432,10 @@ class CreateRecipe extends React.Component {
                                     <span className="important">*</span></label>
                                 </fieldset>
                             </div>
-                            <div id="directionsSection">
+                            <div id="directionsSection" className="edit-page-section">
                                 {
                                     this.state.directions.map((item =>
-                                        <div key={`${indexDir++}`} className="ingredient">
+                                        <div key={`${indexDir++}`} className="ingredient edit-page-ing">
                                             <p>{item}</p>
                                             <button className="btn"
                                                 onClick={() => this.removeDirection(item)}

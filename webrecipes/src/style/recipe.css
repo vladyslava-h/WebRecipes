@@ -170,3 +170,10 @@
     width: 95%;
     word-wrap: normal;
 }
+
+.based-span{
+    margin-left: 10px;
+    font-size: 12px;
+    margin-top: 10px;
+    position: absolute;
+}

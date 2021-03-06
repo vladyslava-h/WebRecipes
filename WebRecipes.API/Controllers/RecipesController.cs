@@ -21,9 +21,10 @@ namespace WebRecipes.API.Controllers
         private readonly ILikeRepository likeRepository;
         private readonly IMealService mealService;
          private readonly ILevelService levelService;
+         private readonly IMarkService markService;
         private readonly IMapper mapper;
 
-        public RecipesController(IRecipeService recipeService, ILikeRepository likeRepository,
+        public RecipesController(IRecipeService recipeService, ILikeRepository likeRepository, IMarkService markService,
          IMapper mapper, IUserRepository userRepository, IMealService mealService, ILevelService levelService)
         {
             this.recipeService = recipeService;
@@ -31,6 +32,7 @@ namespace WebRecipes.API.Controllers
             this.likeRepository = likeRepository;
             this.levelService = levelService;
             this.mealService = mealService;
+            this.markService = markService;
             this.mapper = mapper;
         }
 
@@ -91,6 +93,8 @@ namespace WebRecipes.API.Controllers
             Recipe recipe = (await recipeService.ListAsync()).Where(x => x.Id == id).FirstOrDefault();
             User creator = (await userRepository.ListAsync()).Where(x => x.Id == recipe.CreatorId).FirstOrDefault();
             User user = (await userRepository.ListAsync()).Where(x => x.Id == recipe.CreatorId).FirstOrDefault();
+            Mark mark = (await markService.ListAsync()).Where(x => x.UserId == user.Id && x.RecipeId == id).FirstOrDefault();
+
             var meals = await mealService.ListAsync();
             var isLiked = (await likeRepository.ListAsync()).Where(x => x.Username == username && x.RecipeId == id).Count() > 0 ? true : false;
 
@@ -99,6 +103,7 @@ namespace WebRecipes.API.Controllers
                 Username = creator.Username
             };
             resources.IsLiked = isLiked;
+            resources.UserMark = mark == null ? 0 : mark.Value;
             resources.Meal = (await mealService.ListAsync()).Where(x => x.Id == recipe.MealId).FirstOrDefault().Name;
             resources.Level = (await levelService.ListAsync()).Where(x => x.Id == recipe.LevelId).FirstOrDefault().Name;
 
@@ -122,6 +127,24 @@ namespace WebRecipes.API.Controllers
             resources.ToList().ForEach(x => x.User = users.SingleOrDefault(u => u.Id == x.CreatorId));
             resources.ToList().ForEach(x => x.IsLiked = likes.Contains(x.Id));
             return Ok(new ResponseResult() { Data = resources.Where(x => x.Name.ToLower().Contains(item.ToLower())), Success = true });
+        }
+
+        [HttpPost("rate/{id}")]
+        public async Task<IActionResult> Rate(int id, string username, int value)
+        {
+            var user  = (await userRepository.ListAsync()).Where(x => x.Username == username).FirstOrDefault();   
+
+            Recipe recipe = (await recipeService.ListAsync()).Where(x => x.Id == id).FirstOrDefault();
+            await markService.SaveAsync(new Mark(){
+                UserId = user.Id,
+                RecipeId = id,
+                Value = value
+            });
+
+            recipe.Mark+=value;
+            recipe.TotalMarks++;
+            await recipeService.UpdateAsync(id,recipe);
+            return Ok();
         }
     }
 }

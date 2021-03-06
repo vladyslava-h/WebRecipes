@@ -3,6 +3,7 @@ import Loader from "./Loader";
 import NoContentFound from './NoContentFound';
 import '../style/recipe.css'
 import '../style/checkbox.css'
+import { withRouter } from 'react-router-dom';
 
 class Recipe extends React.Component {
   constructor(props) {
@@ -12,12 +13,70 @@ class Recipe extends React.Component {
       isLoading: true,
       user: "",
       recipe: null,
+      isLiked: false,
       recipeId: window.location.href.split('/').pop()
     };
+
+    this.like = this.like.bind(this);
+    this.unlike = this.unlike.bind(this);
 
     this.user = props.user;
     //this.uploadImage = this.uploadImage.bind(this);
     this.refresh = this.refresh.bind(this);
+    this.redirect = this.redirect.bind(this);
+}
+
+like() {
+  let id = this.state.recipe.id;
+  let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/like?id=${id}`;
+
+  this.setState({
+      isRunning: true
+  });
+
+  try {
+      fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `bearer ${this.user.token}`
+          }
+      }).then(x => {
+          this.setState({
+              isLiked: true,
+              isRunning: false
+          });
+      })
+  }
+  catch {
+
+  };
+}
+
+unlike() {
+  let id = this.state.recipe.id;
+  let url = `http://localhost:5000/api/user/${this.user.info.unique_name}/unlike?id=${id}`;
+
+  this.setState({
+      isRunning: true
+  });
+
+  try {
+      fetch(url, {
+          method: 'DELETE',
+          headers: {
+              'Authorization': `bearer ${this.user.token}`,
+          }
+      }).then(x => {
+          this.setState({
+              isLiked: false,
+              isRunning: false
+          });
+      })
+  }
+  catch {
+
+  };
 }
 
 async componentDidMount() {
@@ -34,7 +93,8 @@ async refresh() {
         this.setState({
             recipe: fetcheddata.data,
            // data: [...this.state.data, ...await this.getLikes(recipes)],
-            isLoading: false
+            isLoading: false,
+            isLiked: fetcheddata.data.isLiked
         })
         //this.getLikes();
     }
@@ -46,12 +106,19 @@ async refresh() {
         })
     }
 }
+
+redirect() {
+  this.props.history.push(`/profile/${this.state.recipe.user.username}`)
+}
   
   render() {
     var ingredientsCounter = 0;
     var stepsCounter = 0;
     var ingredients = null;
     var steps = null;
+
+    var rating_text = "no reviews"
+    //var avgMark = this.state.recipe.mark;
     const elements = [1, 2, 3, 4, 5];
 
     if(this.state.recipe != null){
@@ -59,6 +126,14 @@ async refresh() {
       steps = this.state.recipe.directions.split('\n');
       ingredients = ingredients.slice(0, -1);
       steps = steps.slice(0, -1);
+
+      if(this.state.recipe.totalMarks > 1){
+        rating_text = `based on ${this.state.recipe.totalMarks} reviews`;
+      }
+      else if (this.state.recipe.totalMarks == 1){
+        rating_text = `based on ${this.state.recipe.totalMarks} review`;
+      }
+  
     }
 
     return this.state.isLoading ? <Loader /> :
@@ -72,6 +147,8 @@ async refresh() {
                     {elements.map((value, index) => {
                         return value <= this.state.recipe.mark ? <span key={index}>★</span> : <span key={index}>☆</span>
                     })}
+
+                    <span className="based-span">{rating_text}</span>
                 </div>
             </div>
 
@@ -79,7 +156,7 @@ async refresh() {
             <div className="recipe-method">
             {
                   steps.map(item =>
-                      <div className="method" key={stepsCounter + "-ingredient"}>
+                      <div className="method" key={stepsCounter + "-step"}>
                         <p className="stepCounterSimple">{++stepsCounter}.</p>
                         <p className="method-desc">{item}</p>
                       </div>
@@ -102,7 +179,7 @@ async refresh() {
             </div>
             <div className="bar-item">
                 <img src={require('../style/content/Images/Icons/chef.png')} alt=""/>
-                <p>{this.state.recipe.user.username}</p>
+                <p  onClick={this.redirect}>{this.state.recipe.user.username}</p>
             </div>
 
             <h1 className="sub-main-title">Ingredients</h1>
@@ -111,8 +188,8 @@ async refresh() {
             <div className="ingredients-section"> 
                 {
                   ingredients.map(item =>
-                    <div key={ingredientsCounter + "-ingredient"}>
-                      <label class="pure-material-checkbox">
+                    <div key={++ingredientsCounter + "-ingredient"}>
+                      <label className="pure-material-checkbox">
                       <input type="checkbox"/>
                       <span>{item}</span>
                       </label>
@@ -123,11 +200,15 @@ async refresh() {
             <div className="bar-menu">
                   <img src={require('../style/content/Images/Icons/shopping-basket.png')} alt=""/>
                   <img src={require('../style/content/Images/Icons/comment.png')} alt=""/>
-                  <img src={require('../style/content/Images/Icons/heart-white-outlined.png')} alt=""/>
+                  {
+                    this.state.isLiked ? 
+                    <img id="like" onClick={this.unlike} src={require('../style/content/Images/Icons/heart-white.png')} alt=""/> :
+                    <img id="like" onClick={this.like} src={require('../style/content/Images/Icons/heart-white-outlined.png')} alt=""/> 
+                  }
             </div>
         </div>
     </div>;
   }
 }
 
-export default Recipe;
+export default withRouter(Recipe);

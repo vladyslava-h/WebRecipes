@@ -115,6 +115,8 @@ namespace WebRecipes.API.Persistence.Contexts
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Mark>().HasKey(p => p.Id);
+            builder.Entity<Mark>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
             //RECIPE CATEGORY--------------------------------------
             // builder.Entity<RecipeCategory>()
             //     .HasKey(t => new { t.RecipeId, t.CategoryId });

@@ -369,7 +369,7 @@ class Profile extends React.Component {
                                     this.state.isUpdating ? <div className="updating"><Loader /></div> :
                                         <div>
                                             <div className="form-group">
-                                                <input type="text" className="form-control"
+                                                <input autocomplete="off" type="text" className="form-control"
                                                     id="nameFormReg" aria-describedby="emailHelp"
                                                     name="nameUpdate"
                                                     value={this.state.nameUpdate}
@@ -400,7 +400,7 @@ class Profile extends React.Component {
                                                         </label>
 
                                                         <div className="form-group">
-                                                            <input type="text" className="form-control"
+                                                            <input autocomplete="off" type="text" className="form-control"
                                                                 value={this.state.fileInternetUrl}
                                                                 name="fileInternetUrl"
                                                                 onChange={this.handleChange}

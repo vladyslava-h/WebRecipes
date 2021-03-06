@@ -40,7 +40,11 @@
     margin-left: -100%;
 }
 
-.editPage #addIngredientSection, .editPage #addDirectionSection, .editPage .ingredient {
+.editPage .ingredient {
+    width: 100% !important;
+}
+
+.editPage #addIngredientSection, .editPage #addDirectionSection{
     width: 75% !important;
 }
 
