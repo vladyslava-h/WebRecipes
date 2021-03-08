@@ -23,7 +23,9 @@ class Browse extends React.Component {
             browseUsers: false,
             topUsers: [],
             isSearching: false,
-            searchedUsers: []
+            searchedUsers: [],
+            pages: 0,
+            current_page: 1
         }
         this.user = props.user;
         this.urlRecipes = "http://localhost:5000/api/recipes?username=" + this.user.info.unique_name;
@@ -36,6 +38,7 @@ class Browse extends React.Component {
         this.browseRecipes = this.browseRecipes.bind(this);
         this.browseUsers = this.browseUsers.bind(this);
         this.changeMeal = this.changeMeal.bind(this);
+        this.changePage = this.changePage.bind(this);
 
         window.location.hash = "all";
     }
@@ -55,9 +58,11 @@ class Browse extends React.Component {
                 data: [...this.state.data, ...fetcheddata.data],
                 meals: [...this.state.meals, ...fetcheddataMeals.data],
                 selectedMeal: this.state.meals[0],
+                pages: fetcheddata.pages,
                 topUsers: [...this.state.topUsers, ...fetcheddataTopUsers.data],
                 isLoading: false,
             })
+
         }
         catch{
         }
@@ -82,6 +87,8 @@ class Browse extends React.Component {
             url += "&meal=" + this.state.selectedMeal.id;
         }
 
+        url+= "&page=" + this.state.current_page;
+
         var response = await fetch(url);
         var fetcheddata = await response.json();
         try {
@@ -89,6 +96,7 @@ class Browse extends React.Component {
                 data: fetcheddata.data,
                 isSearching: false,
                 searchUrl: url,
+                pages: fetcheddata.pages,
                 search: this.state.searchedValue !== "" ? ": " + this.state.searchedValue : "",
                 isSearch: isSearch
             })
@@ -144,7 +152,8 @@ class Browse extends React.Component {
     browseRecipes() {
         this.setState({
             browseRecipes: true,
-            browseUsers: false
+            browseUsers: false,
+            current_page: 1
         })
 
         if (this.state.isSearch) {
@@ -166,12 +175,30 @@ class Browse extends React.Component {
     async changeMeal(item) {
         window.location.hash = item.name.toLowerCase();
         await this.setState({
-            selectedMeal: item
+            selectedMeal: item,
+            current_page: 1
+        })
+        this.search();
+    }
+
+    async changePage(index){
+        await this.setState({
+            current_page: index
         })
         this.search();
     }
 
     render() {
+
+        var pages = [];
+
+        if(this.state.pages !== 0){
+            pages = [];
+            for (let i = 1; i < this.state.pages + 2; i++) {
+                pages.push(i);               
+            }
+        }
+
         return (
             this.state.isLoading ? <Loader /> :
             
@@ -181,7 +208,7 @@ class Browse extends React.Component {
                             this.state.isSearch ? <img src={require('../style/content/Images/Icons/back.png')}
                                 alt="go back" className="backBtn" onClick={this.goBack} /> : ""
                         }
-                        <input type="text" autocomplete="off" className="form-control browseSearch accent-text"
+                        <input type="text" autoComplete="off" className="form-control browseSearch accent-text"
                             placeholder={`Discover${this.state.search}`} id="browseSearch"
                             name="search"
                             onKeyPress={this.handleKeyPress}
@@ -217,6 +244,19 @@ class Browse extends React.Component {
                                                     <RecipePromo user={this.user} item={item} key={item.id} isBrowse={true} />
                                                 )} </div> :
                                         <img id="noRecipeFound" alt="" src={require('../style/content/Images/no-results.jpg')} />
+                            }
+
+                            {
+                                this.state.pages !== 0 ? 
+                                <div className="pagesSection">
+                                    {
+                                        pages.map(x =>
+                                            <div onClick={() => this.changePage(x)} key={x + "-paginationBtn"}
+                                            className={this.state.current_page === x ?  "paginationBtn active" : "paginationBtn"} id={x+"-paginationBtn"}>
+                                                {x}
+                                            </div>)
+                                    }
+                                </div>  : <div></div>
                             }
                         </div>
                         :

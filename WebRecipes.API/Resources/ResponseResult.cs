@@ -4,6 +4,7 @@ namespace WebRecipes.API.Resources
     {
         public object Data { get; set; }
         public string Message { get; set; }
+        public int Pages { get; set; }
         public bool Success { get; set; }
     }
 }

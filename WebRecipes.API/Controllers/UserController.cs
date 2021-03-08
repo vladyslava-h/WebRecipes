@@ -25,6 +25,8 @@ namespace WebRecipes.API.Controllers
         private readonly ILikeRepository likeRepository;
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
+        private int pageSize = 12;
+
 
         public UserController(IUserService userService, IMapper mapper, IRecipeService recipeService,
          ISubscriptionRepository subscription, IUnitOfWork unitOfWork, ILikeRepository likeRepository)
@@ -40,7 +42,7 @@ namespace WebRecipes.API.Controllers
         //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/home")]
-        public async Task<IActionResult> GetHomeRecipesAsync(string username)
+        public async Task<IActionResult> GetHomeRecipesAsync(string username, int page = 1)
         {
             var subscriptions = (await subscriptionRepository.ListAsync()).Where(x => x.SubscriberUsername == username).Select(x => x.CreatorUsername);
             var users = (await userService.ListAsync()).Where(x => subscriptions.Contains(x.Username));
@@ -57,16 +59,25 @@ namespace WebRecipes.API.Controllers
 
             var resources = mapper.Map<IEnumerable<Recipe>, IEnumerable<RecipeResource>>(recipes);
 
+            double pages = resources.Count() / pageSize;
+            if (resources.Count() == pageSize)
+            {
+                pages = 0;
+            }
+            resources = resources.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
             var likes = (await likeRepository.ListAsync()).Where(x => x.Username == username).Select(x => x.RecipeId);
             resources.ToList().ForEach(x => x.User = users.FirstOrDefault(u => u.Id == x.CreatorId));
             resources.ToList().ForEach(x => x.IsLiked = likes.Contains(x.Id));
-            return Ok(new ResponseResult() { Data = resources });
+
+            
+            return Ok(new ResponseResult() { Data = resources, Pages = Convert.ToInt32(Math.Ceiling(pages)) });
         }
 
         //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/recipes")]
-        public async Task<IActionResult> GetRecipesAsync(string username)
+        public async Task<IActionResult> GetRecipesAsync(string username, int page = 1)
         {
             var all = (await userService.ListAsync());
             var user = (await userService.ListAsync()).SingleOrDefault(x => x.Username == username);
@@ -75,13 +86,21 @@ namespace WebRecipes.API.Controllers
             var resources = mapper.Map<IEnumerable<Recipe>, IEnumerable<RecipeResource>>(recipes);
 
             resources.ToList().ForEach(x => x.User = user);
-            return Ok(new ResponseResult() { Data = resources });
+
+            double pages = resources.Count() / pageSize;
+            if (resources.Count() == pageSize)
+            {
+                pages = 0;
+            }
+            resources = resources.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return Ok(new ResponseResult() { Data = resources, Pages = Convert.ToInt32(Math.Ceiling(pages)) });
         }
 
         //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/info")]
-        public async Task<IActionResult> GetUserAsync(string username)
+        public async Task<IActionResult> GetUserAsync(string username, int page = 1)
         {
             var user = (await userService.ListAsync()).SingleOrDefault(x => x.Username == username);
             var subscribers = (await subscriptionRepository.ListAsync());
@@ -98,8 +117,15 @@ namespace WebRecipes.API.Controllers
                 recipe.User = user;
             }
 
+            double pages = resourcesRecipes.Count() / pageSize;
+            if (resourcesRecipes.Count() == pageSize)
+            {
+                pages = 0;
+            }
+            resourcesRecipes = resourcesRecipes.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
             resources.Recipes = resourcesRecipes;
-            return Ok(new ResponseResult() { Data = resources, Success = true });
+            return Ok(new ResponseResult() { Data = resources, Success = true, Pages = Convert.ToInt32(Math.Ceiling(pages))});
         }
 
         //[Authorize(Roles = "User,Admin")]
@@ -116,16 +142,22 @@ namespace WebRecipes.API.Controllers
         //[Authorize(Roles = "User,Admin")]
         [HttpGet]
         [Route("{username}/favourites")]
-        public async Task<IActionResult> GetFavouriteRecipesAsync(string username)
+        public async Task<IActionResult> GetFavouriteRecipesAsync(string username, int page = 1)
         {
             var users = (await userService.ListAsync());
             var likes = (await likeRepository.ListAsync()).Where(x => x.Username == username).Select(x => x.RecipeId);
             var recipes = (await recipeService.ListAsync()).Where(x => likes.Contains(x.Id));
 
             var resources = mapper.Map<IEnumerable<Recipe>, IEnumerable<RecipeResource>>(recipes);
+            double pages = resources.Count() / pageSize;
+            if(resources.Count() == pageSize){
+                pages = 0;
+            }
+            resources = resources.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
             resources.ToList().ForEach(x => x.User = users.SingleOrDefault(u => u.Id == x.CreatorId));
             resources.ToList().ForEach(x => x.IsLiked = likes.Contains(x.Id));
-            return Ok(new ResponseResult() { Data = resources, Success = true });
+            return Ok(new ResponseResult() { Data = resources, Success = true, Pages = Convert.ToInt32(Math.Ceiling(pages)) });
         }
 
         //[Authorize(Roles = "User, Admin")]

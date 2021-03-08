@@ -22,6 +22,13 @@ class RecipePromo extends React.Component {
 
     render() {
         const elements = [1, 2, 3, 4, 5];
+
+        var name = this.item.name;
+        
+        if(name.length > 44){
+            name = name.substr(0, 40) + '...';
+        }
+
         return (
             <div className="recipeBlock" key={this.item.id}>
                 <img className="recipeImg"
@@ -36,7 +43,7 @@ class RecipePromo extends React.Component {
                 <div className={`recipeTimeBlock recipeTimeBlock${this.item.levelId}`}>
                     <p><span className="recipeTime">{this.item.time}</span>&nbsp;Minutes</p>
                 </div>
-                <p className="recipeName" onClick={this.redirectToRecipe}>{this.item.name}</p>
+                <p className="recipeName" onClick={this.redirectToRecipe}>{name}</p>
                 <p className="recipeCreator" onClick={this.redirect} >By:&nbsp;<span>{this.item.user.username}</span></p>
                 <div className="rating">
                     {elements.map((value, index) => {

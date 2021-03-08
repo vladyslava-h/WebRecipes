@@ -10,37 +10,74 @@ class Home extends React.Component {
         super(props)
         this.state = {
             data: [],
-            isLoading: false
+            isLoading: false,
+            current_page: 1,
+            pages: 0
         }
         this.url = props.url;
-        this.user = props.user;
+        this.user = props.user; 
+        
+        this.loadInfo = this.loadInfo.bind(this);
+        this.changePage = this.changePage.bind(this);
     }
 
     async componentDidMount() {
+        await this.loadInfo();
+    }
+
+    async loadInfo(){
         this.setState({
             isLoading: true
         })
-        var response = await fetch(this.url);
+        var response = await fetch(this.url + "?page=" + this.state.current_page);
         var fetcheddata = await response.json();
         try {
             this.setState({
-                data: [...this.state.data, ...fetcheddata.data],
-                isLoading: false
+                data: fetcheddata.data,
+                isLoading: false,
+                pages: fetcheddata.pages
             })
         }
         catch{
         }
     }
+    async changePage(index){
+        await this.setState({
+            current_page: index
+        })
+        this.loadInfo();
+    }
 
     render() {
+        var pages = [];
+
+        if(this.state.pages > 0){
+            pages = [];
+            for (let i = 1; i < this.state.pages + 2; i++) {
+                pages.push(i); 
+            }
+        }
         return (
             this.state.isLoading ? <Loader /> :
-                this.state.data.length !== 0 ?
+                this.state.data.length !== 0 ? <div className="recipesSectionMain">
                     <div id="recipesSection" className="recipesSection">
                         {
                             this.state.data.map(item =>
                                 <RecipePromo user={this.user} item={item} key={item.id} />
-                            )} </div> :
+                            )} </div> 
+                            
+                            {
+                                this.state.pages > 0 ? 
+                                <div className="pagesSection">
+                                    {
+                                        pages.map(x =>
+                                            <div onClick={() => this.changePage(x)} key={x + "-paginationBtn"}
+                                            className={this.state.current_page === x ?  "paginationBtn active" : "paginationBtn"} id={x+"-paginationBtn"}>
+                                                {x}
+                                            </div>)
+                                    }
+                                </div>  : <div></div>
+                            } </div>:
 
                     <NoContentFound messageHeader="This is your Home Page"
                         message="When you follow some users their latest posts will show up here!"

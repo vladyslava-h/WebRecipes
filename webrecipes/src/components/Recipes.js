@@ -17,7 +17,9 @@ class Recipes extends React.Component {
             showModal: false,
             selectedRecipe: null,
             showCloseBtn: true,
-            showModalDelete: false
+            showModalDelete: false,
+            current_page: 1,
+            pages: 0
         }
         this.url = props.url;
         this.user = props.user;
@@ -28,6 +30,7 @@ class Recipes extends React.Component {
         this.callbackFunction = this.callbackFunction.bind(this);
         this.loadInfo = this.loadInfo.bind(this);
         this.redirectToRecipe = this.redirectToRecipe.bind(this);
+        this.changePage = this.changePage.bind(this);
     }
 
 
@@ -39,11 +42,13 @@ class Recipes extends React.Component {
         this.setState({
             isLoading: true
         })
-        var response = await fetch(this.url);
+
+        var response = await fetch(this.url + "?page=" + this.state.current_page);
         var fetcheddata = await response.json();
         try {
             this.setState({
                 data: fetcheddata.data,
+                pages: fetcheddata.pages,
                 isLoading: false,
                 showModal: false,
                 showCloseBtn: true
@@ -113,11 +118,27 @@ class Recipes extends React.Component {
         this.props.history.push(`/recipe/${id}`)
     }
 
+    async changePage(index){
+        await this.setState({
+            current_page: index
+        })
+        this.loadInfo();
+    }
+
     render() {
         const elements = [1, 2, 3, 4, 5];
+        var pages = [];
+
+        if(this.state.pages > 0){
+            pages = [];
+            for (let i = 1; i < this.state.pages + 2; i++) {
+                pages.push(i);               
+            }
+        }
+
         return (
             this.state.isLoading ? <Loader /> :
-                this.state.data.length !== 0 ?
+                this.state.data.length !== 0 ? <div className="recipesSectionMain">
                     <div id="recipesSection" className="recipesSection">
                         <div id="edit-recipe">
                             <Modal show={this.state.showModalDelete}
@@ -177,7 +198,9 @@ class Recipes extends React.Component {
                                     <div className={`recipeTimeBlock recipeTimeBlock${item.levelId}`}>
                                         <p><span className="recipeTime">{item.time}</span>&nbsp;Minutes</p>
                                     </div>
-                                    <p className="recipeName" onClick={() => this.redirectToRecipe(item.id)}>{item.name}</p>
+                                    <p className="recipeName" onClick={() => this.redirectToRecipe(item.id)}>{
+                                        item.name.length > 44 ? item.name.substr(0, 40) + '...' : item.name
+                                    }</p>
                                     <p className="recipeCreator" onClick={() => this.redirect(item)}>By:&nbsp;<span>{item.user.username}</span></p>
                                     <div className="rating">
                                         {elements.map((value, index) => {
@@ -185,7 +208,22 @@ class Recipes extends React.Component {
                                         })}
                                     </div>
                                 </div>
-                            )} </div> :
+                            )
+                            }
+                             </div>
+                            {
+                                this.state.pages !== 0 ? 
+                                <div className="pagesSection">
+                                    {
+                                        pages.map(x =>
+                                            <div onClick={() => this.changePage(x)} key={x + "-paginationBtn"}
+                                            className={this.state.current_page === x ?  "paginationBtn active" : "paginationBtn"} id={x+"-paginationBtn"}>
+                                                {x}
+                                            </div>)
+                                    }
+                                </div>  : <div></div>
+                            } </div>
+                             :
 
                     <NoContentFound messageHeader="You haven’t uploaded any recipes yet"
                         message=""

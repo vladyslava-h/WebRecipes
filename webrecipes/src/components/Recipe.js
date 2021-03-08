@@ -84,12 +84,10 @@ async componentDidMount() {
 }
 
 async refresh() {
-    console.log(this.user);
     this.url = `http://localhost:5000/api/recipes/getrecipe/${this.state.recipeId}?username=${this.user.info.unique_name}`;
     try {
         var response = await fetch(this.url);
         var fetcheddata = await response.json();
-        console.log(fetcheddata.data);
         this.setState({
             recipe: fetcheddata.data,
            // data: [...this.state.data, ...await this.getLikes(recipes)],
@@ -99,7 +97,6 @@ async refresh() {
         //this.getLikes();
     }
     catch(ex){
-        console.log(ex)
         this.setState({
             recipe: undefined,
             isLoading: false
@@ -124,8 +121,13 @@ redirect() {
     if(this.state.recipe != null){
       ingredients = this.state.recipe.ingredients.split('\n');
       steps = this.state.recipe.directions.split('\n');
-      ingredients = ingredients.slice(0, -1);
-      steps = steps.slice(0, -1);
+
+      if(ingredients.lenght > 1){
+        ingredients = ingredients.slice(0, -1);
+      }
+      if(steps.lenght > 1){
+        steps = steps.slice(0, -1);
+      }
 
       if(this.state.recipe.totalMarks > 1){
         rating_text = `based on ${this.state.recipe.totalMarks} reviews`;

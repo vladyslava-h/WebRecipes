@@ -12,3 +12,8 @@
 .accent-text{
     font-family: var(--accent-font);
 }
+
+img{
+    user-select: none;
+}
+

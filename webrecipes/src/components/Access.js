@@ -152,12 +152,12 @@ class Access extends React.Component {
                     <div className="content login">
                         <div className="container">
                             <div className="left redirectSide">
-                                <h1>Hello, Friend!</h1>
+                                <h1 className="accent-text">Hello, Friend!</h1>
                                 <p>Enter you personal details<br />and start journey with us</p>
                                 <button id="goToSignUp" onClick={this.goToSignUp} className="btn">SING UP</button>
                             </div>
                             <div className="right mainSide">
-                                <h1>Sign in to <br /> <b>WebRecipes</b></h1>
+                                <h1 className="accent-text">Sign in to <br /> <b  className="accent-text">WebRecipes</b></h1>
 
                                 <div className="form-group">
                                     <input type="email" className="form-control"
@@ -175,8 +175,8 @@ class Access extends React.Component {
                                         name="passwordLogIn" />
                                 </div>
 
-                                <p id="forgotPassword">Forgot your password?</p>
-                                <hr />
+                                {/* <p id="forgotPassword">Forgot your password?</p> */}
+                                {/* <hr /> */}
 
                                 <button type="submit" id="loginBtn" className="btn" onClick={this.logIn}>SIGN IN</button>
                                 <div id="errorBlock" className="alert alert-danger mt-3"
@@ -189,7 +189,7 @@ class Access extends React.Component {
                     <div className="content signup">
                         <div className="container">
                             <div className="left mainSide">
-                                <h1>Create Account</h1>
+                                <h1 className="accent-text">Create Account</h1>
 
                                 <div className="form-group">
                                     <input type="text" className="form-control"
@@ -229,7 +229,7 @@ class Access extends React.Component {
                                     className="alert alert-danger mt-3">{this.state.errorMessage}</div>
                             </div>
                             <div className="right redirectSide">
-                                <h1>Welcome Back!</h1>
+                                <h1 className="accent-text">Welcome Back!</h1>
                                 <p>To keep connected with us please<br />login with your personal info</p>
                                 <button id="goToLogIn" onClick={this.goToLogIn} className="btn">SIGN IN</button>
                             </div>
