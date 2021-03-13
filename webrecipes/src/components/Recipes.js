@@ -204,7 +204,7 @@ class Recipes extends React.Component {
                                     <p className="recipeCreator" onClick={() => this.redirect(item)}>By:&nbsp;<span>{item.user.username}</span></p>
                                     <div className="rating">
                                         {elements.map((value, index) => {
-                                            return value <= item.mark ? <span key={index}>★</span> : <span key={index}>☆</span>
+                                            return value <= ((item.mark / item.totalMarks) == undefined ? 0 : (item.mark / item.totalMarks)) ? <span key={index}>★</span> : <span key={index}>☆</span>
                                         })}
                                     </div>
                                 </div>

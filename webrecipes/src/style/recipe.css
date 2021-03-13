@@ -176,8 +176,13 @@
 .based-span{
     margin-left: 10px;
     font-size: 12px;
-    margin-top: 10px;
+    margin-top: 7px;
     position: absolute;
+}
+
+.based-span .accent-text{
+    margin-right: 5px;
+    font-size: 16px;
 }
 
 /*----------------------------- COMMENT SECTION ---------------------------------------------*/
@@ -252,5 +257,31 @@
     color: #ffbf00;
     font-size: 26px;
     margin-top: -8px;
-    margin-left: 10px;
+    margin-left: -20px;
+}
+
+
+.userRatingStart span{
+    transition: .2s ease-in-out;
+    position: absolute;
+}
+
+.userRatingStart span:nth-child(1){
+    margin-left: 25px;
+}
+.userRatingStart span:nth-child(2){
+    margin-left: 50px;
+}
+.userRatingStart span:nth-child(3){
+    margin-left: 75px;
+}
+.userRatingStart span:nth-child(4){
+    margin-left: 100px;
+}
+.userRatingStart span:nth-child(5){
+    margin-left: 125px;
+}
+.userRatingStart span:hover{
+    transform: scale(1.4) !important;
+    cursor: pointer;
 }

@@ -14,6 +14,9 @@ class Recipe extends React.Component {
       user: "",
       recipe: null,
       isLiked: false,
+      userMark: 0,
+      mark: 0,
+      totalMarks: 0,
       recipeId: window.location.href.split('/').pop()
     };
 
@@ -21,9 +24,9 @@ class Recipe extends React.Component {
     this.unlike = this.unlike.bind(this);
 
     this.user = props.user;
-    //this.uploadImage = this.uploadImage.bind(this);
     this.refresh = this.refresh.bind(this);
     this.redirect = this.redirect.bind(this);
+    this.rate = this.rate.bind(this);
 }
 
 like() {
@@ -92,6 +95,9 @@ async refresh() {
             recipe: fetcheddata.data,
            // data: [...this.state.data, ...await this.getLikes(recipes)],
             isLoading: false,
+            mark: fetcheddata.data.mark,
+            totalMarks: fetcheddata.data.totalMarks,
+            userMark: fetcheddata.data.userMark,
             isLiked: fetcheddata.data.isLiked
         })
         //this.getLikes();
@@ -115,6 +121,32 @@ changeMenuSelection(option){
   }
 }
 
+async rate(value){
+  let url = `http://localhost:5000/api/recipes/rate/${this.state.recipeId}?username=${this.user.info.unique_name}&value=${value}&prev=${this.state.userMark}`;
+
+  this.setState({
+      userMark: value
+  });
+
+  try {
+    var response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `bearer ${this.user.token}`
+          }
+        });
+      var fetcheddata = await response.json();
+      this.setState({
+        mark: fetcheddata.data.mark,
+        totalMarks: fetcheddata.data.totalMarks
+    });
+  }
+  catch(ex) {
+    console.log(ex);
+  };
+}
+
 redirect() {
   this.props.history.push(`/profile/${this.state.recipe.user.username}`)
 }
@@ -130,23 +162,16 @@ redirect() {
     const elements = [1, 2, 3, 4, 5];
 
     if(this.state.recipe != null){
-      ingredients = this.state.recipe.ingredients.split('\n');
-      steps = this.state.recipe.directions.split('\n');
+      ingredients = this.state.recipe.ingredients.split('\n').filter(x => x);
+      steps = this.state.recipe.directions.split('\n').filter(x => x);
 
-      if(ingredients.lenght > 1){
-        ingredients = ingredients.slice(0, -1);
+      if(this.state.totalMarks > 1){
+        rating_text = `based on ${this.state.totalMarks} reviews`;
       }
-      if(steps.lenght > 1){
-        steps = steps.slice(0, -1);
+      else if (this.state.totalMarks == 1){
+        rating_text = `based on ${this.state.totalMarks} review`;
       }
 
-      if(this.state.recipe.totalMarks > 1){
-        rating_text = `based on ${this.state.recipe.totalMarks} reviews`;
-      }
-      else if (this.state.recipe.totalMarks == 1){
-        rating_text = `based on ${this.state.recipe.totalMarks} review`;
-      }
-  
     }
 
     return this.state.isLoading ? <Loader /> :
@@ -158,10 +183,15 @@ redirect() {
               <p className="recipe-name">{this.state.recipe.name}</p>
               <div className="rating">
                     {elements.map((value, index) => {
-                        return value <= this.state.recipe.mark ? <span key={index}>★</span> : <span key={index}>☆</span>
-                    })}
+                        return value <= ((this.state.mark / this.state.totalMarks) == undefined? 0 : this.state.mark / this.state.totalMarks) ? <span key={index}>★</span> : <span key={index}>☆</span>
+                    })
+                  }
 
-                    <span className="based-span">{rating_text}</span>
+                    {
+                      console.log(isNaN(this.state.mark / this.state.totalMarks))
+                    }
+
+                    <span className="based-span"><span className="accent-text">{isNaN(this.state.mark / this.state.totalMarks)? 0 : (this.state.mark / this.state.totalMarks)}</span>({rating_text})</span>
                 </div>
             </div>
 
@@ -217,7 +247,8 @@ redirect() {
                     <p className="accent-text">Your Rating: </p>
                     <div className="userRatingStart">
                     {elements.map((value, index) => {
-                      return value <= 2 ? <span key={index}>★</span> : <span key={index}>☆</span>
+                      return value <= this.state.userMark ? <span key={index} onClick={() => this.rate(index + 1)}>★</span> :
+                       <span key={index} onClick={() => this.rate(index + 1)}>☆</span>
                     })}
                     </div>
               </div>

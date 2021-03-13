@@ -23,13 +23,14 @@ namespace WebRecipes.API.Controllers
         private readonly IRecipeService recipeService;
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly ILikeRepository likeRepository;
+         private readonly IMarkService markService;
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
         private int pageSize = 12;
 
 
         public UserController(IUserService userService, IMapper mapper, IRecipeService recipeService,
-         ISubscriptionRepository subscription, IUnitOfWork unitOfWork, ILikeRepository likeRepository)
+         ISubscriptionRepository subscription, IUnitOfWork unitOfWork, ILikeRepository likeRepository, IMarkService markService)
         {
             this.subscriptionRepository = subscription;
             this.recipeService = recipeService;
@@ -37,6 +38,7 @@ namespace WebRecipes.API.Controllers
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.likeRepository = likeRepository;
+            this.markService = markService;
         }
 
         //[Authorize(Roles = "User,Admin")]
@@ -70,6 +72,24 @@ namespace WebRecipes.API.Controllers
             resources.ToList().ForEach(x => x.User = users.FirstOrDefault(u => u.Id == x.CreatorId));
             resources.ToList().ForEach(x => x.IsLiked = likes.Contains(x.Id));
 
+            for(var i = 0; i < resources.Count(); i++)
+            {
+                try
+                {
+                    var marks = (await markService.ListAsync()).Where(x => x.RecipeId == resources.ElementAt(i).Id);
+                    var marksSum = marks.Sum(x => x.Value);
+                    var totalMarks = marks.Count();
+
+                    resources.ElementAt(i).Mark = marksSum;
+                    resources.ElementAt(i).TotalMarks = totalMarks;
+                }
+                catch
+                {
+                    resources.ElementAt(i).Mark = 0;
+                    resources.ElementAt(i).TotalMarks = 0;
+                }
+            }
+
             
             return Ok(new ResponseResult() { Data = resources, Pages = Convert.ToInt32(Math.Ceiling(pages)) });
         }
@@ -93,6 +113,24 @@ namespace WebRecipes.API.Controllers
                 pages = 0;
             }
             resources = resources.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            
+            for(var i = 0; i < resources.Count(); i++)
+            {
+                try
+                {
+                    var marks = (await markService.ListAsync()).Where(x => x.RecipeId == resources.ElementAt(i).Id);
+                    var marksSum = marks.Sum(x => x.Value);
+                    var totalMarks = marks.Count();
+
+                    resources.ElementAt(i).Mark = marksSum;
+                    resources.ElementAt(i).TotalMarks = totalMarks;
+                }
+                catch
+                {
+                    resources.ElementAt(i).Mark = 0;
+                    resources.ElementAt(i).TotalMarks = 0;
+                }
+            }
 
             return Ok(new ResponseResult() { Data = resources, Pages = Convert.ToInt32(Math.Ceiling(pages)) });
         }
@@ -124,6 +162,25 @@ namespace WebRecipes.API.Controllers
             }
             resourcesRecipes = resourcesRecipes.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
+
+            for(var i = 0; i < resourcesRecipes.Count(); i++)
+            {
+                try
+                {
+                    var marks = (await markService.ListAsync()).Where(x => x.RecipeId == resourcesRecipes.ElementAt(i).Id);
+                    var marksSum = marks.Sum(x => x.Value);
+                    var totalMarks = marks.Count();
+
+                    resourcesRecipes.ElementAt(i).Mark = marksSum;
+                    resourcesRecipes.ElementAt(i).TotalMarks = totalMarks;
+                }
+                catch
+                {
+                    resourcesRecipes.ElementAt(i).Mark = 0;
+                    resourcesRecipes.ElementAt(i).TotalMarks = 0;
+                }
+            }
+            
             resources.Recipes = resourcesRecipes;
             return Ok(new ResponseResult() { Data = resources, Success = true, Pages = Convert.ToInt32(Math.Ceiling(pages))});
         }
@@ -157,6 +214,25 @@ namespace WebRecipes.API.Controllers
 
             resources.ToList().ForEach(x => x.User = users.SingleOrDefault(u => u.Id == x.CreatorId));
             resources.ToList().ForEach(x => x.IsLiked = likes.Contains(x.Id));
+
+            for(var i = 0; i < resources.Count(); i++)
+            {
+                try
+                {
+                    var marks = (await markService.ListAsync()).Where(x => x.RecipeId == resources.ElementAt(i).Id);
+                    var marksSum = marks.Sum(x => x.Value);
+                    var totalMarks = marks.Count();
+
+                    resources.ElementAt(i).Mark = marksSum;
+                    resources.ElementAt(i).TotalMarks = totalMarks;
+                }
+                catch
+                {
+                    resources.ElementAt(i).Mark = 0;
+                    resources.ElementAt(i).TotalMarks = 0;
+                }
+            }
+
             return Ok(new ResponseResult() { Data = resources, Success = true, Pages = Convert.ToInt32(Math.Ceiling(pages)) });
         }
 

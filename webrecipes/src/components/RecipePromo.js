@@ -47,7 +47,7 @@ class RecipePromo extends React.Component {
                 <p className="recipeCreator" onClick={this.redirect} >By:&nbsp;<span>{this.item.user.username}</span></p>
                 <div className="rating">
                     {elements.map((value, index) => {
-                        return value <= this.item.mark ? <span key={index}>★</span> : <span key={index}>☆</span>
+                        return value <= this.item.mark / this.item.totalMarks ? <span key={index}>★</span> : <span key={index}>☆</span>
                     })}
                 </div>
             </div>

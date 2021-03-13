@@ -96,16 +96,36 @@ namespace WebRecipes.API.Controllers
             resources.ToList().ForEach(x => x.User = users.SingleOrDefault(u => u.Id == x.CreatorId));
             resources.ToList().ForEach(x => x.IsLiked = likes.Contains(x.Id));
 
+            for(var i = 0; i < resources.Count(); i++)
+            {
+                try
+                {
+                    var marks = (await markService.ListAsync()).Where(x => x.RecipeId == resources.ElementAt(i).Id);
+                    var marksSum = marks.Sum(x => x.Value);
+                    var totalMarks = marks.Count();
+
+                    resources.ElementAt(i).Mark = marksSum;
+                    resources.ElementAt(i).TotalMarks = totalMarks;
+                }
+                catch
+                {
+                    resources.ElementAt(i).Mark = 0;
+                    resources.ElementAt(i).TotalMarks = 0;
+                }
+            }
+
             return Ok(new ResponseResult() { Data = resources, Pages = Convert.ToInt32(Math.Ceiling(pages)), Success = true });
         }
+
 
         [HttpGet("getrecipe/{id}")]
         public async Task<IActionResult> GetRecipe(int id, string username)
         {
             Recipe recipe = (await recipeService.ListAsync()).Where(x => x.Id == id).FirstOrDefault();
             User creator = (await userRepository.ListAsync()).Where(x => x.Id == recipe.CreatorId).FirstOrDefault();
-            User user = (await userRepository.ListAsync()).Where(x => x.Id == recipe.CreatorId).FirstOrDefault();
+            User user = (await userRepository.ListAsync()).Where(x => x.Username == username).FirstOrDefault();
             Mark mark = (await markService.ListAsync()).Where(x => x.UserId == user.Id && x.RecipeId == id).FirstOrDefault();
+            var marks = (await markService.ListAsync()).Where(x => x.RecipeId == id);
 
             var meals = await mealService.ListAsync();
             var isLiked = (await likeRepository.ListAsync()).Where(x => x.Username == username && x.RecipeId == id).Count() > 0 ? true : false;
@@ -118,6 +138,18 @@ namespace WebRecipes.API.Controllers
             resources.UserMark = mark == null ? 0 : mark.Value;
             resources.Meal = (await mealService.ListAsync()).Where(x => x.Id == recipe.MealId).FirstOrDefault().Name;
             resources.Level = (await levelService.ListAsync()).Where(x => x.Id == recipe.LevelId).FirstOrDefault().Name;
+
+            try{
+                var marksSum = marks.Sum(x => x.Value); 
+                var totalMarks = marks.Count(); 
+
+                resources.Mark = marksSum;
+                resources.TotalMarks = totalMarks;
+            }
+            catch{
+                resources.Mark = 0;
+                resources.TotalMarks = 0;
+            }
 
             return Ok(new ResponseResult() { Data = resources, Success = true });
         }
@@ -146,26 +178,51 @@ namespace WebRecipes.API.Controllers
             resources.ToList().ForEach(x => x.User = users.SingleOrDefault(u => u.Id == x.CreatorId));
             resources.ToList().ForEach(x => x.IsLiked = likes.Contains(x.Id));
 
+            for(var i = 0; i < resources.Count(); i++)
+            {
+                try
+                {
+                    var marks = (await markService.ListAsync()).Where(x => x.RecipeId == resources.ElementAt(i).Id);
+                    var marksSum = marks.Sum(x => x.Value);
+                    var totalMarks = marks.Count();
+
+                    resources.ElementAt(i).Mark = marksSum;
+                    resources.ElementAt(i).TotalMarks = totalMarks;
+                }
+                catch
+                {
+                    resources.ElementAt(i).Mark = 0;
+                    resources.ElementAt(i).TotalMarks = 0;
+                }
+            }
+
             return Ok(new ResponseResult() { Data = resources,
              Pages = Convert.ToInt32(Math.Ceiling(pages)), Success = true });
         }
 
         [HttpPost("rate/{id}")]
-        public async Task<IActionResult> Rate(int id, string username, int value)
+        public async Task<IActionResult> Rate(int id, string username, int value, int prev)
         {
-            var user  = (await userRepository.ListAsync()).Where(x => x.Username == username).FirstOrDefault();   
+            var user = (await userRepository.ListAsync()).Where(x => x.Username == username).FirstOrDefault();   
+            var mark23 = (await markService.ListAsync());
+            Mark mark = (await markService.ListAsync()).Where(x => x.UserId == user.Id && x.RecipeId == id).FirstOrDefault();
 
-            Recipe recipe = (await recipeService.ListAsync()).Where(x => x.Id == id).FirstOrDefault();
-            await markService.SaveAsync(new Mark(){
-                UserId = user.Id,
-                RecipeId = id,
-                Value = value
-            });
+            if(mark == null){
+                await markService.SaveAsync(new Mark()
+                {
+                    UserId = user.Id,
+                    RecipeId = id,
+                    Value = value
+                });
+            }
+            else{
+                await markService.UpdateAsync(mark.Id, new Mark(){
+                    Value = value      
+                });
+            }
 
-            recipe.Mark+=value;
-            recipe.TotalMarks++;
-            await recipeService.UpdateAsync(id,recipe);
-            return Ok();
+            var marks = (await markService.ListAsync()).Where(x => x.RecipeId == id);
+            return Ok(new ResponseResult() { Data = new {mark = marks.Sum(x => x.Value), totalMarks = marks.Count()}, Success = true});
         }
     }
 }
