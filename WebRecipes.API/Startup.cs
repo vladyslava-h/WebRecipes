@@ -71,6 +71,7 @@ namespace WebRecipes.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -81,6 +82,7 @@ namespace WebRecipes.API
             services.AddScoped<IMarkService, MarkService>();
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
 
 

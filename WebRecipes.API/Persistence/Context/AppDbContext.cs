@@ -20,6 +20,7 @@ namespace WebRecipes.API.Persistence.Contexts
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Mark> Marks { set; get; }
         public DbSet<Subscription> Subscriptions { set; get; }
@@ -115,8 +116,6 @@ namespace WebRecipes.API.Persistence.Contexts
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Mark>().HasKey(p => p.Id);
-            builder.Entity<Mark>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
             //RECIPE CATEGORY--------------------------------------
             // builder.Entity<RecipeCategory>()
             //     .HasKey(t => new { t.RecipeId, t.CategoryId });
@@ -170,6 +169,12 @@ namespace WebRecipes.API.Persistence.Contexts
 
             builder.Entity<Mark>().HasKey(p => p.Id);
             builder.Entity<Mark>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+
+            builder.Entity<Comment>().HasKey(p => p.Id);
+            builder.Entity<Comment>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Comment>().Property(p => p.RecipeId).IsRequired();
+            builder.Entity<Comment>().Property(p => p.UserId).IsRequired();
+            builder.Entity<Comment>().Property(p => p.Value).IsRequired();
 
             builder.Entity<Level>().HasKey(p => p.Id);
             builder.Entity<Level>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();

@@ -104,6 +104,17 @@ async refresh() {
     }
 }
 
+changeMenuSelection(option){
+  if(option == "comment"){
+    document.getElementById("recipeBarBasicInfo").classList.add("d-none");
+    document.getElementById("recipeBarComments").classList.remove("d-none");
+  }
+  else{
+    document.getElementById("recipeBarBasicInfo").classList.remove("d-none");
+    document.getElementById("recipeBarComments").classList.add("d-none");
+  }
+}
+
 redirect() {
   this.props.history.push(`/profile/${this.state.recipe.user.username}`)
 }
@@ -170,6 +181,7 @@ redirect() {
 
 
         <div className="recipe-bar">
+          <div id="recipeBarBasicInfo" className="recipe-bar-section">
           <div className="bar-top">
             <div className="bar-item">
                 <img src={require('../style/content/Images/Icons/stopwatch.png')} alt=""/>
@@ -198,16 +210,58 @@ redirect() {
                     </div>
                 )}
             </div>
+          </div>
+          {/* COMMMENT SECTION --------------------------------------------------------------------------------------------------- */}
+          <div id="recipeBarComments" className="recipe-bar-section d-none">
+          <div className="userRating">
+                    <p className="accent-text">Your Rating: </p>
+                    <div className="userRatingStart">
+                    {elements.map((value, index) => {
+                      return value <= 2 ? <span key={index}>★</span> : <span key={index}>☆</span>
+                    })}
+                    </div>
+              </div>
+            <div className="comments">
+                  <div className="commentBubble">
+                    <div class="commentCreator">
+                      <img src="https://i.pinimg.com/564x/e0/73/4c/e0734c4ed53a4dacde032be644c7abc7.jpg" alt=""/>
+                      <p>masterchef</p>
+                    </div>
+                    <p>Whoa!! This is amazing. So easy to make.</p>
+                    </div>
 
-            <div className="bar-menu">
-                  <img src={require('../style/content/Images/Icons/shopping-basket.png')} alt=""/>
-                  <img src={require('../style/content/Images/Icons/comment.png')} alt=""/>
+                  <div className="commentBubble">
+                    <div class="commentCreator">
+                      <img alt="" src="https://i.pinimg.com/564x/ed/e1/c7/ede1c74b402f072efaf083ec8b3b9040.jpg"/>
+                      <p>ella</p>
+                    </div>
+                    <p>I'm not sure why, but I've noticed that with honey
+                    it tastes way more better. but i guess it's just personal preferences..</p>
+                    </div>
+
+                    <div className="commentBubble">
+                    <div class="commentCreator">
+                      <img alt="" src="https://i.pinimg.com/564x/36/0c/f7/360cf7ac7e7b9f1441d0948e6ab83f07.jpg"/>
+                      <p>hope</p>
+                    </div>
+                    <p>Love this one :)</p>
+                    </div>
+            </div>
+            <div className="commentSectionFooter">
+              <input autoComplete="false" id="comment" placeholder="Type your comment here"/>
+            </div>
+          </div>
+
+          <div className="bar-menu">
+                  <img src={require('../style/content/Images/Icons/shopping-basket.png')} alt="" onClick={() => this.changeMenuSelection("basicInfo")}/>
+                  <img src={require('../style/content/Images/Icons/comment.png')} alt="" onClick={() => this.changeMenuSelection("comment")}/>
                   {
                     this.state.isLiked ? 
                     <img id="like" onClick={this.unlike} src={require('../style/content/Images/Icons/heart-white.png')} alt=""/> :
                     <img id="like" onClick={this.like} src={require('../style/content/Images/Icons/heart-white-outlined.png')} alt=""/> 
                   }
             </div>
+
         </div>
     </div>;
   }
