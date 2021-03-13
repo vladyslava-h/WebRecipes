@@ -18,13 +18,16 @@ namespace WebRecipes.API.Controllers
         private readonly ICommentService commentService;
         private readonly IRecipeService recipeService;
         private readonly IUserRepository userRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        public CommentController(ICommentService service, IMapper mapper, IRecipeService recipeService, IUserRepository userRepository)
+        public CommentController(ICommentService service, IMapper mapper, IRecipeService recipeService, 
+        IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
             this.commentService = service;
             this.recipeService = recipeService;
             this.userRepository = userRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         //[Authorize(Roles = "Admin, User")]
@@ -72,6 +75,34 @@ namespace WebRecipes.API.Controllers
                 try
                 {
 
+                    var user = users.Where(u => u.Id == x.UserId).FirstOrDefault();
+                    x.User = new User()
+                    {
+                        Photo = user.Photo,
+                        Username = user.Username
+                    };
+                }
+                catch{}
+            });
+            return Ok(new ResponseResult() { Data = resources, Success = true});
+        }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var recipeId = (await commentService.ListAsync()).Where(x => x.Id == id).FirstOrDefault().RecipeId;
+
+            await commentService.DeleteAsync(id);
+            await unitOfWork.CompleteAsync();
+
+            var users = (await userRepository.ListAsync());
+            var comments = (await commentService.ListAsync()).Where(x => x.RecipeId == recipeId);
+            var resources = mapper.Map<IEnumerable<Comment>, IEnumerable<CommentResource>>(comments);
+
+            resources.ToList().ForEach(x => {
+                try
+                {
                     var user = users.Where(u => u.Id == x.UserId).FirstOrDefault();
                     x.User = new User()
                     {

@@ -31,6 +31,7 @@ class Recipe extends React.Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.postComment = this.postComment.bind(this);
     this.getComments = this.getComments.bind(this);
+    this.removeComment = this.removeComment.bind(this);
 }
 
 like() {
@@ -178,6 +179,30 @@ async getComments(){
   }
 }
 
+async removeComment(id){
+  var url = `http://localhost:5000/api/comment/delete/${id}`;
+  try {
+      var response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `bearer ${this.user.token}`,
+        }
+    });
+    var fetcheddata = await response.json();
+        this.setState({
+          isLoading: false,
+          comments: fetcheddata.data
+        });
+  }
+  catch(ex){
+    console.log(ex);
+      this.setState({
+          isLoading: false
+      })
+  }
+
+}
+
 async postComment(){
   let url = `http://localhost:5000/api/comment/comment/${this.state.recipeId}?username=${this.user.info.unique_name}&value=${document.getElementById("comment").value}`;
   document.getElementById("comment").value = "";
@@ -303,11 +328,12 @@ async postComment(){
                         {
                           item.user.photo ?
                               <img src={item.user.photo} alt=""/> :
-                              <div class="comment-photo">{item.user.username[0].toUpperCase()}</div>
+                              <div className="comment-photo">{item.user.username[0].toUpperCase()}</div>
                         }
                         <p onClick={() => this.redirect(item.user.username)}>{item.user.username}</p>
                       </div>
-                      <img alt="" src={require('../style/content/Images/Icons/cancel-outlined.png')} className="removeComment"/>
+                      <img alt="" onClick={() => this.removeComment(item.id)}
+                       src={require('../style/content/Images/Icons/cancel-outlined.png')} className="removeComment"/>
                       </div>
                       <p>{item.value}</p>
                       </div>

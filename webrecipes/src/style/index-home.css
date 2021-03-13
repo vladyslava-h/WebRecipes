@@ -134,7 +134,7 @@ body, html {
 #noContentFound img {
     float: right;
     margin-right: 0px;
-    margin-top: -20px;
+    margin-top: 20px;
 }
 
 #noContentFound .message {
