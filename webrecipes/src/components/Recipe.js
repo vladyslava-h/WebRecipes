@@ -17,6 +17,7 @@ class Recipe extends React.Component {
       userMark: 0,
       mark: 0,
       totalMarks: 0,
+      comments: [],
       recipeId: window.location.href.split('/').pop()
     };
 
@@ -27,6 +28,9 @@ class Recipe extends React.Component {
     this.refresh = this.refresh.bind(this);
     this.redirect = this.redirect.bind(this);
     this.rate = this.rate.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.postComment = this.postComment.bind(this);
+    this.getComments = this.getComments.bind(this);
 }
 
 like() {
@@ -93,13 +97,13 @@ async refresh() {
         var fetcheddata = await response.json();
         this.setState({
             recipe: fetcheddata.data,
-           // data: [...this.state.data, ...await this.getLikes(recipes)],
-            isLoading: false,
+            //isLoading: false,
             mark: fetcheddata.data.mark,
             totalMarks: fetcheddata.data.totalMarks,
             userMark: fetcheddata.data.userMark,
             isLiked: fetcheddata.data.isLiked
         })
+        this.getComments();
         //this.getLikes();
     }
     catch(ex){
@@ -147,8 +151,53 @@ async rate(value){
   };
 }
 
-redirect() {
-  this.props.history.push(`/profile/${this.state.recipe.user.username}`)
+redirect(username) {
+  this.props.history.push(`/profile/${username}`)
+}
+
+handleKeyPress = (event) => {
+  if (event.key === 'Enter') {
+    this.postComment();   
+  }
+}
+
+async getComments(){
+  this.url = `http://localhost:5000/api/comment/all/${this.state.recipe.id}`;
+  try {
+      var response = await fetch(this.url);
+      var fetcheddata = await response.json();
+      this.setState({
+          isLoading: false,
+          comments: fetcheddata.data
+      })
+  }
+  catch(ex){
+      this.setState({
+          isLoading: false
+      })
+  }
+}
+
+async postComment(){
+  let url = `http://localhost:5000/api/comment/comment/${this.state.recipeId}?username=${this.user.info.unique_name}&value=${document.getElementById("comment").value}`;
+  document.getElementById("comment").value = "";
+
+  try {
+    var response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `bearer ${this.user.token}`
+          }
+        });
+      var fetcheddata = await response.json();
+      this.setState({
+        comments: fetcheddata.data
+      });
+  }
+  catch(ex) {
+    console.log(ex);
+  };
 }
   
   render() {
@@ -158,7 +207,6 @@ redirect() {
     var steps = null;
 
     var rating_text = "no reviews"
-    //var avgMark = this.state.recipe.mark;
     const elements = [1, 2, 3, 4, 5];
 
     if(this.state.recipe != null){
@@ -185,12 +233,7 @@ redirect() {
                     {elements.map((value, index) => {
                         return value <= ((this.state.mark / this.state.totalMarks) == undefined? 0 : this.state.mark / this.state.totalMarks) ? <span key={index}>★</span> : <span key={index}>☆</span>
                     })
-                  }
-
-                    {
-                      console.log(isNaN(this.state.mark / this.state.totalMarks))
                     }
-
                     <span className="based-span"><span className="accent-text">{isNaN(this.state.mark / this.state.totalMarks)? 0 : (this.state.mark / this.state.totalMarks)}</span>({rating_text})</span>
                 </div>
             </div>
@@ -223,7 +266,7 @@ redirect() {
             </div>
             <div className="bar-item">
                 <img src={require('../style/content/Images/Icons/chef.png')} alt=""/>
-                <p  onClick={this.redirect}>{this.state.recipe.user.username}</p>
+                <p onClick={() => this.redirect(this.state.recipe.user.username)}>{this.state.recipe.user.username}</p>
             </div>
 
             <h1 className="sub-main-title">Ingredients</h1>
@@ -244,7 +287,7 @@ redirect() {
           {/* COMMMENT SECTION --------------------------------------------------------------------------------------------------- */}
           <div id="recipeBarComments" className="recipe-bar-section d-none">
           <div className="userRating">
-                    <p className="accent-text">Your Rating: </p>
+                    <p className="accent-text">Your Review: </p>
                     <div className="userRatingStart">
                     {elements.map((value, index) => {
                       return value <= this.state.userMark ? <span key={index} onClick={() => this.rate(index + 1)}>★</span> :
@@ -253,33 +296,27 @@ redirect() {
                     </div>
               </div>
             <div className="comments">
-                  <div className="commentBubble">
-                    <div class="commentCreator">
-                      <img src="https://i.pinimg.com/564x/e0/73/4c/e0734c4ed53a4dacde032be644c7abc7.jpg" alt=""/>
-                      <p>masterchef</p>
-                    </div>
-                    <p>Whoa!! This is amazing. So easy to make.</p>
-                    </div>
-
-                  <div className="commentBubble">
-                    <div class="commentCreator">
-                      <img alt="" src="https://i.pinimg.com/564x/ed/e1/c7/ede1c74b402f072efaf083ec8b3b9040.jpg"/>
-                      <p>ella</p>
-                    </div>
-                    <p>I'm not sure why, but I've noticed that with honey
-                    it tastes way more better. but i guess it's just personal preferences..</p>
-                    </div>
-
-                    <div className="commentBubble">
-                    <div class="commentCreator">
-                      <img alt="" src="https://i.pinimg.com/564x/36/0c/f7/360cf7ac7e7b9f1441d0948e6ab83f07.jpg"/>
-                      <p>hope</p>
-                    </div>
-                    <p>Love this one :)</p>
-                    </div>
+            {this.state.comments.filter(x => x.user).map((item, index) => {
+                      return <div className={this.user.info.unique_name == item.user.username ? "commentBubble commentBubbleUser" : "commentBubble"} key={"comment" + index}>
+                      <div className="commentCreator">
+                      <div className="justFlex">
+                        {
+                          item.user.photo ?
+                              <img src={item.user.photo} alt=""/> :
+                              <div class="comment-photo">{item.user.username[0].toUpperCase()}</div>
+                        }
+                        <p onClick={() => this.redirect(item.user.username)}>{item.user.username}</p>
+                      </div>
+                      <img alt="" src={require('../style/content/Images/Icons/cancel-outlined.png')} className="removeComment"/>
+                      </div>
+                      <p>{item.value}</p>
+                      </div>
+                    })
+                    }
+                  
             </div>
             <div className="commentSectionFooter">
-              <input autoComplete="false" id="comment" placeholder="Type your comment here"/>
+              <input autoComplete="off" id="comment" placeholder="Type your comment here"  onKeyPress={this.handleKeyPress}/>
             </div>
           </div>
 

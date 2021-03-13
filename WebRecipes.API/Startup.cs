@@ -88,7 +88,7 @@ namespace WebRecipes.API
 
             services.AddAutoMapper(typeof(Startup));
 
-            string con = "Server=(localdb)\\mssqllocaldb;Database=webRecipesdbstore;Trusted_Connection=True;";
+            string con = "Server=(localdb)\\mssqllocaldb;Database=webRecipesdbstore2;Trusted_Connection=True;";
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(con));
 
             services.AddControllers().AddNewtonsoftJson(options =>

@@ -14,6 +14,7 @@ namespace WebRecipes.API.Mapping
             CreateMap<MealResource, Meal>();
             CreateMap<LevelResource, Level>();
             CreateMap<MarkResource, Mark>();
+            CreateMap<CommentResource, Comment>();
         }
     }
 }
