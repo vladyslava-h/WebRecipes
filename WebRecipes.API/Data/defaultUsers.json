@@ -3,7 +3,7 @@
         "Id": 1000,
         "Name": "admin",
         "Email": "admin",
-        "Password": "admin",
+        "Password": "AWRtf7Sj432M3cfsPJSv7+VEdRMcavlmBr1kQ1G0/hyIQGDsSk4xfELEmwZbI4R0ww==",
         "Role": "Admin",
         "Username": "masterchef",
         "Token": null
@@ -12,7 +12,7 @@
         "Id": 1001,
         "Name": "Ella",
         "Email": "ella@gmail.com",
-        "Password": "123",
+        "Password": "AWRtf7Sj432M3cfsPJSv7+VEdRMcavlmBr1kQ1G0/hyIQGDsSk4xfELEmwZbI4R0ww==",
         "Role": "User",
         "Username": "ella",
         "Token": null

@@ -58,10 +58,13 @@ namespace WebRecipes.API.Services
                 return new UserResponse("Password is required");
 
 
+            PasswordHasher hasher = new PasswordHasher();
+            var hashPassword = hasher.HashPassword(tmp_user.Password);
+
             var user = new User()
             {
                 Name = tmp_user.Name,
-                Password = tmp_user.Password,
+                Password = hashPassword,
                 Email = tmp_user.Email,
                 Role = "User",
                 Username = tmp_user.Username
@@ -71,6 +74,7 @@ namespace WebRecipes.API.Services
             await userRepository.AddAsync(user);
             await unitOfWork.CompleteAsync();
 
+            user.Password = tmp_user.Password;
             return new UserResponse(user);
 
         }

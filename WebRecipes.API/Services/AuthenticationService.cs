@@ -24,14 +24,16 @@ namespace WebRecipes.API.Services
         }
         public async Task<UserResponse> AuthenticateAsync(string email, string password)
         {
+            try
+            {
+            PasswordHasher hasher = new PasswordHasher();
             User user = (await userRepository.ListAsync())
-                            .SingleOrDefault(usr => usr.Email == email && usr.Password == password);
+                            .SingleOrDefault(usr => usr.Email == email &&
+                             (hasher.VerifyHashedPassword(usr.Password, password) == PasswordVerificationResult.Success));
 
             if (user == null)
                 return new UserResponse("Invalid email or password");
 
-            try
-            {
                 user.GenerateTokenString(appSettings.Secret, appSettings.TokenExpires);
                 user.Password = null;
                 return new UserResponse(user);
@@ -39,7 +41,8 @@ namespace WebRecipes.API.Services
             }
             catch (Exception ex)
             {
-                return new UserResponse($"An error occured when authenticating user: {ex.Message}");
+                return new UserResponse("Invalid email or password");
+                //return new UserResponse($"An error occured when authenticating user: {ex.Message}");
             }
 
         }
