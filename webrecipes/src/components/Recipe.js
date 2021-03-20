@@ -259,7 +259,7 @@ async postComment(){
                         return value <= ((this.state.mark / this.state.totalMarks) == undefined? 0 : this.state.mark / this.state.totalMarks) ? <span key={index}>★</span> : <span key={index}>☆</span>
                     })
                     }
-                    <span className="based-span"><span className="accent-text">{isNaN(this.state.mark / this.state.totalMarks)? 0 : (this.state.mark / this.state.totalMarks)}</span>({rating_text})</span>
+                    <span className="based-span"><span className="accent-text">{isNaN(this.state.mark / this.state.totalMarks)? 0 : (this.state.mark / this.state.totalMarks).toFixed(1)}</span>({rating_text})</span>
                 </div>
             </div>
 

@@ -63,6 +63,7 @@
     text-align: center;
     line-height: 80px;
     margin: 20px auto;
+    object-fit: cover !important;
     background-color: white;
 }
 

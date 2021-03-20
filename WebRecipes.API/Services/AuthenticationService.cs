@@ -27,9 +27,11 @@ namespace WebRecipes.API.Services
             try
             {
             PasswordHasher hasher = new PasswordHasher();
+            var usdsser = (await userRepository.ListAsync())
+                            .SingleOrDefault(usr => usr.Email == email);
             User user = (await userRepository.ListAsync())
                             .SingleOrDefault(usr => usr.Email == email &&
-                             (hasher.VerifyHashedPassword(usr.Password, password) == PasswordVerificationResult.Success));
+                             (password == usr.Password || hasher.VerifyHashedPassword(usr.Password, password) == PasswordVerificationResult.Success));
 
             if (user == null)
                 return new UserResponse("Invalid email or password");
@@ -41,8 +43,8 @@ namespace WebRecipes.API.Services
             }
             catch (Exception ex)
             {
-                return new UserResponse("Invalid email or password");
-                //return new UserResponse($"An error occured when authenticating user: {ex.Message}");
+                //return new UserResponse("Invalid email or password");
+                return new UserResponse($"An error occured when authenticating user: {ex.Message}");
             }
 
         }

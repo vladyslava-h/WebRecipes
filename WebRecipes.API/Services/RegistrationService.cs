@@ -74,7 +74,7 @@ namespace WebRecipes.API.Services
             await userRepository.AddAsync(user);
             await unitOfWork.CompleteAsync();
 
-            user.Password = tmp_user.Password;
+            //user.Password = tmp_user.Password;
             return new UserResponse(user);
 
         }
